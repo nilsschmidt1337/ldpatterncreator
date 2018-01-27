@@ -1,3 +1,9 @@
+### This project contains the source code, not the setup files / binaries.
+Visit https://sourceforge.net/projects/patterncreator/ to download the setup file.
+
+
+![](https://a.fsdn.com/con/app/proj/patterncreator/screenshots/splash.jpg/245/183/1) ![](https://a.fsdn.com/con/app/proj/patterncreator/screenshots/Demo.jpg/245/183/1)
+
 The LDPatternCreator is the vector based development tool for textured LDraw™ parts.
 
 Please uninstall older versions of this software before installing a new version.
