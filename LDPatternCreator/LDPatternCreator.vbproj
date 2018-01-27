@@ -373,7 +373,6 @@
     <Content Include="Resources\ICON.ico" />
     <Content Include="Resources\icon.jpg" />
     <Content Include="Resources\inner.png" />
-    <Content Include="Resources\Internet Explorer Wallpaper3.bmp" />
     <Content Include="Resources\middle.png" />
     <Content Include="Resources\mirror.png" />
     <Content Include="Resources\move.png" />
