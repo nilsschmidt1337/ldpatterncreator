@@ -1,0 +1,1623 @@
+<html>
+
+<HEAD>
+   <TITLE>LDraw Pattern Creator (LPC)</TITLE>
+</HEAD>
+
+<BODY TEXT=#000000 LINK=GREEN VLINK=GREEN ALINK=#FF0000
+           BACKGROUND="../image/reliure.gif">
+<FONT FACE="ARIAL">
+
+
+<CENTER>
+      <h1>LD Pattern Creator (LPC)<BR><small> ex : LDraw Pattern Creator (LPC)</small></h1>
+      <I>Mise à jour de la page : 5 mars 2012.</I>
+</CENTER>
+
+<TABLE width=100% border=0>
+  <TR>
+    <TD>&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../index.htm"><img src="../image/home.gif" width="42" height="37"
+	alt="Set 700/1 de 1950"><BR>J.C. Tchang</A></TD>
+    <TD align=right>&nbsp;</TD>
+    </TR>
+</TABLE>
+
+<HR>
+
+<P>Ce manuel est basé sur la version 1.2.1 (beta) de <B>LD Pattern Creator</B>.
+C'est un programme de <B>Nils Schmidt [BlackBrick89]</B> en cours de développement,
+et doit être utilisé avec précaution, même s'il semble stable.</P>
+
+
+<p><center>
+	<a href="Images_LPC/main_v1.2.1.gif">
+	<img src="Images_LPC/main_v1.2.1.gif" width="600"></A>
+</center></p>
+
+<p>&nbsp;</p>
+<h2>Navigation rapide</h2>
+
+<UL>
+  <LI><A href="#download">Téléchargement</A></LI>
+  <LI><A href="#history">Historique</A></LI>
+  <LI><A href="#install">Installation</A></LI>
+  <LI><A href="#start">Préparation du projet</A></LI>
+  <UL>
+      <LI><A href="#template">Gabarit</A></LI>
+      <LI><A href="#back_image">Image de fond</A></LI>
+      <LI><A href="#param">Paramétrage</A></LI>
+      <LI><A href="#view">Modification de la fenêtre graphique</A></LI>
+      <LI><A href="#import">Importation</A></LI>
+  </UL>
+  <LI><A href="#mesh">Création d'un maillage simple</A></LI>
+  <UL>
+      <LI><A href="#add_vertex">Ajout de sommet</A></LI>
+      <LI><A href="#add_tri">Ajout de triangle simple</A></LI>
+  </UL>
+  <LI><A href="#color">Couleur</A></LI>
+  <LI><A href="#primitive">Ajout de primitive</A></LI>
+  <UL>
+      <LI><A href="#prim_ldraw">Ajout de primitive LDraw</A></LI>
+      <LI><A href="#prim_tri">Ajout de primitive triangulaire</A></LI>
+      <LI><A href="#prim_rect">Ajout de primitive rectangulaire</A></LI>
+      <LI><A href="#prim_cir">Ajout de primitive circulaire facettisée</A></LI>
+      <LI><A href="#prim_oval">Ajout de primitive ovale facettisée</A></LI>
+      <LI><A href="#prim_chain">Ajout de triangles chaînés</A></LI>
+  </UL>
+  <LI><A href="#modif">Modification</A></LI>
+  <UL>
+      <LI><A href="#select">Sélection</A></LI>
+      <LI><A href="#move">Déplacement</A></LI>
+      <LI><A href="#rotate">Rotation</A></LI>
+      <LI><A href="#scale">Facteur d'échelle</A></LI>
+      <LI><A href="#mirror">Symétrie</A></LI>
+      <LI><A href="#split_1edge">Coupe de triangle suivant un bord</A></LI>
+      <LI><A href="#split_3edges">Coupe de triangle suivant les 3 bords</A></LI>
+      <LI><A href="#csg_inter">Génération de points d'intersection</A></LI>
+      <LI><A href="#csg_union">Fusion de 2 triangles superposés</A></LI>
+      <LI><A href="#csg_merge">Fusion de 2 sommets du maillage</A></LI>
+      <LI><A href="#csg_prim">Fusion de sommet sur une primitive LDraw</A></LI>
+      <LI><A href="#supress">Suppression</A></LI>
+  </UL>
+  <LI><A href="#save_export">Sauvegarde et exportation</A></LI>
+  <UL>
+      <LI><A href="#metadata">Méta-données</A></LI>
+      <LI><A href="#save">Sauvegarde</A></LI>
+      <LI><A href="#export">Exportation</A></LI>
+  </UL>
+  <LI><A href="#auto_bmp">Projet automatique à partir d'image Bitmap</A></LI>
+  <LI><A href="#menus">Menus</A></LI>
+  <LI><A href="#menu_context">Menu contextuel</A></LI>
+  <LI><A href="#buttons">Barre d'outils</A></LI>
+  <LI><A href="#options">Options</A></LI>
+  <LI><A href="#key">Raccourcis clavier</A></LI>
+  <LI><A href="#upgrade">Améliorations souhaitables</A></LI>
+  <LI><A href="#tuto">Tutoriels</A></LI>
+  <UL>
+      <LI><A href="#tuto1">Tutoriel sur un exemple concret (Blason)</A></LI>
+      <LI><A href="#tuto2">Tutoriel sur une tête de Minifig</A></LI>
+  </UL>
+  <LI><A href="#copyright">Droits et Copyright</A></LI>
+</UL>
+
+
+<p>&nbsp;</p>
+<A id="download"></A>
+<h2>Téléchargement</h2>
+
+<h3>Dernière version</h3>
+
+<P>Téléchargez le programme sur le site de partage <a href="https://sourceforge.net/projects/patterncreator/">sourceforge</a> :<BR>
+<ul>
+  <LI><a href="http://sourceforge.net/projects/patterncreator/files/latest/download">Download</a> (Version 1.2.1 beta)</LI>
+</ul>
+
+<P>Vous pouvez également télécharger sur ce même site les sources en VB.</P>
+
+<h3>Anciennes versions</h3>
+
+<P>Téléchargez le programme sur le site de <B>Reuben Pearse</B> :<BR>
+<ul>
+  <LI><a href="http://www.pearse.co.uk/lego/links/ldrawpatterncreator/">LDrawPatternCreator</a></LI>
+  <LI><strike>ou <a href="http://www.file-upload.net/download-3557648/LPC_1_1_Setup.exe.html">http://www.file-upload.net/download-3557648/LPC_1_1_Setup.exe.html</a></strike></LI>
+  <LI><strike>ou <a href="http://www.2shared.com/file/NLwfgyDb/LPC_1_1_Setup.html">http://www.2shared.com/file/NLwfgyDb/LPC_1_1_Setup.html</a></strike></LI>
+</ul>
+
+<p>&nbsp;</p>
+<A id="history"></A>
+<h2>Historique</h2>
+
+<UL>
+	<li>V1.2.1 Beta : 02-03-2012 : Version "Open Source", ajout triangulation rapide.</li>
+	<li>V1.2 Beta : 02-10-2011 : Ajout de fonctions de modification, options, raccourcis clavier, etc.</li>
+	<li>V1.1 Beta : 03-07-2011 : Ajout importation, primitives, couleurs officielles, génération bitmap, etc.</li>
+	<li>V1.0 Beta : 06-05-2011 : Version initiale.</li>
+</UL>
+
+<p>&nbsp;</p>
+<A id="install"></A>
+<h2>Installation</h2>
+
+<h3>Prérequis système</h3>
+
+<uL>
+   <LI>Matériel : Intel Pentium 4 ou AMD Athlon 64 minimum, 500 Mo de mémoire vive, 256 Mo de mémoire vidéo, 2 Mo d'espace disque.</LI>
+   <UL>
+      <LI>Processeur : Intel Pentium 4 ou AMD Athlon 64 minimum, Intel Core 2 Duo ou AMD Athlon II (>=2 Ghz) minimum recommandé.</LI>
+      <LI>Mémoire vive : 500 Mo minimum, plus de 1,5 Go recommandé.</LI>
+      <LI>Mémoire vidéo : 256 Mo minimum.</LI>
+      <LI>Espace disque : 2 Mo minimum, 100 Mo recommandé.</LI>
+   </UL>
+   <LI>Système opérateur : Windows 2000, Windows XP, Windows Vista, Windows 7.</LI>
+   <LI>Nécessite la présence de .NET-Framework Version 2.0 ou supérieure.</LI>
+   <LI>Sous Windows Vista et 7, il faut avoir les privilèges Administrateur pour installer le programme.
+	Après l'installation vous devez vérifier que "LDrawPatternCreator.exe" a les droits en lecture/écriture pour l'utilisateur courant.</LI>
+   <LI>En raison d'appel de certaines API, il ne peut pas fonctionner avec Mono sous Linux.</LI>
+</UL>
+
+<h3>Prérequis logiciel</h3>
+
+<P>La bibliothèque de primitives LDraw doit être installée :
+
+<uL>
+   <LI>Voir le site de référence : <a href="http://www.ldraw.org">www.ldraw.org</a>.</LI>
+</UL>
+
+<h3>Installation de LPC</h3>
+
+<P>Après avoir, si besoin, décompressé le fichier téléchargé,
+lancez l'exécutable d'installation (LPC_1_2_1_Setup.exe pour la version utilisée
+dans ce manuel).<BR>
+Nota : Si une ancienne version existe, il est préférable de la désinstaller (ou supprimer) au préalable.</P>
+
+<P>... Suivre les instructions pour placer le programme où vous voulez,
+en choisissant "Français" comme langue d'installation
+(si c'est votre langue de prédilection :-) évidemment) ....</P>
+
+<P>Nota : Seule la procédure d'installation est en Français, le programme lui-même garde ses menus en Anglais
+dans la version testée.</P>
+
+<P>A l'affichage de ce message :<BR>
+<IMG width=363 height=288 src="Images_LPC/ldraw_path.gif"><BR>
+Il faut indiquer où se trouve votre dossier d'installation de LDraw.</P>
+
+
+<p>&nbsp;</p>
+<A id="start"></A>
+<h2>Préparation du projet</h2>
+
+<A id="template"></A>
+<h3>Gabarit</h3>
+
+<P><IMG width=195 height=193 src="Images_LPC/template1.gif">
+
+<P>En début de nouveau projet, il faut généralement charger un Gabarit (Template en Anglais),
+qui va définir la pièce sur laquelle le motif va s'appliquer, avec sa forme et sa taille.
+Il se présente comme un cadre définissant les limites de la forme du motif à réaliser.</P>
+
+<P>Il se charge avec le menu : "File / Load Template" avec sélection dans la liste.
+Il se présente à l'écran avec des lignes de couleur orange et des sommets sélectionnables.</P>
+
+
+<P>Nota : Au cours du chargement du gabarit :<BR>
+- A la première question répondre "Oui" pour sauver le travail en cours, sinon répondre "Non".<BR>
+- A la seconde question répondre "Oui" pour démarrer un nouveau projet avec le gabarit, sinon répondre "Non"
+pour charger le gabarit en gardant le maillage existant.</P>
+
+<P>Nota : L'utilisation d'un gabarit n'est pas obligatoire pour démarrer un projet :<BR>
+- Vous pouvez démarrer directement sur le quadrillage à l'écran.<BR>
+- Vous pouvez aussi démarrer avec l'importation d'un maillage (triangles et quadrilatères) LDraw
+servant de limites (extérieures ou intérieures) au projet.</P>
+
+
+<H4>Liste des gabarits officiels</H4>
+
+<UL>
+   <LI>Brique : <font color=blue>3005 Brick  1 x  1 (Front)</font>.</LI>
+   <LI>Brique pentée : <font color=blue>3298 Slope Brick 33  3 x  2</font>.</LI>
+   <LI>Drapeau : <font color=blue>2525 Flag  6 x  4 (Front and Back)</font>.</LI>
+   <LI>Minifig : <font color=blue>973 Torso (Front), 973 Torso (Front and Black Neck Mark),
+	973 Torso (Front and White Neck Mark)</font>.</LI>
+   <LI>Plate lisse : <font color=blue>3070b Tile  1 x  1 with Groove, 3069b Tile  1 x  2 with Groove,
+	3068b Tile  2 x  2 with Groove</font>.</LI>
+</UL>
+
+<H4>Liste des gabarits non officiels</H4>
+
+<UL>
+   <LI>Accessoire Minifig : <font color=brown>2586 Minifig Shield Ovoid, 3846 Minifig Shield Triangular</font>.</LI>
+   <LI>Plate lisse : <font color=brown>2431 Tile  1 x  4 with Groove</font>.</LI>
+</UL>
+
+<P>Vous pouvez les télécharger ici :
+<a href="Images_LPC/LPC_template_Unofficial.zip">LPC_template_Unofficial.zip</a> (1 Ko).</P>
+
+<H4>Création de gabarit</H4>
+
+<P>Si le gabarit dont vous avez besoin n'existe pas, il suffit de le créer en
+allant dans le menu "File / Load Template / Create a Template".</P>
+
+<P><IMG width=381 height=453 src="Images_LPC/template_edit1.gif">
+
+<UL>
+   <LI><font color="#0000FF">Title</font> : Nom du gabarit.</LI>
+   <LI><font color="#0000FF">Project on..</font> : Direction de projection (orthogonale).</LI>
+   <LI><font color="#0000FF">Offset</font> : Décalage par rapport au plan moyen de la pièce.</LI>
+   <LI><font color="#0000FF">Transformation-Matrix</font> : Matrice de transformation.
+	Permet une projection sur un plan incliné.</LI>
+   <LI><font color="#0000FF">Polygon Data</font> : Données du polygone du gabarit en 2D,
+	en tapant Ctrl+Entrée entre chaque ligne.</LI>
+   <LI><font color="#0000FF">Additionnal Lines</font> : Nom du sous-fichier de la pièce sans le motif
+	(utilisé pour l'exportation).</LI>
+   <P>
+   <LI><font color="#0000FF">[Show Example]</font> : Ajoute des valeurs exemple dans les champs.</LI>
+   <LI><font color="#0000FF">[Save]</font> : Sauvegarde, si le champ "Title" est renseigné.</LI>
+   <LI><font color="#0000FF">[Cancel]</font> : Annule.</LI>
+</UL>
+
+<P>A la fin de la création, le nouveau gabarit apparaît dans la liste du menu
+File / Load Template".</P>
+
+<P>Nota : La définition de chaque gabarit se trouve stocké dans un fichier texte portant son nom
+(ex : 3068b Tile  2 x  2 with Groove.txt) dans le dossier d'installation du programme.</P>
+
+<P>Nota : Pour une information plus complète sur la syntaxe, voir le fichier :
+<font color="#0000FF">Template_HowTo.rtf</font> (en Anglais).</P>
+
+<H4>Edition de gabarit existant</H4>
+
+<P>Si le gabarit dont vous avez besoin n'est pas conforme, il peut être modifié ou supprimé en
+allant dans le menu "File / Load Template / Edit/Delete".</P>
+
+<A id="back_image"></A>
+<h3>Image de fond</h3>
+
+<P><IMG width=385 height=231 src="Images_LPC/back_image1.gif">
+
+<P>Pour insérer l'image
+correspondant à votre projet, allez dans la boite de dialogue
+"Background-Image". Si elle n'est pas affichée, cochez "Image"
+dans le menu "Views".</P>
+
+<UL>
+   <LI><font color="#0000FF">File</font> : Sélectionnez le fichier de l'image, au format
+	JPEG, BMP, ou GIF.</LI>
+   <LI><font color="#0000FF">Offset X</font> : Permet de décaler le centre de l'image en X en 1/1000 d'unité.</LI>
+   <LI><font color="#0000FF">Offset Y</font> : Permet de décaler le centre de l'image en Y en 1/1000 d'unité.</LI>
+   <LI><font color="#0000FF">Scale</font> : Permet d'ajuster la taille de l'image (facteur d'échelle).
+	Nota : Pour que l'image rentre dans le gabarit, il faut que cette image
+	soit proportionnée en hauteur/largeur à la forme du gabarit.</LI>
+   <LI><font color="#0000FF">Adjust BG Image</font> : Permet de positionner l'image à la souris,
+	et d'ajuster sa taille en tirant sur un coin ou un bord.
+	Cliquer sur le bouton <IMG width=137 height=25 src="Images_LPC/back_ok.gif">,
+	ou taper sur la touche [Echap], pour valider.</LI>
+   <LI>En dessous se trouve la dimension de l'image en fonction du facteur d'échelle et de l'unité.</LI>
+   <LI>Le petit carré rouge permet de masquer la boite de dialogue.</LI>
+</UL>
+
+<P>On peut aussi insérer l'image avec le menu "File / Load Background Image",
+et la manipuler à la souris avec le menu "File / Adjust Background Image".</P>
+
+
+<A id="param"></A>
+<h3>Paramétrage</h3>
+
+<P>Pour changer le paramétrage, allez dans la boite de dialogue "View-Preferences".
+<BR>Si elle n'est pas affichée, cochez "View-Preferences" dans le menu "Views".</P>
+
+<P><IMG width=149 height=179 src="Images_LPC/snap1.gif">
+
+<UL>
+   <LI><font color="#0000FF">Move Snap</font> : Pas en mode déplacement,
+	et également précision du curseur en 1/1000 d'unité (exemple en LDU : 100 = pas de 0.1 LDU).</LI>
+   <LI><font color="#0000FF">Rotate Snap</font> : Pas angulaire en mode rotation en degrés.</LI>
+   <LI><font color="#0000FF">Scale Snap</font> : Facteur d'échelle en mode changement d'échelle.</LI>
+   <LI><font color="#0000FF">Grid Size</font> : Pas de la grille à l'affichage.</LI>
+   <LI>Le petit carré rouge permet de masquer la boite de dialogue.</LI>
+</UL>
+
+<A id="view"></A>
+<h3>Modification de la fenêtre graphique</h3>
+
+<P>Durant votre projet, vous pouvez changer la fenêtre de visualisation.</P>
+
+<UL>
+   <LI><font color="#0000FF">Agrandir/Diminuer la fenêtre</font> : ...En tirant sur un bord ou un coin
+	de la fenêtre du programme.</LI>
+   <LI><font color="#0000FF">Déplacer la vue</font> : Avec le bouton droit de la souris.</LI>
+   <LI><font color="#0000FF">Zoomer</font> : Avec la molette de la souris, ou les touches "Page haut"/"Page bas".
+	Le facteur de zoom est affiché à droite de la barre de menus.</LI>
+</UL>
+
+<A id="import"></A>
+<h3>Importation</h3>
+
+<P>Au lieu de partir d'un projet vierge ou d'utiliser un gabarit, il est possible de démarrer un projet
+avec un maillage existant au format LDraw, soit pour le compléter, soit pour le modifier.
+Les conditions sont :</P>
+
+<UL>
+   <LI>Avoir un fichier au format LDraw d'un maillage en 2D ou 3D (entités type 3 ou 4).</LI>
+   <LI>S'il y a des primitives (entités type 1) dans le fichier, <strike>elles doivent être décomposées
+	avec un autre utilitaire comme <A HREF="lddp.htm#subfile">LDDP : Suppression de sous-fichier</A>,
+	ou <A HREF="Inliner.htm">Inliner</A></strike>, elles sont affichées avec leurs sommets sélectionnables.</LI>
+</UL>
+
+<P>Pour lancer l'importation, utilisez la commande du menu <font color="#0000FF">File / Import from DAT</font>,
+en choisissant le sous-menu correspondant au sens de projection.</P>
+
+<P><IMG width=188 height=194 src="Images_LPC/import1.gif"><BR>
+Dans la boite de dialogue qui s'ouvre, cochez :
+<font color="#0000FF">Overwrite existing part</font> pour créer un nouveau projet,
+<font color="#0000FF">Append part as subpart</font> pour insérer l'importation
+comme sous-fichier, et <font color="#0000FF">Overwrite and import projection data</font>
+pour un nouveau projet avec les données projetées.</P>
+
+<P>Il suffit ensuite de rechercher et sélectionner le fichier .DAT dans la nouvelle boite de dialogue qui s'ouvre.</P>
+
+<p>&nbsp;</p>
+<A id="mesh"></A>
+<h2>Création d'un maillage simple</h2>
+
+<P>Pour créer un maillage simple sur l'image de fond, il faut créer des points
+qui vont servir de sommets aux triangles du maillage, tout en colorant
+ces triangles. Nous verrons au chapitre sur les primitives comment réaliser
+un maillage plus "automatique".</P>
+
+<A id="add_vertex"></A>
+<h3>Ajout de sommet de maillage (point)</h3>
+
+<P><IMG width=335 height=227 src="Images_LPC/add_vertex1.gif"><BR>
+Cliquez sur le bouton <font color="#0000FF">Add Vertex</font>,
+puis à chaque nouveau clic dans la fenêtre graphique, vous ajoutez un nouveau point.
+Cliquez une nouvelle fois sur le même bouton pour sortir de la commande.</P>
+
+<P>Nota : Les coordonnées du curseur s'affichent en bas à gauche de la fenêtre du programme.
+La précision dépend de la valeur de <font color="#0000FF">Move Snap</font>
+(voir chapitre Paramétrage).</P>
+
+
+<A id="add_tri"></A>
+<h3>Ajout de triangle simple</h3>
+
+<P><IMG width=309 height=237 src="Images_LPC/add_tri1.gif"><BR>
+Avec le bouton <font color="#0000FF">Add triangle</font>,
+ajoutez des triangles en cliquant sur les points existants.
+Cliquez une nouvelle fois sur le même bouton pour sortir de la commande.</P>
+
+<P>Si "Fast Triangulation" est coché dans le menu "Edit", le premier point du
+triangle est le dernier point sélectionné, et il ne reste plus que 2 points à sélectionner
+pour former un triangle.</P>
+
+
+<P>En cours de création de triangle, il est possible de passer en mode
+<font color="#0000FF">Add Vertex</font> pour ajouter un point manquant et
+revenir avec le bouton <font color="#0000FF">Add triangle</font>
+pour terminer le triangle.</P>
+
+<P>Il est également possible de déplacer le dernier sommet sélectionné
+avec la boite de dialogue "Vertex-Data".</P>
+
+<P>On peut abandonner la commande en cours avec le bouton droit de la souris.</P>
+
+
+<P>Nota : Ces triangles prennent la couleur courante (voir chapitre suivant),
+lorsqu'elles sont affichées.</P>
+
+
+<p>&nbsp;</p>
+<A id="color"></A>
+<h2>Couleur</h2>
+
+<P><IMG width=830 height=26 src="Images_LPC/bar_color.gif"><BR>
+Avec le bouton <font color="#0000FF">Show Colours</font> vous faites apparaître
+cette barre des 16 couleurs LDraw de base (0 à 15) plus
+la couleur spéciale 16 qui est transparente dans <B>LPC</B>,
+et utilisée par défaut pour tous les nouveaux triangles.</P>
+
+<P>En étant en mode triangle (<font color="#0000FF">Triangle Mode</font>),
+cliquez sur une des couleurs pour affecter cette couleur à la sélection de triangles en cours.</P>
+
+<P><IMG width=313 height=231 src="Images_LPC/add_color1.gif"><BR>
+Coloration ici "pseudo-aléatoire" des triangles. Dans la réalité ils devraient tous être marron (Colour 6).</P>
+
+<P>La couleur courante s'affiche avec son numéro vers la droite de la barre des couleurs.</P>
+
+<P>En cliquant sur :
+<UL>
+   <LI><font color="#0000FF">More..</font>, fait apparaître
+	la fenêtre de sélection des couleurs parmi toutes celles disponibles ou de créer une couleur personnelle.</LI>
+
+   <LI><font color="#0000FF">Take Colour from Selection</font>, la
+	couleur de l'entité sélectionnée devient la couleur courante.</LI>
+
+   <LI><font color="#0000FF">Preview</font>, les sommets
+	et bords de la triangulation passent en mode afficher/cacher (mode réel, sans les bords et
+	points de contrôle).</LI>
+
+   <LI><font color="#0000FF">Opacity xx%</font>, opacité des couleurs, parmi 10, 25, 50 et 100%.</LI>
+</UL>
+
+<P>En cliquant une nouvelle fois sur le bouton <font color="#0000FF">Show Colours</font>,
+vous masquez la coloration du maillage, et cachez la barre des couleurs.</P>
+
+<P>La fenêtre de sélection des couleurs :<BR>
+<IMG width=434 height=325 src="Images_LPC/color_palette.gif"><BR>
+Permet de choisir une couleur officielle en cliquant sur l'un des boutons colorés à gauche,
+ou en tapant son numéro à 3 chiffres sur le pavé numérique (exemple 015 pour blanc).<BR>
+Permet également de sélectionner une couleur personnelle à partir des valeurs RGB (Red-Green-Blue) à droite,
+c'est à dire les paramètres Rouge-Vert-Bleu. Valider avec le bouton "Set".</P>
+
+
+<P>Nota : La liste des couleurs officielles dépend du fichier <font color="red">LDConfig.ldr</font>
+se trouvant dans le dossier d'installation du programme. Ce fichier peut être mis à jour
+sur le site de référence LDraw.org, et est fourni avec les mises à jour officielles de pièces.</P>
+
+
+
+<p>&nbsp;</p>
+<A id="primitive"></A>
+<h2>Ajout de primitive</h2>
+
+<P>Le bouton "Add Primitive.." permet d'ajouter soit des formes géométriques triangulées LDraw,
+considérées comme une seule entité, soit des primitives géométriques qui sont après création composées
+de triangles indépendants avec leurs sommets et perdant la notion de primitive.</P>
+
+<P>Pendant la création d'une primitive on peut annuler la commande en cours
+ou le triangle en cours pour les triangles chaînés avec le bouton :
+<IMG width=135 height=23 src="Images_LPC/prim_abort.gif"></P>
+
+
+<A id="prim_ldraw"></A>
+<h3>Ajout de primitive LDraw</h3>
+
+<P><IMG width=601 height=99 src="Images_LPC/prim_ldraw1.gif"><BR>
+Exemple de primitives LDraw : 1-4disc, 1-4ndis, 1-4chrd, 1-4ring1, et à droite une 48\1-4disc.</P>
+
+<P>
+<TABLE>
+   <TR>
+	<TD><IMG width=212 height=303 src="Images_LPC/prim_ldraw2.gif"></TD>
+	<TD valign=top>Pour les primitives d'anneau (Ring) une boite de dialogue s'affiche,
+	permettant de sélectionner :
+	<UL>
+	   <LI>Le rayon intérieur (le rayon extérieur = rayon intérieur + 1)
+		dans le champ <font color="#0000FF">Radius</font>.
+	   <LI>La portion de primitive complète (1-4 = 1/4 = 90° = 4 segments en 1/16 ou 12 segments en 1/48)
+		dans le champ <font color="#0000FF">Resolution</font>.
+	   <LI>ou de sélectionner la primitive par son nom
+		dans le champ <font color="#0000FF">Name</font>.
+	   <LI>En cochant <font color="#0000FF">Hight Resolution</font>
+		vous sélectionnez les primitives "ring" à 48 facettes au lieu de 16.
+	</UL>
+	Le nom complet de la primitive sélectionnée s'affiche dans le champ <font color="#0000FF">Full Name</font>.</TD>
+   </TR>
+</TABLE>
+
+<P>Nota : La primitive pourra ultérieurement être déplacée, tournée, ou changée de taille.</P>
+
+<A id="prim_tri"></A>
+<h3>Ajout de primitive triangulaire</h3>
+
+<P><IMG width=460 height=166 src="Images_LPC/prim_tri1.gif">
+
+<UL>
+   <LI><font color="#0000FF">..Solid.</font> : Triangle plein. Le premier clic définit le point de centre,
+	le second la hauteur et la direction de la pointe (haut/bas), et le troisième la largeur de la base.</LI>
+   <LI><font color="#0000FF">..with Frame.</font> : Triangle avec cadre rempli. Le premier clic définit le point de centre,
+	le second la hauteur et la direction de la pointe (haut/bas), le troisième la largeur de la base,
+	et le quatrième la dimension du triangle central.</LI>
+   <LI><font color="#0000FF">..Hollow.</font> : Triangle avec cadre vide. Idem précédent.</LI>
+</UL>
+
+<P><IMG width=460 height=166 src="Images_LPC/prim_tri2.gif">
+
+<P>Après coloration des triangles, vous pouvez visualiser sur l'image ci-dessus la différence
+entre un triangle à cadre rempli et à cadre vide.</P>
+
+<A id="prim_rect"></A>
+<h3>Ajout de primitive rectangulaire</h3>
+
+<P><IMG width=412 height=151 src="Images_LPC/prim_rect1.gif">
+
+<UL>
+   <LI><font color="#0000FF">..Solid.</font> : Rectangle plein. Le premier clic définit le point de centre,
+	le second la hauteur, et le troisième la largeur.</LI>
+   <LI><font color="#0000FF">..with Frame.</font> : Rectangle avec cadre rempli. Le premier clic définit
+	le point de centre, le second la hauteur, le troisième la largeur,
+	et le quatrième la dimension du rectangle central.</LI>
+   <LI><font color="#0000FF">..Hollow.</font> : Rectangle avec cadre vide. Idem précédent.</LI>
+</UL>
+
+<A id="prim_cir"></A>
+<h3>Ajout de primitive circulaire facettisée</h3>
+
+<P><IMG width=489 height=160 src="Images_LPC/prim_cir1.gif">
+
+<UL>
+   <LI><font color="#0000FF">..Solid.</font> : Cercle plein (Disque). Le premier clic définit le point de centre,
+	le second le diamètre.</LI>
+   <LI><font color="#0000FF">..with Frame.</font> : Cercle avec cadre rempli (Couronne+Disque). Le premier clic définit
+	le point de centre, le second le diamètre extérieur, le troisième le diamètre intérieur.</LI>
+   <LI><font color="#0000FF">..Hollow.</font> : Cercle avec cadre vide (Couronne). Idem précédent.</LI>
+</UL>
+
+<P><IMG width=653 height=172 src="Images_LPC/prim_cir2.gif">
+
+<UL>
+   <LI><font color="#0000FF">Segments : n</font> : Le champ de saisie du nombre de segments permet
+	de définir la "qualité" du cercle.</LI>
+   <LI><font color="#0000FF">16</font> : Qualité standard des petits cercles LDraw (Rayon généralement
+	inférieurs à 25 LDU). Voir première image.</LI>
+   <LI><font color="#0000FF">48</font> : Qualité de haute résolution standard (Rayon généralement supérieur à 25 LDU).
+	Voir seconde image à gauche.</LI>
+   <LI><font color="#0000FF">6, 8, 4</font> : Des valeurs inférieures permettent de créer des formes
+	géométriques particulières : Hexagone, octogone, losange équilatéral.</LI>
+</UL>
+
+<A id="prim_oval"></A>
+<h3>Ajout de primitive ovale facettisée</h3>
+
+<P><IMG width=452 height=235 src="Images_LPC/prim_oval1.gif">
+
+<UL>
+   <LI><font color="#0000FF">..Solid.</font> : Ovale plein. Le premier clic définit le point de centre,
+	le second la hauteur, et le troisième la largeur.</LI>
+   <LI><font color="#0000FF">..with Frame.</font> : Ovale avec cadre rempli. Le premier clic définit le
+	point de centre, le second la hauteur, le troisième la largeur, et le quatrième la dimension
+	de l'ovale central.</LI>
+   <LI><font color="#0000FF">..Hollow.</font> : Ovale avec cadre vide. Idem précédent.</LI>
+</UL>
+
+<P><IMG width=506 height=134 src="Images_LPC/prim_oval2.gif">
+
+<UL>
+   <LI><font color="#0000FF">Segments : n</font> : Le champ de saisie du nombre de segments permet
+	de définir la "qualité" de l'ovale.</LI>
+   <LI><font color="#0000FF">16</font> : Qualité standard LDraw (La plus grande dimension de l'ovale est généralement
+	inférieur à 25 LDU). Voir première image.</LI>
+   <LI><font color="#0000FF">12</font> : Exemple de qualité dégradée pour de très petits ovales.</LI>
+   <LI><font color="#0000FF">4</font> : Exemple de losange.</LI>
+</UL>
+
+<A id="prim_chain"></A>
+<h3>Ajout de triangles chaînés</h3>
+
+<P><IMG width=533 height=176 src="Images_LPC/prim_tri_chain1.gif">
+
+<P>La création de triangles chaînés permet de créer rapidement une succession
+de triangles pour former un "chemin" évolutif. Le premier triangle est créé
+à partir des deux derniers sommets (ici en jaune) et attend un clic (ici en rouge) pour se créer.
+Il suffit ensuite de cliquer alternativement sur le bord droit puis gauche du chemin
+pour ajouter un triangle à chaque clic. Cliquez sur le bouton "ABORT" pour terminer la commande.</P>
+
+
+
+<p>&nbsp;</p>
+<A id="modif"></A>
+<h2>Modification</h2>
+
+
+<A id="select"></A>
+<h3>Sélection</h3>
+
+<UL>
+   <LI><font color="#0000FF">Select</font> : Mode sélection.</LI>
+   <LI><font color="#0000FF">Triangle/Vertex/Primitive mode</font> : Mode type de sélection :</LI>
+   <UL>
+      <LI><font color="#0000FF">Vertex Mode</font> : Par sommet.</LI>
+      <LI><font color="#0000FF">Triangle Mode</font> : Par triangle (de triangle simple ou de primitive NON LDraw).</LI>
+      <LI><font color="#0000FF">Primitive Mode</font> : Par primitive LDraw.</LI>
+   </UL>
+</UL>
+
+
+<UL>
+   <LI>En cliquant sur une entité (sommet ou triangle ou primitive suivant le type de sélection)
+	vous pouvez la sélectionner.</LI>
+   <LI>Ajouter une sélection avec la touche Ctrl.</LI>
+   <LI>Sélectionnez une zone par cliquer/glisser dans la fenêtre graphique.
+	Nota : Semble Non fonctionnel pour les primitives LDraw.</LI>
+</UL>
+
+<P>Vous pouvez aussi utiliser à partir du menu Edit :<BR>
+<UL>
+   <LI><font color="#0000FF">Select All</font> : Sélectionne tous les triangles ou sommets
+	(en fonction du type de sélection).</LI>
+   <LI><font color="#0000FF">Select Same Colour</font> : Sélectionne la même couleur.</LI>
+   <LI><font color="#0000FF">Select Connected..</font> : Sélectionne tous les éléments connectés.</LI>
+   <LI><font color="#0000FF">Select Touching..</font> : Sélectionne tous les éléments qui ont un bord
+	ou sommet commun.</LI>
+   <LI><font color="#0000FF">..With Same Colour</font> : Coché ajoute la condition de même couleur
+	aux deux sélections précédentes.</LI>
+</UL>
+
+<A id="move"></A>
+<h3>Déplacement</h3>
+
+<P>Utilisez le bouton <font color="#0000FF">Move</font> après avoir fait une
+sélection pour déplacer des sommets ou des triangles ou des primitives,
+en fonction du type de sélection.</P>
+
+<P><IMG width=237 height=160 src="Images_LPC/move1.gif"><BR>
+Avec la sélection d'un ensemble de triangles en <font color="#0000FF">Triangle Mode</font>,
+cliquez sur le bouton <font color="#0000FF">Move</font> pour que l'ensemble des triangles rouges
+suivent la souris.</P>
+
+<P><IMG width=448 height=140 src="Images_LPC/move2.gif"><BR>
+Avec la sélection d'un ensemble de triangles en <font color="#0000FF">Triangle Mode</font>,
+cliquez sur le bouton <font color="#0000FF">Copy</font>, 
+sur le bouton <font color="#0000FF">Move</font>, puis le bouton <font color="#0000FF">Paste</font>.
+Une copie des entités suit alors la souris.</P>
+
+<P><IMG width=493 height=159 src="Images_LPC/move_tri1.gif"><BR>
+Avec la sélection d'un triangle en <font color="#0000FF">Triangle Mode</font>,
+le triangle rouge suit la souris en déformant les triangles connectés.</P>
+
+<P><IMG width=495 height=173 src="Images_LPC/move_vertex1.gif"><BR>
+Avec la sélection d'un sommet en <font color="#0000FF">Vertex Mode</font>,
+le sommet rouge suit la souris en déformant les triangles possédant ce sommet.</P>
+
+<P><IMG width=191 height=72 src="Images_LPC/vertex_data.gif"><BR>
+Si un seul sommet est sélectionné, un panneau de contrôle s'affiche
+avec les coordonnées de ce sommet. Il est alors
+possible de rentrer de nouvelles coordonnées dans les champs,
+les incrémenter/décrémenter avec les petites flèches, ou même
+de le déplacer en X ou Y avec la molette de la souris.</P>
+
+<P><IMG width=316 height=227 src="Images_LPC/move_prim.gif"><BR>
+Avec la sélection d'une primitive LDraw en <font color="#0000FF">Primitive Mode</font>,
+il est possible de déplacer cette primitive, ou la copier.</P>
+
+
+<A id="rotate"></A>
+<h3>Rotation</h3>
+
+<P>Utilisez le bouton <font color="#0000FF">Rotate</font> après avoir fait une
+sélection de triangles pour les faire tourner autour de leur Centre de gravité (CdG).
+Voir le champ "Rotate Snap:" du panneau "View-Preferences" pour changer le pas de rotation.</P>
+
+<P><IMG width=210 height=238 src="Images_LPC/rotate_tri2.gif"><BR>
+Rotation d'un ensemble de triangles.</P>
+
+<P><IMG width=471 height=194 src="Images_LPC/rotate_tri1.gif"><BR>
+Rotation d'un seul triangle connecté.</P>
+
+
+<A id="scale"></A>
+<h3>Facteur d'échelle</h3>
+
+<P>Utilisez le bouton <font color="#0000FF">Scale</font> après avoir fait une
+sélection de triangles pour les diminuer/agrandir autour de leur CdG.</P>
+
+<P><IMG width=732 height=147 src="Images_LPC/scale_tri1.gif"><BR>
+Exemple de diminution et agrandissement du triangle rouge, avec affichage de la règle
+donnant le facteur d'échelle.</P>
+
+<P>Nota : A chaque clic le pourcentage revient à 100%,
+permettant de cumuler les facteurs d'échelle.</P>
+
+<A id="mirror"></A>
+<h3>Symétrie</h3>
+
+<P>Utilisez le bouton <font color="#0000FF">Mirror</font> après avoir fait une
+sélection de triangles pour faire une symétrie.</P>
+
+<P><IMG width=392 height=137 src="Images_LPC/mirror_x1.gif"><BR>
+Symétrie avec <font color=blue>..on X axis</font> (à gauche avant, à droite après).</P>
+
+<P><IMG width=351 height=125 src="Images_LPC/mirror_xmerge1.gif"><BR>
+Symétrie avec ajout de la partie symétrique à la partie existante,
+avec <font color=blue>..on X axis (merge with left side)</font>.
+A droite partie existante et à gauche partie symétrisée.</P>
+
+<P><IMG width=418 height=196 src="Images_LPC/mirror_xmerge2.gif"><BR>
+Symétrie avec ajout de la partie symétrique à la partie existante lorsque le bord n'est pas droit,
+avec <font color=blue>..on X axis (merge with right side)</font>.
+A gauche partie existante et à droite partie symétrisée.</P>
+
+
+<A id="split_1edge"></A>
+<h3>Coupe de triangle suivant un bord</h3>
+
+<P><IMG width=252 height=154 src="Images_LPC/merge_pt1.gif"><BR>
+Sélectionner 2 points connectés par 1 ou 2 triangles.</P>
+
+<P><IMG width=252 height=154 src="Images_LPC/split2.gif"><BR>
+A partir de la barre d'outils, sélectionner <font color=blue>Merge/Split.. / ..split (2 connected vertices only)</font>, pour ajouter un point au milieu, et couper les triangles connectés.</P>
+
+<P>Nota : Accessible en "Vertex Mode" uniquement.</P>
+
+
+<A id="split_3edges"></A>
+<h3>Coupe de triangle suivant les 3 bords</h3>
+
+<P><IMG width=223 height=125 src="Images_LPC/csg_sub1.gif"><BR>
+Sélectionner 1 triangle.</P>
+
+<P><IMG width=223 height=125 src="Images_LPC/csg_sub2.gif"><BR>
+A partir de la barre d'outils, sélectionner <font color=blue>CSG.. / Subdivise (1 Triangle Only)</font>, pour couper le triangle en 4 au milieu des côtés.</P>
+
+<P><IMG width=223 height=125 src="Images_LPC/csg_sub3.gif"><BR>
+Si le triangle est connecté à d'autres triangles, ceux-ci sont aussi découpés en 2 pour ne pas
+avoir de création de jonction en T.</P>
+
+
+<P>Nota : Accessible en "Triangle Mode" uniquement.</P>
+
+<A id="csg_inter"></A>
+<h3>Génération de points d'intersection</h3>
+
+<P><IMG width=242 height=208 src="Images_LPC/csg_inter1.gif"><BR>
+Sélectionner au moins 2 triangles.</P>
+
+<P><IMG width=242 height=208 src="Images_LPC/csg_inter2.gif"><BR>
+A partir de la barre d'outils, sélectionner <font color=blue>CSG.. / CSG Intersection Points</font>, pour générer un point à chaque intersection de bords de triangles.</P>
+
+<P>Nota : Cette méthode pour créer des points doit être utilisée comme base de construction pour avoir
+des points alignés, mais les triangles ne doivent pas être gardés, sinon on a un maillage
+avec des zones superposées.</P>
+
+<A id="csg_union"></A>
+<h3>Fusion de 2 triangles superposés</h3>
+
+<P><IMG width=242 height=208 src="Images_LPC/csg_inter1.gif"><BR>
+Sélectionner uniquement 2 triangles.</P>
+
+<P><IMG width=242 height=208 src="Images_LPC/csg_inter3.gif"><BR>
+A partir de la barre d'outils, sélectionner <font color=blue>CSG.. / CSG Union</font>, pour générer un point à chaque intersection et découper les triangles.</P>
+
+
+<A id="csg_merge"></A>
+<h3>Fusion de 2 sommets du maillage</h3>
+
+<P><IMG width=252 height=154 src="Images_LPC/merge_pt1.gif"><BR>
+Sélectionner 2 sommets.</P>
+
+<P><IMG width=252 height=154 src="Images_LPC/merge_pt2.gif"><BR>
+A partir de la barre d'outils, sélectionner <font color=blue>Merge/Split.. / ..merge to average</font>, pour
+fusionner les 2 points à mi-distance des points d'origine.</P>
+
+<P><IMG width=252 height=154 src="Images_LPC/merge_pt3.gif"><BR>
+Ou, sélectionner <font color=blue>Merge/Split.. / ..merge to last selected</font>, pour
+fusionner les 2 points à la position d'origine du dernier point sélectionné.</P>
+
+
+<A id="csg_prim"></A>
+<h3>Fusion de sommet sur une primitive LDraw</h3>
+
+<P><IMG width=238 height=156 src="Images_LPC/merge_prim1.gif"><BR>
+Sélectionner 1 sommet.</P>
+
+<P><IMG width=238 height=156 src="Images_LPC/merge_prim2.gif"><BR>
+A partir de la barre d'outils, sélectionner <font color=blue>Merge/Split.. / ..merge to nearest prim.-vertex</font>, pour
+déplacer le point sélectionné sur le sommet de la primitive LDraw le plus proche.</P>
+
+<P>Nota : Cette commande recherche le sommet le plus proche d'une primitive LDraw (LDraw-Primitive) uniquement
+et non d'une autre primitive LPC ordinaire. S'il n'y a pas de primitive LDraw dans le projet alors l'origine
+est utilisée.</P>
+
+
+<A id="supress"></A>
+<h3>Suppression</h3>
+
+<P>Utiliser la touche "Suppr" pour supprimer une sélection, ou aller
+dans le menu "Edit / Delete".</P>
+
+<P>Nota : En mode type triangle (Triangle Mode) seuls les triangles sont supprimés,
+et en mode sommet (Vertex Mode) les triangles et leurs sommets sont supprimés.</P>
+
+<P>Avec la commande <font color=blue>Merge/Split.. / Remove isolated vertices</font>, les
+points isolés, non utilisés comme sommet de maillage, sont supprimés.</P>
+
+
+<p>&nbsp;</p>
+<A id="save_export"></A>
+<h2>Sauvegarde et exportation</h2>
+
+
+<A id="metadata"></A>
+<h3>Méta-données</h3>
+
+<a href="Images_LPC/metadata1.gif">
+<img src="Images_LPC/metadata1.gif" width="300"></A>
+
+<P>Les méta-données sont des informations textuelles qui vont
+être incorporés dans l'entête du fichier exporté.</P>
+
+<P>Voir : <A HREF="DATHeader.htm">DATHeader</A> ou 
+<A HREF="LD_fileF.htm#MetaOffStart">Méta-commandes officielles de l'entête du fichier</A>
+pour plus d'informations sur la définition des champs.</P>
+
+<A id="save"></A>
+<h3>Sauvegarde</h3>
+
+<P>La sauvegarde du projet en cours se fait avec la commande du menu
+"Save" ou "Save as..". Le fichier généré est un fichier texte avec l'extension .LPC.</P>
+
+<A id="export"></A>
+<h3>Exportation</h3>
+
+<P>Utiliser la commande du menu "File / Export as DAT" et un sens de projection,
+pour créer un fichier de pièce LDraw contenant le motif et la pièce de base.</P>
+
+<TABLE>
+   <TR>
+	<TD><IMG width=227 height=160 src="Images_LPC/export1.gif"></TD>
+	<TD><IMG width=215 height=176 src="Images_LPC/export2.gif"></TD></TR>
+   <TR>
+	<TD>Exemple de motif simple avec<BR>le gabarit "3068b Tile  2 x 2 with Groove".</TD>
+	<TD>Exemple de motif simple avec<BR>le gabarit "3298 Slope Brick 33  3 x 2".</TD></TR>
+</TABLE>
+
+<P>Nota : Le programme utilise <A HREF="Rectifier.htm">Rectifier</A> de Philo pour optimiser le fichier
+et remplacer deux triangles contigus par un quadrilatère lorsque c'est possible.</P>
+
+<P>Mais, également, ce programme peut générer un fichier au format LDraw
+qui va servir à compléter une pièce en cours de création.</P>
+
+<P><IMG width=308 height=175 src="Images_LPC/30117p6u.gif"><BR>
+Exemple de la pièce 30117p6u.dat créée par l'auteur de ce programme.</P>
+
+
+<P>Dans ce cas le programme ne traitant que la partie "motif plan" de la pièce,
+il faudra utiliser d'autres utilitaires pour créer la pièce complète.
+Voir ma page : <A HREF="creapart3.htm">Créer de nouvelles pièces LDraw</A>
+pour de plus amples détails, et en particulier
+le chapitre sur : <A HREF="creapart3.htm#04a">Les pièces à motif</A>.</P>
+
+<p>&nbsp;</p>
+<A id="auto_bmp"></A>
+<h2>Projet automatique à partir d'image Bitmap</h2>
+
+<P>Ce mode d'utilisation de <B>LPC</B> est une façon rapide de créer un motif
+à partir d'une image Bitmap (BMP, JPG, GIF), mais le résultat n'est généralement pas assez optimisé
+pour une pièce soumise dans le suivi des nouvelles pièces (Parts Tracker)
+du site officiel LDraw. Par contre pour une pièce personnelle c'est plus rapide
+qu'une vectorisation manuelle.</P>
+
+<P>La commande se trouve dans le menu : "File / Import from Bitmap".</P>
+
+<P><IMG width=308 height=271 src="Images_LPC/bmp_auto.gif"><BR>
+Exemple créé par l'auteur de ce programme, à gauche avec les sommets affichés, et à droite sans.</P>
+
+<A id="auto_bmp_base"></A>
+<h3>Création d'un fichier image de base</h3>
+
+<P>Il est possible de créer une image de base monochrome aux bonnes dimensions
+à partir de LPC.</P>
+
+<P>La commande se trouve dans le menu : "File / Create Template Bitmap".</P>
+
+<P><IMG width=443 height=333 src="Images_LPC/bmp_template.gif"><BR>
+Sélection de la couleur, et dimension en pixels (Size in pixel) de l'image BMP,
+avant de créer le fichier (Bouton "Create").</P>
+
+
+<p>&nbsp;</p>
+<A id="menus"></A>
+<h2>Menus</h2>
+
+
+<h3><font color="#0000FF">File</font> (Fichier)</h3>
+
+<IMG width=211 height=343 src="Images_LPC/menu1.gif">
+
+<UL>
+   <LI><font color="#0000FF">New</font> : Nouveau projet.</LI>
+   <LI><font color="#0000FF">Load</font> : Ouvre un projet existant (*.txt (v1.0) ou .lpc (v1.1 et plus)).</LI>
+   <LI><font color="#0000FF">Save</font> : Sauvegarde le projet en cours.</LI>
+   <LI><font color="#0000FF">Save As..</font> : Sauvegarde le projet en cours, avec un
+        nouveau nom et/ou un nouveau chemin, avec ancien ou nouveau format.</LI>
+   <P>
+   <LI><font color="#0000FF">Load Template</font> : Charge un gabarit (et création/édition de gabarit) :</LI>
+   <UL>
+      <LI><font color="#0000FF">Create a Template..</font> : Ouvre une boite de dialogue pour créer un gabarit.</LI>
+      <LI><font color="#0000FF">Edit / Delete..</font> : Ouvre une boite de dialogue pour modifier ou supprimer un gabarit existant.</LI>
+      <LI><font color="#0000FF">...</font> : ...Sélection d'un gabarit existant dans les lignes qui suivent.</LI>
+   </UL>
+   <P>
+   <LI><font color="#0000FF">Load Background Image</font> : Charge une image de fond.</LI>
+   <LI><font color="#0000FF">Adjust Background Image</font> : Ajuste l'image de fond à la souris.</LI>
+   <P>
+   <LI><font color="#0000FF">Import from DAT</font> : Importe un fichier LDraw (.dat) :</LI>
+   <UL>
+      <LI><font color="#0000FF">Project on YZ plane (-X, Right)</font> : En projetant sur la plan YZ, -X à droite.</LI>
+      <LI><font color="#0000FF">Project on YZ plane (-X, Left)</font> : En projetant sur la plan YZ, -X à gauche.</LI>
+      <LI><font color="#0000FF">Project on ZX plane (-Y, Top)</font> : En projetant sur la plan ZX, -Y vers le haut.</LI>
+      <LI><font color="#0000FF">Project on ZX plane (-Y, Bottom)</font> : En projetant sur la plan ZX, -Y vers le bas.</LI>
+      <LI><font color="#0000FF">Project on XY plane (-Z, Front)</font> : En projetant sur la plan XY, -Z devant.</LI>
+      <LI><font color="#0000FF">Project on XY plane (-Z, Back)</font> : En projetant sur la plan XY, -Z derrière.</LI>
+   </UL>
+   <LI><font color="#0000FF">Export as DAT</font> : Exporte au format LDraw (.dat).</LI>
+   <UL>
+      <LI><font color="#0000FF">Project on YZ plane (-X, Right)</font> : En projetant sur la plan YZ, -X à droite.</LI>
+      <LI><font color="#0000FF">Project on YZ plane (-X, Left)</font> : En projetant sur la plan YZ, -X à gauche.</LI>
+      <LI><font color="#0000FF">Project on ZX plane (-Y, Top)</font> : En projetant sur la plan ZX, -Y vers le haut.</LI>
+      <LI><font color="#0000FF">Project on ZX plane (-Y, Bottom)</font> : En projetant sur la plan ZX, -Y vers le bas.</LI>
+      <LI><font color="#0000FF">Project on XY plane (-Z, Front)</font> : En projetant sur la plan XY, -Z devant.</LI>
+      <LI><font color="#0000FF">Project on XY plane (-Z, Back)</font> : En projetant sur la plan XY, -Z derrière.</LI>
+   </UL>
+   <P>
+   <LI><font color="#0000FF">Metadata...</font> : Ouvre la boite de dialogue des méta-données.</LI>
+   <P>
+   <LI><font color="#0000FF">Import from Bitmap</font> : Importe un projet à partir d'une image BMP.</LI>
+   <LI><font color="#0000FF">Create Template Bitmap</font> : Crée une image BMP gabarit.</LI>
+   <P>
+   <LI><font color="#0000FF">Exit</font> : Sortie du programme.</LI>
+</UL>
+
+<h3><font color="#0000FF">Edit</font> (Edition)</h3>
+
+<IMG width=241 height=332 src="Images_LPC/menu2a.gif">
+
+<UL>
+   <LI><font color="#0000FF">Undo</font> : Annule la/les précédente(s) action(s).</LI>
+   <LI><font color="#0000FF">Redo</font> : Refait la/les précédente(s) action(s).</LI>
+   <LI><font color="#0000FF">Cut</font> : Coupe la sélection.</LI>
+   <LI><font color="#0000FF">Copy</font> : Copie la sélection.</LI>
+   <LI><font color="#0000FF">Paste</font> : Colle le dernier coupe ou copie.</LI>
+   <LI><font color="#0000FF">Delete</font> : Supprime la sélection.</LI>
+   <P>
+   <LI><font color="#0000FF">Select All</font> : Sélectionne tout.</LI>
+   <LI><font color="#0000FF">Select Same Colour</font> : Sélectionne la même couleur.</LI>
+   <P>
+   <LI><font color="#0000FF">Select Connected..</font> : Sélectionne tous les éléments connectés.</LI>
+   <LI><font color="#0000FF">Select Touching..</font> : Sélectionne tous les éléments qui ont un bord ou sommet commun.</LI>
+   <LI><font color="#0000FF">..With Same Colour</font> : Coché ajoute la condition de même couleur aux deux
+	sélections précédentes.</LI>
+   <P>
+   <LI><font color="#0000FF">Performance-Mode</font> : Cochez ce mode pour accélérer la réaction du programme,
+	mais la fonction d'Annulation (Undo) est alors désactivée.</LI>
+   <LI><font color="#0000FF">Fast Triangulation</font> : Cochez ce mode pour avoir une triangulation rapide
+	avec "Add triangle". Le dernier point précédemment sélectionné devient le premier sommet du triangle, et
+	il suffit de cliquer sur deux points pour former un nouveau triangle.</LI>
+</UL>
+
+<h3><font color="#0000FF">Views</font> (Visualisation)</h3>
+
+<IMG width=184 height=160 src="Images_LPC/menu3.gif">
+
+<UL>
+   <LI><font color="#0000FF">Reset view</font> : Réinitialise la vue.</LI>
+   <LI><font color="#0000FF">Show grid</font> : Affiche la grille.</LI>
+   <LI><font color="#0000FF">Show Axis Label</font> : Affiche des règles en bordure de la fenêtre,
+	donnant les valeurs de la grille affichée.</LI>
+   <LI><font color="#0000FF">Image</font> : Affiche le panneau image de fond (Background-Image).</LI>
+   <LI><font color="#0000FF">View-Preferences</font> : Affiche le panneau attirance (Snap) et taille de grille (Grid).</LI>
+   <LI><font color="#0000FF">Unit</font> : Unité utilisée.</LI>
+   <UL>
+      <LI><font color="#0000FF">LDU</font> : Unité LDraw.</LI>
+      <LI><font color="#0000FF">Millimeter</font> : En millimètres.</LI>
+      <LI><font color="#0000FF">Inch</font> : En pouces.</LI>
+   </UL>
+</UL>
+
+<h3><font color="#0000FF">Options</font> (Options)</h3>
+
+<IMG width=178 height=94 src="Images_LPC/menu4.gif">
+
+<UL>
+   <LI><font color="#0000FF">Show all Warnings</font> : Affiche tous les messages d'Attention.</LI>
+   <LI><font color="#0000FF">Reset LDraw Path</font> : Redemande le chemin du dossier d'installation de LDraw.</LI>
+   <LI><font color="#0000FF">Advanced Options..</font> : Ouvre la boite de dialogue des options avancées.</LI>
+</UL>
+
+
+<h3><font color="#0000FF">Help</font> (Aide)</h3>
+
+<IMG width=244 height=94 src="Images_LPC/menu5.gif">
+
+<UL>
+   <LI><font color="#0000FF">How to..</font> : Comment faire (animation interactive en Anglais) :</LI>
+   <UL>
+      <LI><font color="#0000FF">..change the viewport?</font> : ..un changement de point de vue ?</LI>
+      <LI><font color="#0000FF">..create a polygon?</font> : ..pour créer un polygone ?</LI>
+   </UL>
+   <LI><font color="#0000FF">Abort the current lesson</font> : Sort de la leçon en cours (How to..).</LI>
+   <LI><font color="#0000FF">About</font> : A propos du programme (version et copyright).</LI>
+</UL>
+
+
+<p>&nbsp;</p>
+<A id="menu_context"></A>
+<h2>Menu contextuel</h2>
+
+<P>Les commandes principales sont aussi accessibles par le menu contextuel
+qui s'affiche avec le bouton droit de la souris.</P>
+
+<IMG width=160 height=197 src="Images_LPC/menu_context.gif">
+
+<UL>
+   <LI><font color="#0000FF">Action (Select,..)</font> : Mode d'Action :</LI>
+   <UL>
+      <LI><font color="#0000FF">Select</font> : Mode sélection.</LI>
+      <LI><font color="#0000FF">Move</font> : Mode déplacement.</LI>
+      <LI><font color="#0000FF">Rotate</font> : Mode rotation.</LI>
+      <LI><font color="#0000FF">Scale</font> : Mode facteur d'échelle.</LI>
+   </UL>
+   <LI><font color="#0000FF">Mode (Vertex,..)</font> : Type d'Objets traités :</LI>
+   <UL>
+      <LI><font color="#0000FF">Vertex Mode</font> : Mode sommet.</LI>
+      <LI><font color="#0000FF">Triangle Mode</font> : Mode triangle.</LI>
+      <LI><font color="#0000FF">Primitive Mode</font> : Mode primitive.</LI>
+   </UL>
+   <LI><font color="#0000FF">Add Vertex</font> : Ajouter un sommet.</LI>
+   <LI><font color="#0000FF">Add Triangle</font> : Ajouter un triangle.</LI>
+   <LI><font color="#0000FF">Cut</font> : Couper.</LI>
+   <LI><font color="#0000FF">Copy</font> : Copier.</LI>
+   <LI><font color="#0000FF">Paste</font> : Coller.</LI>
+   <LI><font color="#0000FF">Delete</font> : Supprime le sélection.</LI>
+</UL>
+
+
+
+<p>&nbsp;</p>
+<A id="buttons"></A>
+<h2>Barre d'outils</h2>
+
+<UL>
+   <LI><font color="#0000FF">Select</font> : Mode sélection.</LI>
+   <LI><font color="#0000FF">Move</font> : Mode déplacement.</LI>
+   <LI><font color="#0000FF">Rotate</font> : Mode rotation.</LI>
+   <LI><font color="#0000FF">Scale</font> : Mode facteur d'échelle.</LI>
+   <LI><font color="#0000FF">Add Vertex</font> : Ajouter un sommet.</LI>
+   <LI><font color="#0000FF">Add Triangle</font> : Ajouter un triangle.</LI>
+   <LI><font color="#0000FF">Cut</font> : Couper.</LI>
+   <LI><font color="#0000FF">Copy</font> : Copier.</LI>
+   <LI><font color="#0000FF">Paste</font> : Coller.</LI>
+   <LI><font color="#0000FF">Mirror..</font> : Mode symétrie :</LI>
+   <UL>
+      <LI><font color="#0000FF">..on X axis.</font> : Symétrise sur l'axe des X.</LI>
+      <LI><font color="#0000FF">..on Y axis.</font> : Symétrise sur l'axe des Y.</LI>
+      <LI><font color="#0000FF">..on X axis (merge with left side).</font> : Ajoute symétrie à gauche sur l'axe des X.</LI>
+      <LI><font color="#0000FF">..on X axis (merge with right side).</font> : Ajoute symétrie à droite sur l'axe des X.</LI>
+      <LI><font color="#0000FF">..on Y axis (merge with top side).</font> : Ajoute symétrie au dessus sur l'axe des Y.</LI>
+      <LI><font color="#0000FF">..on Y axis (merge with bottom side).</font> : Ajoute symétrie au dessous sur l'axe des Y.</LI>
+   </UL>
+   <LI><font color="#0000FF">xxx Mode</font> : Mode type de sélection.</LI>
+   <UL>
+      <LI><font color="#0000FF">Vertex Mode</font> : Par sommet.</LI>
+      <LI><font color="#0000FF">Triangle Mode</font> : Par triangle.</LI>
+      <LI><font color="#0000FF">Primitive Mode</font> : Par primitive.</LI>
+   </UL>
+   <LI><font color="#0000FF">Group</font> : .</LI>
+   <LI><font color="#0000FF">Ungroup</font> : .</LI>
+   <LI><font color="#0000FF">Show Colours</font> : Affiche la barre d'outils des couleurs,
+	et les triangles colorés dans le fenêtre graphique.</LI>
+   <LI><font color="#0000FF">Add Primitive..</font> : Ajoute une primitive :</LI>
+   <UL>
+      <LI><font color="#0000FF">..LDraw-Primitive..</font> : Primitive LDraw :</LI>
+      <UL>
+         <LI><font color="#0000FF">..Circular Disc Sector..</font> : Secteur de disque circulaire (16 n-nDISC).</LI>
+         <LI><font color="#0000FF">..Inverse of Circular Disc Sector..</font> : Complément de secteur de disque (16 n-nNDIS).</LI>
+         <LI><font color="#0000FF">..Circular Disc Segment..</font> : Segment de disque circulaire (16 n-nCHRD).</LI>
+         <LI><font color="#0000FF">..Circular Ring Segment..</font> : Secteur d'anneau circulaire (16 n-nRINGm).</LI>
+         <LI><font color="#0000FF">48-High Res.</font> : Primitive LDraw de Haute Résolution (48).</LI>
+         <UL>
+            <LI><font color="#0000FF">..Circular Disc Sector..</font> : Secteur de disque circulaire (48 n-nDISC).</LI>
+            <LI><font color="#0000FF">..Inverse of Circular Disc Sector..</font> : Complément de secteur de disque (48 n-nNDIS).</LI>
+            <LI><font color="#0000FF">..Circular Disc Segment..</font> : Segment de disque circulaire (48 n-nCHRD).</LI>
+            <LI><font color="#0000FF">..Circular Ring Segment..</font> : Secteur d'anneau circulaire (48 n-nRINGm).</LI>
+            <LI><font color="#0000FF">Adaptator Ring..</font> : Anneau circulaire de transition (16/48 n-nARING).</LI>
+         </UL>
+      </UL>
+      <LI><font color="#0000FF">..Triangle..</font> : Triangle :</LI>
+      <UL>
+         <LI><font color="#0000FF">..Solid.</font> : Plein.</LI>
+         <LI><font color="#0000FF">..with Frame.</font> : Avec cadre rempli.</LI>
+         <LI><font color="#0000FF">..Hollow.</font> : Avec cadre vide.</LI>
+      </UL>
+      <LI><font color="#0000FF">..Rectangle..</font> : Rectangle :</LI>
+      <UL>
+         <LI><font color="#0000FF">..Solid.</font> : Plein.</LI>
+         <LI><font color="#0000FF">..with Frame.</font> : Avec cadre rempli.</LI>
+         <LI><font color="#0000FF">..Hollow.</font> : Avec cadre vide.</LI>
+      </UL>
+      <LI><font color="#0000FF">..Circle..</font> : Disque :</LI>
+      <UL>
+         <LI><font color="#0000FF">..Solid.</font> : Plein.</LI>
+         <LI><font color="#0000FF">..with Frame.</font> : Avec cadre rempli.</LI>
+         <LI><font color="#0000FF">..Hollow.</font> : Avec cadre vide.</LI>
+         <LI><font color="#0000FF">Segments : 16</font> : Champ Nombre de segments.</LI>
+      </UL>
+      <LI><font color="#0000FF">..Oval..</font> : Ovale :</LI>
+      <UL>
+         <LI><font color="#0000FF">..Solid.</font> : Plein.</LI>
+         <LI><font color="#0000FF">..with Frame.</font> : Avec cadre rempli.</LI>
+         <LI><font color="#0000FF">..Hollow.</font> : Avec cadre vide.</LI>
+         <LI><font color="#0000FF">Segments : 16</font> : Champ Nombre de segments.</LI>
+      </UL>
+      <LI><font color="#0000FF">..Triangle Chain.</font> : Chaîne de triangles.</LI>
+   </UL>
+   <LI><font color="#0000FF">Merge/Split..</font> : Fusionne/Sépare (en "Vertex Mode").</LI>
+   <UL>
+      <LI><font color="#0000FF">..merge to average</font> : Fusionne 2 sommets à mi-distance.</LI>
+      <LI><font color="#0000FF">..merge to last selected</font> : Fusionne 2 sommets sur le dernier sélectionné.</LI>
+      <LI><font color="#0000FF">..merge to nearest prim.-vertex</font> : Fusionne un sommet avec le sommet
+	d'une primitive LDraw le plus proche.</LI>
+      <LI><font color="#0000FF">..split (2 connected vertices only)</font> : Coupe le/les triangle(s)
+	sur le bord correspondant à 2 points sélectionnés.</LI>
+      <LI><font color="#0000FF">Remove isolated vertices</font> : Supprime les points inutilisés
+	comme sommet de triangle.</LI>
+   </UL>
+   <LI><font color="#0000FF">CSG..</font> : Construction de géométrie.</LI>
+   <UL>
+      <LI><font color="#0000FF">CSG Union (2 Triangles only)</font> : Fusion de 2 triangles superposés.</LI>
+      <LI><font color="#0000FF">CSG Subdivse (1 Triangle only)</font> : Subdivise un triangle en 4.</LI>
+      <LI><font color="#0000FF">CSG Intersection Points</font> : Génère des points à l'intersection
+	de 2 triangles superposés.</LI>
+   </UL>
+   <LI><font color="#0000FF">Round</font> : Arrondit les coordonnées de la sélection courante (???).</LI>
+</UL>
+
+<p>&nbsp;</p>
+<A id="options"></A>
+<h2>Options</h2>
+
+<P>La boite de dialogue des options s'ouvre à partir du menu "Options / Advenced Options..".</P>
+
+<TABLE>
+   <TR>
+	<TD><IMG width=551 height=351 src="Images_LPC/options_settings.gif"></TD>
+	<TD valign=top>Onglet <font color="#0000FF">Settings</font>, Fixe les options d'utilisation :
+	<UL>
+	   <LI><font color="#0000FF">Metadata Defaults</font>, Méta-données pour le fichier LDraw exporté.
+	   <LI><font color="#0000FF">Undo/Redo</font>, nombre d'annulations en mémoire.
+	   <LI><font color="#0000FF">Startup</font>, paramétrage au démarrage du programme.
+	   <LI><font color="#0000FF">Misc.</font>, divers, coché utilise les touches alternatives pour
+		le zoom et le déplacement de la fenêtre graphique (???).
+	</UL></TD>
+   </TR>
+   <TR>
+	<TD><IMG width=551 height=351 src="Images_LPC/options_hotkeys.gif"></TD>
+	<TD valign=top>Onglet <font color="#0000FF">Hotkeys</font>, Change les raccourcis clavier :
+	<UL>
+	   <LI><font color="#0000FF">Function</font>, fonction.
+	   <LI><font color="#0000FF">Key-Combination</font>, combinaison de touches en cours.
+	   <LI><font color="#0000FF">Set Key</font>, fixe une nouvelle combinaison.
+	</UL></TD>
+   </TR>
+   <TR>
+	<TD><IMG width=551 height=351 src="Images_LPC/options_colours.gif"></TD>
+	<TD valign=top>Onglet <font color="#0000FF">Colours</font>, Change les couleurs du programme :
+	<UL>
+	   <LI><font color="#0000FF">Object</font>, liste des objets de la fenêtre du programme.
+	   <LI><font color="#0000FF">Object-Colour</font>, couleur de l'objet.
+	   <LI><font color="#0000FF">Old</font>, couleur actuelle.
+	   <LI><font color="#0000FF">New</font>, nouvelle couleur.
+	   <LI><font color="#0000FF">Copy</font>, copie la couleur de l'objet en cours.
+	   <LI><font color="#0000FF">Paste</font>, colle la couleur copiée sur un nouvel objet.
+	   <LI><font color="#0000FF">Apply</font>, applique les nouvelles couleurs.
+	</UL></TD>
+   </TR>
+</TABLE>
+
+<p>&nbsp;</p>
+<A id="key"></A>
+<h2>Raccourcis clavier</h2>
+
+<P>Table des raccourcis clavier par défaut :</P>
+
+<table width=60%>
+   <tr><td><B>Fichier :</B></td><td><B>Touches</B></td></tr>
+   <tr><td>Nouveau projet</td><td>Ctrl+N</td></tr>
+   <tr><td>Ouvre un projet existant</td><td>Ctrl+O</td></tr>
+   <tr><td>&nbsp;</td></tr>
+
+   <tr><td><B>Outils d'édition :</B></td><td>&nbsp;</td></tr>
+   <tr><td>Annulation</td><td>Ctrl+Z</td></tr>
+   <tr><td>Refait la dernière action annulée</td><td>Ctrl+Y</td></tr>
+   <tr><td>Coupe</td><td>Ctrl+X</td></tr>
+   <tr><td>Copie</td><td>Ctrl+C</td></tr>
+   <tr><td>Colle</td><td>Ctrl+V</td></tr>
+   <tr><td>Supprime</td><td>Suppr</td></tr>
+   <tr><td>Sélectionne tout</td><td>Ctrl+A</td></tr>
+   <tr><td>Sélectionne même couleur</td><td>Ctrl+Alt+C</td></tr>
+   <tr><td>Sélectionne connectées</td><td>Alt+C</td></tr>
+   <tr><td>Sélectionne touchant</td><td>Alt+T</td></tr>
+   <tr><td>Avec même couleur</td><td>Alt+S</td></tr>
+   <tr><td>&nbsp;</td></tr>
+
+   <tr><td><B>Visualisation :</B></td><td>&nbsp;</td></tr>
+   <tr><td>Réinitialise la vue</td><td>Ctrl+R</td></tr>
+   <tr><td>Affichage du panneau "Background image"</td><td>F5</td></tr>
+   <tr><td>Affichage du panneau "View Preferences"</td><td>F6</td></tr>
+   <tr><td>Zoom vue alternatif</td><td>K</td></tr>
+   <tr><td>Déplacement vue alternatif</td><td>L</td></tr>
+   <tr><td>&nbsp;</td></tr>
+
+   <tr><td><B>Mode :</B></td><td>&nbsp;</td></tr>
+   <tr><td>Sélection (Select)</td><td>1</td></tr>
+   <tr><td>Déplacement (Move)</td><td>2</td></tr>
+   <tr><td>Rotation (Rotate)</td><td>3</td></tr>
+   <tr><td>Echelle (Scale)</td><td>4</td></tr>
+   <tr><td>Ajout de point (Add vertex)</td><td>5</td></tr>
+   <tr><td>Ajout de triangle (Add Triangle)</td><td>6</td></tr>
+   <tr><td>Mode Point (Vertex mode)</td><td>F2</td></tr>
+   <tr><td>Mode Triangle (Triangle mode)</td><td>F3</td></tr>
+   <tr><td>Mode Primitive (Primitive mode)</td><td>F4</td></tr>
+   <tr><td>Arrêt/Validation de la commande en cours</td><td>Echap</td></tr>
+   <tr><td>&nbsp;</td></tr>
+
+   <tr><td><B>Outils de construction :</B></td><td>&nbsp;</td></tr>
+   <tr><td>Fusion de 2 sommets à mi-distance</td><td>Ctrl+W</td></tr>
+   <tr><td>Fusion de 2 sommets sur le dernier sélectionné</td><td>Ctrl+E</td></tr>
+   <tr><td>&nbsp;</td></tr>
+
+   <tr><td><B>Couleurs :</B></td><td>&nbsp;</td></tr>
+   <tr><td>Barre d'outils des couleurs</td><td>Espace</td></tr>
+   <tr><td>Couleur</td><td>000 à 999 (pavé numérique)</td></tr>
+   <tr><td>Couleur de la sélection</td><td>O</td></tr>
+   <tr><td>Prévisualisation</td><td>P</td></tr>
+</table>
+
+<p>&nbsp;</p>
+<A id="upgrade"></A>
+<h2>Améliorations souhaitables</h2>
+
+<P>En premier je précise que la version testée (v 1.1 beta) est encore en version
+beta. Elle est malgré cela très stable (je n'ai jamais eu de plantage au cours de mes tests),
+et est opérationnelle (j'ai fait deux pièces complètes avec lui (3846pb99.dat et 2431p27 sur PT de LDraw.org),
+y compris le gabarit.</P>
+
+
+<P>Voici une liste d'améliorations souhaitables ou à envisager qui amélioreraient les possibilités
+du programme et sa facilité d'utilisation.</P>
+
+<font color=red>
+<UL>
+	<LI><font color=green>Interface du programme :</font></LI>
+	<UL>
+		<LI>Possibilité de traduire les menus ( en Français par exemple :-) ).</LI>
+		<LI>Avoir des icônes à la place de texte dans la barre d'outils.</LI>
+		<LI>Avoir les commandes de la barre d'outils dans un menu "Tools".</LI>
+		<LI>Lors de la création d'une primitive d'un triangle, ou d'un sommet,
+		avoir les coordonnées des sommets précédents pour pouvoir les aligner.</LI>
+		<LI>Sélection mode sommet/triangle/primitive fastidieux,
+		le passage d'un mode à l'autre par simple survol d'une entité
+		serait préférable.</LI>
+		<LI>Mode "Select" à améliorer pour être plus transparent.</LI>
+		<LI>Manque "Save" dans la barre d'outils.</LI>
+	</UL>
+	<LI><font color=green>Image de fond :</font></LI>
+	<UL>
+		<LI>Possibilité de changer séparément l'échelle en X et Y.</LI>
+	</UL>
+	<LI><font color=green>Création de gabarit :</font></LI>
+	<UL>
+		<LI>Manque information sur les 6 premiers paramètres d'une primitive 2-4disc (par exemple).</LI>
+		<LI>Rotation à 45° d'une primitive ne semble pas prise en compte.</LI>
+		<LI>Les fichiers de définition des gabarits se trouvent directement dans le dossier
+		d'installation de LPC un sous-dossier "template" (par exemple) serait préférable.</LI>
+		<LI>Création de gabarit non plan comme la tête ou les jambes de Minifig,
+		peut-être en utilisant le programme "SlicerPro" de Philo.</LI>
+		<LI>Création de gabarit automatique pour Sticker rectangulaire.</LI>
+	</UL>
+	<LI><font color=green>Création de sommet :</font></LI>
+	<UL>
+		<LI>Manque possibilité de créer un sommet le long d'un bord,
+		comme "Along Line" de Quad2dat, même si ça peut générer de T-Jonctions.
+		c'est parfois utile sur les bords d'un motif à la jonction avec la pièce.<BR>
+		<strike>Egalement pour aligner des sommets</strike>
+		(voir <A href="#csg_inter">Génération de points d'intersection</A>) :<BR>
+		<IMG width=60 src="Images_LPC/along.gif"></LI>
+		<LI>Mode "Select" à améliorer pour être plus transparent.</LI>
+		<LI>Inverser le sens des flèches dans la boite de dialogue "vertex data".</LI>
+	</UL>
+	<LI><font color=green>Création de maillage :</font></LI>
+	<UL>
+		<LI>Possibilité de créer un triangle simple avec ses sommets, et non séparément,
+		même si ça peut générer des trous.</LI>
+		<LI>Possibilité de créer un quadrilatère, ce qui est plus efficace
+		en nombre de clic, même si cela peut poser des problèmes de quadrilatères invalides.</LI>
+	</UL>
+	<LI><font color=green>Couleur :</font></LI>
+	<UL>
+		<LI>Bouton "Show Colours" : Séparer les fonctions "cacher la barre des couleurs"
+		de "masquer la coloration du maillage". Il est en effet souvent utile de changer
+		la couleur par défaut en cours de création de maillage en restant avec les couleurs masquées.</LI>
+	</UL>
+	<LI><font color=green>Triangles chaînés :</font></LI>
+	<UL>
+		<LI>Prend par défaut comme départ les 2 derniers sommets créés, sans laisser le choix.
+		Amélioration : Partir des 2 derniers points sélectionnés, ou partir sans point de départ
+		(3 clics pour le premier triangle, puis 1 par triangle suivant).</LI>
+		<LI>La conséquence de 2 points de départ par défaut est qu'on ne connaît pas forcément
+		de quel côté du chemin il faut cliquer pour créer le premier puis le second triangle.</LI>
+	</UL>
+	<LI><font color=green>Primitives NON LDraw :</font></LI>
+	<UL>
+		<LI>Le premier point de sélection est le centre, point la plupart du temps
+		inconnu. Il serait beaucoup plus pratique de définir :</LI>
+		<UL>
+			<LI>Un triangle par ses 3 sommets (actuellement on ne peut
+			faire que des triangles isocèles), plus un 4ème éventuel pour le triangle central
+			(avec épaisseur calculé entre 1er et 4ème point).</LI>
+			<LI>Un rectangle par ses 2 sommets en diagonale, plus un 3ème éventuel pour le
+			rectangle central
+			(avec épaisseur calculé entre 1er et 3ème point).</LI>
+			<LI>Un cercle par 3 points sur la circonférence, plus éventuel 4ème point pour
+			le cercle central.</LI>
+			<LI>Un ovale par 2 points sur la circonférence pour la diagonale horizontale,
+			un 3ème sur la circonférence pour la diagonale verticale, plus éventuel 4ème point pour
+			l'ovale central.</LI>
+		</UL>
+	</UL>
+	<LI><font color=green>Exportation :</font></LI>
+	<UL>
+		<LI>Avoir un entête de fichier standard dans le .DAT généré. Les données de la
+		fenêtre Metadata ne semblent pas utilisées.</LI>
+		<LI>Avec le copier/coller il est très facile de dupliquer des triangles sans que cela
+		apparaisse visuellement. Une fonction supprimant les triangles superposés serait utile.</LI>
+	</UL>
+</UL>
+</font>
+
+<p>&nbsp;</p>
+<A id="tuto"></A>
+<h2>Tutoriels</h2>
+
+
+<A id="tuto1"></A>
+<h3>Tutoriel sur un exemple concret (Blason)</h3>
+
+<P>Voici un exemple concret avec le fichier de la pièce 3846pb99.dat
+"Minifig Shield Triangular with Red Cross and Helmet Pattern", renommé depuis en 3846p01.dat.
+Il a été fait avec la version 1.1 de LPC.</P>
+
+<P>Ce tutoriel est composé de 3 grands chapitres : La <B>préparation</B> du projet,
+puis la <B>création</B> proprement dite, suivi dans le cas
+présent d'un chapitre <B>modification</B> pour avoir un meilleur résultat.</P>
+
+<TABLE border=1>
+  <TR>
+    <TD align=center><img src="Images_LPC/3846pb99_v1.jpg" width=200></TD>
+    <TD><B>Préparation :</B><P>
+	La première des choses à faire est de trouver ou réaliser une bonne photo
+	de la pièce à créer, ou mieux de la scanner. Puis ... :<P>
+	1- Si besoin, redresser la photo si elle n'est pas droite ou si elle est déformée (bords non parrallèles)
+	avec votre programme d'imagerie habituel. Personnellement j'utilise
+	une ancienne version de Paint Shop Pro (PSP) par habitude, qui me donne les outils appropriés
+	(rotation, déformation oblique et/ou en perspective).<BR>
+	2- Cadrer l'image pour en limiter les dimensions.<BR>
+  </TR>
+  <TR>
+    <TD align=center><img src="Images_LPC/3846_template.gif"></TD>
+    <TD>L'étape suivante a été de créer le gabarit, car celui-ci n'existait pas :<P>
+	1- Prendre le fichier de la bibliothèque LDraw : 3846.DAT
+	pour trouver le sous-fichier de la pièce support (ici <font color=red>s\3846s01.dat</font>).<BR>
+	2- Dans le même fichier trouver les coordonnées <font color=red>X</font> et
+	<font color=red>Y</font> de la forme de la face avant.<BR>
+	3- Ecrire les données dans la boite de dialogue "Template-Editor".<BR>
+	4- Résultat dans le fichier 3846 Minifig Shield Triangular.txt :<BR>
+	<font color=blue><small><small><PRE>2
+0 // Subfile<br><font color=red>1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\3846s01.dat</font>
+1 0 0 0
+0 1 0 0
+0 0 1 -10
+0 0 0 1
+<font color=red>0 32.37
+8.76 24.57
+14.93 15.68
+18.72 6.03
+20 -4
+20 -14
+-20 -14
+-20 -4
+-18.72 6.03
+-14.93 15.68
+-8.76 24.57
+0 32.37</font>
+	</PRE></small></small></font>
+	<P>Voir le chapitre <A href="#template">Gabarit</A> pour plus d'informations.
+  </TR>
+  <TR>
+    <TD align=center><img src="Images_LPC/3846_temp_img.gif"></TD>
+    <TD><B>Création :</B><P>
+	Nous pouvons maintenant commencer à créer notre nouvelle pièce ... :<P>
+	1- Ouvrir un nouveau fichier avec le nouveau gabarit.<BR>
+	2- Insérer l'image, la centrer et la mettre à l'échelle.<BR>
+	3- Sauvegarder le travail accompli.<BR>
+	<P>Voir le chapitre <A href="#start">Préparation du projet</A> pour plus d'informations.
+  </TR>
+  <TR>
+    <TD align=center><img src="Images_LPC/3846_black.gif"></TD>
+    <TD>Par quoi commencer ?<P>
+	1- La première observation est qu'il y a symétrie partielle,
+	Il faut donc commencer par la bordure noire du blason, la base du casque, la croix rouge,
+	également une des grandes feuilles blanches entourées de noir en haut du motif et
+	la partie symétrique des petites. Faire la partie gauche ou droite au choix.<BR>
+	2- Ensuite regarder ce qui peut être fait avec des primitives
+	pour gagner du temps.<BR>
+	3- Ici commencer par chaîner des triangles pour la partie noire du blason
+	(en s'assurant que les points dans l'axe soient en X=0), 
+	et créer des primitives circulaires pour les points noirs du casque.<BR>
+	Nota : Dans le cas présent les primitives LDraw n'ont pas été utilisées,
+	mais si c'est possible elles sont à utiliser en priorité.<BR>
+	<P>Voir les chapitres <A href="#prim_chain">Ajout de triangles chaînés</A>,
+	<A href="#prim_cir">Ajout de primitive circulaire facettisée</A>
+	et <A href="#prim_ldraw">Ajout de primitive LDraw</A> pour plus d'informations.
+  </TR>
+  <TR>
+    <TD align=center><img src="Images_LPC/3846_black_sym.gif"></TD>
+    <TD>Puis faire la symétrie ... :<P>
+	1- Sélectionner la partie à symétriser.<BR>
+	2- Faire une symétrie autour de l'axe Y.<BR>
+	<P>Voir les chapitres <A href="#select">Sélection</A>
+	et <A href="#mirror">Symétrie</A> pour plus d'informations.
+  </TR>
+  <TR>
+    <TD align=center><img src="Images_LPC/3846_mesh.gif"></TD>
+    <TD>Continuer en faisant du remplissage ... :<P>
+	1- Ajouter des sommets aux points caractéristiques de l'image dans
+	les zones encore vierges.<BR>
+	2- Ajouter des triangles sur ces points et ceux existant déjà en bordure,
+	pour faire un maillage complet de toute la surface, en leur affectant la bonne couleur.<BR>
+	Nota : Tous les sommets peuvent être créés en une fois ou en plusieurs, par zone,
+	pour créer également les triangles par zone d'une même couleur.<BR>
+	3- Penser à sauvegarder le travail de temps en temps....<BR>
+	4- Vérifier lors de la création du maillage que les triangles ne se recouvrent
+	pas ou ne se superposent pas.<BR>
+	5- Enfin, vérifier qu'il ne reste pas de zone non couverte par le maillage.<BR>
+	<P>Voir les chapitres <A href="#add_vertex">Ajout de sommet</A>
+	et <A href="#add_tri">Ajout de triangle simple</A> pour plus d'informations.
+  </TR>
+  <TR>
+    <TD align=center col=2><img src="Images_LPC/3846_mesh_ldview.gif"></TD>
+    <TD>Terminer par l'exportation de la pièce ... :<P>
+	1- Après une dernière sauvegarde du projet LPC, l'exporter pour obtenir un fichier de pièce LDraw.<BR>
+	2- Visualiser le résultat avec LDView (par exemple) et pouvoir tourner autour.<BR>
+	<P>Voir le chapitre <A href="#export">Exportation</A> pour plus d'informations.
+  </TR>
+  <TR>
+    <TD align=center><img src="Images_LPC/3846pb99_ldraw_v1.gif"></TD>
+    <TD>Finir l'entête et valider le fichier...:<P>
+	1- Avec LDDP, DATHeader ou un simple éditeur de fichier texte,
+	mettre en forme l'entête du fichier .DAT suivant les standards actuels.<BR>
+	2- Puis valider le fichier pour voir s'il n'y a pas d'erreur
+	avec les méthodes habituelles en création de pièce LDraw.<BR>
+	3- Enfin, envoyer la pièce finie sur le site LDraw.org dans <B>Part Tracker</B> (suivi
+	des pièces non officielles).<BR>
+	<P>Voir ma page en Français <A HREF="creapart3.htm">Créer de nouvelles pièces LDraw</A>
+	pour plus d'informations.
+  </TR>
+  <TR>
+    <TD align=center><img src="Images_LPC/3846pb99_v2.jpg" width=200></TD>
+    <TD><B>Modification :</B><P>
+	Après l'envoi de la pièce sur <B>Part Tracker</B> une nouvelle photo
+	de la pièce fait apparaître des différences dues à des défauts d'impressions entre les couleurs.
+	Les modifications à entreprendre sont :<P>
+	1- Tenir compte des parties blanches, grises et dorées plus symétrique.<BR>
+	2- Ne pas tenir compte de la croix rouge déportée (la garder symétrique).<BR>
+	3- Les "feuilles" du haut sont entièrement blanches, bordées de noir,
+	et n'ont plus de partie grise.<BR>
+	4- Egalement un problème de conception à corriger (sommets communs disjoints à certains endroits).<BR>
+  </TR>
+  <TR>
+    <TD align=center><img src="Images_LPC/3846_modif.gif"></TD>
+    <TD>Les modifications apportées ... :<P>
+	1- Supprimer certains triangles devant être décomposés en 2.<BR>
+	2- Ajouter des sommets supplémentaires, et créer de nouveaux triangles.<BR>
+	3- Sélectionner et déplacer les sommets qui en ont besoin.<BR>
+	4- Changer certaines couleurs : 71 en 16,
+	25 en 297 puis 82 (en pratique cela a été fait avec MLCad,
+	qui permet de changer globalement une couleur par une autre).<BR>
+	<P>Voir les chapitres <A href="#supress">Suppression</A>,
+	<A href="#add_vertex">Ajout de sommet</A>
+	et <A href="#add_tri">Ajout de triangle simple</A> pour plus d'informations.
+	<P>Nota : Depuis la version 1.2 de nouveaux outils sont apparus pour modifier
+	le maillage. Voir le chapitre <A href="#split_1edge">Coupe de triangle suivant un bord</A>,
+	et les chapitres suivants.</P>
+  </TR>
+  <TR>
+    <TD align=center><img src="Images_LPC/3846pb99_ldraw_v2.gif"></TD>
+    <TD>Puis ... :<P>
+	1- Nouvelle exportation.<BR>
+	2- Nouvelle remise en forme de l'entête et validation du fichier .DAT.<BR>
+	3- Nouvelle soumission de la pièce modifiée sur <B>Part Tracker</B>.<BR>
+  </TR>
+</TABLE>
+
+
+<p>&nbsp;</p>
+<A id="tuto2"></A>
+<h3>Tutoriel sur une tête de Minifig</h3>
+
+<P>Voici un autre exemple d'une utilisation de <B>LPC</B>, associé principalement avec
+<B><A HREF="SlicerPro.htm">SlicerPro</A></B> pour créer et projeter le motif d'une tête de Minifig.</P>
+
+<P>De base LPC ne travaille que sur des éléments plans. Pour créer des motifs
+sur des éléments courbes facettisés, il faut projeter ces éléments plans sur un maillage 3D
+à l'aide de SlicerPro.</P>
+
+<P>Slicerpro peut utiliser un maillage plan plus grand que le modèle 3D,
+mais la qualité du résultat est moins bonne, et il est donc préférable d'utiliser la projection plane
+des sommets comme référence au maillage du motif 2D.</P>
+
+<P>Slicerpro ne sait faire que des projections parallèles, et pour utiliser cette propriété
+nous allons "écraser" avec LPC la forme 3D qui servira de gabarit pour créer le motif plan.</P>
+
+<TABLE border=1>
+  <TR>
+    <TD align=center><img src="Images_LPC/head1.gif"></TD>
+    <TD><B>Sélection des faces de la forme 3D :</B><P>
+	1- A l'aide de <B>MLCad</B> (par exemple) et <A HREF="lddp.htm">LDDP</A>
+	(autre exemple) pour décomposer les primitives,
+	il est possible de sélectionner les 16 faces utiles de la partie avant d'une tête de Minifig,
+	à partir du fichier standard 3626b.dat.<BR>
+	2- La motif à créer devra recouvrir entièrement toutes ces faces, sinon il y aura un trou dans le motif
+	au moment de l'utilisation de Slicerpro.<BR>
+	<P>Nota 1 : Avec certains motifs, il sera nécessaire d'ajouter des rangées de 8 trapèzes au-dessus ou au-dessous,
+	à partir des portions de tore to4o6250.dat décomposés.<BR>
+	Nota 2 : Attention certaines anciennes têtes de Minifig standard n'utilisent pas
+	le même arrondi en haut et en bas, et ne sont donc pas à prendre comme fichier source.<BR>
+  </TR>
+  <TR>
+    <TD align=center><img src="Images_LPC/head2.gif"></TD>
+    <TD><B>Importation dans LPC :</B><P>
+	La forme 3D est importée dans <B>LPC</B>, avec projection en Z dans notre cas.<BR>
+	<P>Nota : Ce maillage pourrait être utilisé pour créer un <A href="#template">gabarit</A> LPC.<BR>
+  </TR>
+  <TR>
+    <TD align=center><img src="Images_LPC/head3.gif"></TD>
+    <TD><B>Garder les sommets seuls :</B><P>
+	Supprimer les facettes triangulaires, pour ne garder que les sommets.<BR>
+	1- Se mettre en mode type triangle (<A href="#select">Triangle mode</A>).<BR>
+	2- Sélectionner tous les triangles, et les supprimer.
+	Il ne reste alors que les sommets.<BR>
+	<P>Nota : cette opération est nécessaire car après avoir ajouté un maillage sur un maillage
+	existant, lorsque l'on clique sur un triangle, c'est toujours le premier qui est sélectionné par LPC,
+	ce qui empêche l'édition des nouveaux.
+	L'autre raison, c'est qu'il faudra de toute façon les supprimer avant la projection finale.
+  </TR>
+  <TR>
+    <TD align=center><img src="Images_LPC/head4.gif"></TD>
+    <TD><B>Créer le maillage du motif de la façon habituelle :</B><P>
+	1- Ajouter l'image de fond dans <B>LPC</B>.<BR>
+	2- Ajouter le maillage suivant motif avec des primitives et/ou triangles simples,
+	en s'appuyant sur les sommets du gabarit, et en remplissant toute la zone.<BR>
+	3- Sauvegarder, puis exporter le maillage créé au format LDraw.<BR>
+	<P>Nota : Ici l'auteur a fait déborder le motif par rapport au maillage servant de gabarit,
+	mais ce n'est pas indispensable.
+  </TR>
+  <TR>
+    <TD align=center><img src="Images_LPC/head5.gif"></TD>
+    <TD><B>Projeter le maillage sur la forme 3D :</B><P>
+	1- Utiliser <B>Slicerpro</B> pour projeter ce maillage 2D sur la forme 3D de départ,
+	en utilisant les options -Z pour la direction de projection, et -C pour
+	copier les lignes conditionnelles de la forme 3D.<BR>
+	2- Selon le résultat vous pourrez essayer avec <B>Slicerpro</B> d'augmenter la valeur de la précision
+	au dessus de 0.05 pour se débarrasser progressivement de très petits triangles,
+	mais avec de hautes valeurs, cela peut déformer le motif, et générer un résultat
+	visuellement mauvais.<BR>
+	3- Il sera nécessaire de récupérer les lignes conditionnelles dans la forme 3D décomposée,
+	ou de les recréer avec <A HREF="edger2.htm">Edger2</A>.<BR>
+	<P>Nota : La seconde opération est utile uniquement pour les facettes créées avec LPC qui chevauchent
+	au moins 2 facettes de la forme 3D.
+  </TR>
+</TABLE>
+
+<P>Nota : Ce tutoriel est basé sur une idée de Philo et la modélisation de
+Philip Peickert. Voir la page du forum de LDraw.org :
+<A href="http://forums.ldraw.org/read.php?19,3444,3444#msg-3444">3626bp65 aka Trouble with Minifig Faces</A>
+(en Anglais). La méthode réelle suivie par Philip Peickert est un peu différente car elle a été faite
+en parallèle avec recherche laborieuse d'une solution efficace.</P>
+
+
+<p>&nbsp;</p>
+<A id="copyright"></A>
+<h2>Droits et Copyright</h2>
+
+<P>Le programme <B>LDraw Pattern Creator</B> appartient à son auteur <B>Nils Schmidt [BlackBrick89]</B>.<BR>
+Les autres programmes cités appartiennent à leurs ayants droits respectifs.</P>
+
+<P>Cette page en Français est de J.C. Tchang.</P>
+
+<P><I>Traduction et Adaptation : J.C. Tchang.</I></P>
+
+
+</font>
+<p>&nbsp;</p>
+</body>
+</html>

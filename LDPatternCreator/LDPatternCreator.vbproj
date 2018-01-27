@@ -1,0 +1,418 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E70D69D8-300A-485E-A76B-2890E3A2911D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>LDPatternCreator.My.MyApplication</StartupObject>
+    <RootNamespace>LDPatternCreator</RootNamespace>
+    <AssemblyName>LDPatternCreator</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>LDPatternCreator.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>None</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>false</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>LDPatternCreator.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\ICON.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accord, Version=3.5.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accord.3.5.0\lib\net40\Accord.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Accord.Imaging, Version=3.5.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accord.Imaging.3.5.0\lib\net40\Accord.Imaging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Accord.Math, Version=3.5.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accord.Math.3.5.0\lib\net40\Accord.Math.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Accord.Math.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accord.Math.3.5.0\lib\net40\Accord.Math.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Accord.Statistics, Version=3.5.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Accord.Statistics.3.5.0\lib\net40\Accord.Statistics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Deveel.Math, Version=1.6.1.88, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\dmath.1.6.1.88\lib\net20\Deveel.Math.pdb\Deveel.Math.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="datastructure\data_2D\Colour.vb" />
+    <Compile Include="datastructure\data_2D\GlobalIdSet.vb" />
+    <Compile Include="datastructure\data_2D\Line.vb" />
+    <Compile Include="datastructure\data_2D\Primitive.vb" />
+    <Compile Include="datastructure\data_2D\ProjectionQuad.vb" />
+    <Compile Include="datastructure\data_2D\Spline.vb" />
+    <Compile Include="datastructure\data_2D\Triangle.vb" />
+    <Compile Include="datastructure\data_2D\Vertex.vb" />
+    <Compile Include="datastructure\data_3D\Matrix3D.vb" />
+    <Compile Include="datastructure\data_3D\Triangle3D.vb" />
+    <Compile Include="datastructure\data_3D\Vertex3D.vb" />
+    <Compile Include="datastructure\data_3D\Vertex3D2.vb" />
+    <Compile Include="datastructure\LPCFile.vb" />
+    <Compile Include="datastructure\metadata\Metadata.vb" />
+    <Compile Include="datastructure\metadata\TemplateTextInfo.vb" />
+    <Compile Include="datastructure\view\View.vb" />
+    <Compile Include="dialogues\CenterDialog.Designer.vb">
+      <DependentUpon>CenterDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="dialogues\CenterDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dialogues\ChooseTemplateDialog.Designer.vb">
+      <DependentUpon>ChooseTemplateDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="dialogues\ChooseTemplateDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dialogues\ConversionDialog.Designer.vb">
+      <DependentUpon>ConversionDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="dialogues\ConversionDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dialogues\ImportDialog.Designer.vb">
+      <DependentUpon>ImportDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="dialogues\ImportDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dialogues\MetadataDialog.Designer.vb">
+      <DependentUpon>MetadataDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="dialogues\MetadataDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dialogues\OptionsDialog.Designer.vb">
+      <DependentUpon>OptionsDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="dialogues\OptionsDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dialogues\ReplacerDialog.Designer.vb">
+      <DependentUpon>ReplacerDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="dialogues\ReplacerDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dialogues\RingDialog.Designer.vb">
+      <DependentUpon>RingDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="dialogues\RingDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dialogues\SetKeyDialog.Designer.vb">
+      <DependentUpon>SetKeyDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="dialogues\SetKeyDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dialogues\StickerDialog.Designer.vb">
+      <DependentUpon>StickerDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="dialogues\StickerDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dialogues\TemplateDialog.Designer.vb">
+      <DependentUpon>TemplateDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="dialogues\TemplateDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dialogues\ZoomDialog.Designer.vb">
+      <DependentUpon>ZoomDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="dialogues\ZoomDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="enums\EditMode.vb" />
+    <Compile Include="enums\Modified.vb" />
+    <Compile Include="enums\PrimitiveModes.vb" />
+    <Compile Include="enums\PrimitiveObjects.vb" />
+    <Compile Include="forms\ColourForm.Designer.vb">
+      <DependentUpon>ColourForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="forms\ColourForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\ImageForm.Designer.vb">
+      <DependentUpon>ImageForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="forms\ImageForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\PreferencesForm.Designer.vb">
+      <DependentUpon>PreferencesForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="forms\PreferencesForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="helper\AdjustHelper.vb" />
+    <Compile Include="helper\ArtificialTriangulator.vb" />
+    <Compile Include="helper\CanBuildHelper.vb" />
+    <Compile Include="helper\CleanupHelper.vb" />
+    <Compile Include="helper\ClipboardHelper.vb" />
+    <Compile Include="helper\CloneHelper.vb" />
+    <Compile Include="helper\CSG.vb" />
+    <Compile Include="helper\DatFileNameHelper.vb" />
+    <Compile Include="helper\Delaunay.vb" />
+    <Compile Include="helper\ExportSubfileHelper.vb" />
+    <Compile Include="helper\GroupHelper.vb" />
+    <Compile Include="helper\Helper_2D.vb" />
+    <Compile Include="helper\KeyToSet.vb" />
+    <Compile Include="helper\ListHelper.vb" />
+    <Compile Include="helper\LPCFileHelper.vb" />
+    <Compile Include="helper\MainState.vb" />
+    <Compile Include="helper\MathHelper.vb" />
+    <Compile Include="helper\MatrixCalculations.vb" />
+    <Compile Include="helper\MirrorHelper.vb" />
+    <Compile Include="helper\MouseHelper.vb" />
+    <Compile Include="helper\PostProcessing.vb" />
+    <Compile Include="helper\PowerRay.vb" />
+    <Compile Include="helper\ScaleHelper.vb" />
+    <Compile Include="helper\SelectionHelper.vb" />
+    <Compile Include="helper\SubFileHelper.vb" />
+    <Compile Include="helper\TrianglePaintHelper.vb" />
+    <Compile Include="helper\UndoRedoHelper.vb" />
+    <Compile Include="i18n\I18N.vb" />
+    <Compile Include="MainForm.Designer.vb">
+      <DependentUpon>MainForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="misc_settings\EnvironmentPaths.vb" />
+    <Compile Include="misc_settings\GeneralSetting.vb" />
+    <Compile Include="misc_settings\KeySetting.vb" />
+    <Compile Include="misc_settings\LDConfig.vb" />
+    <Compile Include="misc_settings\SystemColours.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="tests\TestDeveel.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="dialogues\ConversionDialog.resx">
+      <DependentUpon>ConversionDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dialogues\ImportDialog.resx">
+      <DependentUpon>ImportDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dialogues\MetadataDialog.resx">
+      <DependentUpon>MetadataDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dialogues\OptionsDialog.resx">
+      <DependentUpon>OptionsDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dialogues\ReplacerDialog.resx">
+      <DependentUpon>ReplacerDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dialogues\RingDialog.resx">
+      <DependentUpon>RingDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dialogues\SetKeyDialog.resx">
+      <DependentUpon>SetKeyDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dialogues\StickerDialog.resx">
+      <DependentUpon>StickerDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dialogues\TemplateDialog.resx">
+      <DependentUpon>TemplateDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dialogues\ZoomDialog.resx">
+      <DependentUpon>ZoomDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\ColourForm.resx">
+      <DependentUpon>ColourForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\ImageForm.resx">
+      <DependentUpon>ImageForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\PreferencesForm.resx">
+      <DependentUpon>PreferencesForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Release\lang\lang_de_DE.csv" />
+    <None Include="bin\Release\lang\lang_en_GB.csv" />
+    <None Include="bin\Release\lang\lang_fr_FR.csv" />
+    <None Include="My Project\app.manifest" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="App.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\LDConfig.ldr" />
+    <None Include="Resources\Primitives.cfg" />
+    <None Include="Resources\test.dat" />
+    <None Include="Resources\testr.dat" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Release\LD Pattern Creator Updater.exe" />
+    <Content Include="Resources\3069bpx32.jpg" />
+    <Content Include="Resources\addhelperline.png" />
+    <Content Include="Resources\addtriangle.png" />
+    <Content Include="Resources\addvertex.png" />
+    <Content Include="Resources\arrow.png" />
+    <Content Include="Resources\axes.png" />
+    <Content Include="Resources\bfc.png" />
+    <Content Include="Resources\bgpic.png" />
+    <Content Include="Resources\BN1.bmp" />
+    <Content Include="Resources\BN2.bmp" />
+    <Content Include="Resources\check.png" />
+    <Content Include="Resources\collision.png" />
+    <Content Include="Resources\colours.png" />
+    <Content Include="Resources\copy.png" />
+    <Content Include="Resources\cut.png" />
+    <Content Include="Resources\delete.png" />
+    <Content Include="Resources\grid.png" />
+    <Content Include="Resources\group.png" />
+    <Content Include="Resources\helperlines.png" />
+    <Content Include="Resources\ICON.bmp" />
+    <Content Include="Resources\ICON.ico" />
+    <Content Include="Resources\icon.jpg" />
+    <Content Include="Resources\inner.png" />
+    <Content Include="Resources\Internet Explorer Wallpaper3.bmp" />
+    <Content Include="Resources\middle.png" />
+    <Content Include="Resources\mirror.png" />
+    <Content Include="Resources\move.png" />
+    <Content Include="Resources\outer.png" />
+    <Content Include="Resources\paste.png" />
+    <Content Include="Resources\pipette.png" />
+    <Content Include="Resources\primitives.png" />
+    <Content Include="Resources\Rectifier.exe" />
+    <Content Include="Resources\redo.png" />
+    <Content Include="Resources\reset.png" />
+    <Content Include="Resources\rotate.png" />
+    <Content Include="Resources\save.png" />
+    <Content Include="Resources\scale.png" />
+    <Content Include="Resources\select.png" />
+    <Content Include="Resources\Slicerpro.exe" />
+    <Content Include="Resources\temp.bmp" />
+    <Content Include="Resources\triangles.png" />
+    <Content Include="Resources\triangulate.png" />
+    <Content Include="Resources\undo.png" />
+    <Content Include="Resources\ungroup.png" />
+    <Content Include="Resources\Unificator.exe" />
+    <Content Include="Resources\vertices.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="..\packages\Accord.3.5.0\build\Accord.targets" Condition="Exists('..\packages\Accord.3.5.0\build\Accord.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Dieses Projekt verweist auf mindestens ein NuGet-Paket, das auf diesem Computer fehlt. Verwenden Sie die Wiederherstellung von NuGet-Paketen, um die fehlenden Dateien herunterzuladen. Weitere Informationen finden Sie unter "http://go.microsoft.com/fwlink/?LinkID=322105". Die fehlende Datei ist "{0}".</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Accord.3.5.0\build\Accord.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accord.3.5.0\build\Accord.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
