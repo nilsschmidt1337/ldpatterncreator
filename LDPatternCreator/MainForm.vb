@@ -386,9 +386,9 @@ Public Class MainForm
                     DateiOut.Write(b)
                 Next
             End Using
-        End If        
+        End If
 
-        mySettings.myLanguage = Me.loadLanguageFromConfig()
+        mySettings.myLanguage = LanguageHelper.loadLanguageFromConfig()
         If mySettings.myLanguage <> "" Then
             loadLanguage(mySettings.myLanguage)
         End If
@@ -8529,24 +8529,6 @@ newTry:
     Private Sub CLast_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CLast.Click
         setColour(MainState.lastColour, MainState.lastColourNumber)
     End Sub
-
-    Public Function loadLanguageFromConfig() As String
-        Dim lang As String
-        If My.Computer.FileSystem.FileExists(EnvironmentPaths.appPath & "Config.cfg") Then
-            Try
-                Using DateiIn As StreamReader = My.Computer.FileSystem.OpenTextFileReader(EnvironmentPaths.appPath & "Config.cfg", New System.Text.UnicodeEncoding())
-                    lang = DateiIn.ReadLine()
-                End Using
-                lang = Mid(lang, lang.LastIndexOf("\") + 2)
-                lang = EnvironmentPaths.appPath & "lang\" & lang
-            Catch
-                lang = EnvironmentPaths.appPath & "lang\lang_en_GB.csv"
-            End Try
-        Else
-            lang = EnvironmentPaths.appPath & "lang\lang_en_GB.csv"
-        End If
-        Return lang
-    End Function
 
     Public Sub loadConfig()
         If My.Computer.FileSystem.FileExists(EnvironmentPaths.appPath & "Config.cfg") Then

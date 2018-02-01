@@ -232,6 +232,7 @@
     <Compile Include="helper\GroupHelper.vb" />
     <Compile Include="helper\Helper_2D.vb" />
     <Compile Include="helper\KeyToSet.vb" />
+    <Compile Include="helper\LanguageHelper.vb" />
     <Compile Include="helper\ListHelper.vb" />
     <Compile Include="helper\LPCFileHelper.vb" />
     <Compile Include="helper\MainState.vb" />
@@ -350,7 +351,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\Release\LD Pattern Creator Updater.exe" />
-    <Content Include="Resources\3069bpx32.jpg" />
     <Content Include="Resources\addhelperline.png" />
     <Content Include="Resources\addtriangle.png" />
     <Content Include="Resources\addvertex.png" />
