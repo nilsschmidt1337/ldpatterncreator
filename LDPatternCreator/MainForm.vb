@@ -3651,13 +3651,7 @@ newDelete:
                 LPCFile.Primitives.Add(New Primitive(0, 0, ox, oy, primitiveNameRead, centerVertexID, False) With {.matrix = matrix.Clone, .primitiveID = primitiveID, .myColourNumber = myColourNumber, .myColour = Color.FromArgb(myColour)})
                 ' Validate primitive center vertex
                 If Not duplicatePrimitiveIDs Then
-                    If VIDtoVI.ContainsKey(centerVertexID) Then
-                        ' Test was too strict!
-                        ' Dim vert As Vertex = LPCFile.Vertices(VIDtoVI(centerVertexID))
-                        ' If Fix(vert.X) <> Fix(matrix(0, 3)) Or Fix(vert.Y) <> Fix(matrix(1, 3)) Then
-                        ' duplicatePrimitiveIDs = True
-                        ' End If
-                    Else
+                    If Not VIDtoVI.ContainsKey(centerVertexID) Then
                         duplicatePrimitiveIDs = True
                     End If
                 End If

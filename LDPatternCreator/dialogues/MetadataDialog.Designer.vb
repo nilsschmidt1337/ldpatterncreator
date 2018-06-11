@@ -63,12 +63,12 @@ Partial Class MetadataDialog
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.CBPreview = New System.Windows.Forms.CheckBox()
         Me.GBDatExport = New System.Windows.Forms.GroupBox()
+        Me.CBSlicerPro = New System.Windows.Forms.CheckBox()
         Me.CBColourReplacer = New System.Windows.Forms.CheckBox()
         Me.CBRectifier = New System.Windows.Forms.CheckBox()
         Me.CBUnificator = New System.Windows.Forms.CheckBox()
         Me.CBUnificatorLPC = New System.Windows.Forms.CheckBox()
         Me.CBProjector = New System.Windows.Forms.CheckBox()
-        Me.CBSlicerPro = New System.Windows.Forms.CheckBox()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.GBPartTree.SuspendLayout()
         Me.GBPreview.SuspendLayout()
@@ -249,7 +249,7 @@ Partial Class MetadataDialog
         'TBDescription
         '
         Me.TBDescription.Location = New System.Drawing.Point(217, 28)
-        Me.TBDescription.MaxLength = 64
+        Me.TBDescription.MaxLength = 1024
         Me.TBDescription.Name = "TBDescription"
         Me.TBDescription.Size = New System.Drawing.Size(479, 20)
         Me.TBDescription.TabIndex = 0
@@ -426,6 +426,16 @@ Partial Class MetadataDialog
         Me.GBDatExport.TabStop = False
         Me.GBDatExport.Text = "DAT-Export:"
         '
+        'CBSlicerPro
+        '
+        Me.CBSlicerPro.AutoSize = True
+        Me.CBSlicerPro.Location = New System.Drawing.Point(6, 134)
+        Me.CBSlicerPro.Name = "CBSlicerPro"
+        Me.CBSlicerPro.Size = New System.Drawing.Size(88, 17)
+        Me.CBSlicerPro.TabIndex = 35
+        Me.CBSlicerPro.Text = "SlicerPro.exe"
+        Me.CBSlicerPro.UseVisualStyleBackColor = True
+        '
         'CBColourReplacer
         '
         Me.CBColourReplacer.AutoSize = True
@@ -475,16 +485,6 @@ Partial Class MetadataDialog
         Me.CBProjector.TabIndex = 30
         Me.CBProjector.Text = "LPC-Projector"
         Me.CBProjector.UseVisualStyleBackColor = True
-        '
-        'CBSlicerPro
-        '
-        Me.CBSlicerPro.AutoSize = True
-        Me.CBSlicerPro.Location = New System.Drawing.Point(6, 134)
-        Me.CBSlicerPro.Name = "CBSlicerPro"
-        Me.CBSlicerPro.Size = New System.Drawing.Size(88, 17)
-        Me.CBSlicerPro.TabIndex = 35
-        Me.CBSlicerPro.Text = "SlicerPro.exe"
-        Me.CBSlicerPro.UseVisualStyleBackColor = True
         '
         'MetadataDialog
         '
