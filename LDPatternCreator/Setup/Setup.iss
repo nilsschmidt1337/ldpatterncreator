@@ -1,5 +1,5 @@
 #define MyAppName "LD Pattern Creator"
-#define MyAppVersion "1.6.8"
+#define MyAppVersion "1.6.9"
 #define MyAppPublisher "Nils Schmidt"
 #define MyAppExeName "LDPatternCreator.exe"
 
