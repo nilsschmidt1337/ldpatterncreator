@@ -68,7 +68,7 @@ Public Class MainForm
             Timer2.Enabled = True
         End If
     End Sub
-    Private sq As Integer = 0
+
     Private Sub MainForm_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If SBZoom.Focused AndAlso Not MainState.isLoading Then
             If e.KeyCode = Keys.Oemplus OrElse e.KeyCode = Keys.Add Then
