@@ -4,8 +4,8 @@ Public Class PreferencesForm
     Dim isLoading As Boolean = True
 
     Private Sub PreferencesForm_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
-        MainForm.mySettings.prefsWindow_x = Me.Location.X
-        MainForm.mySettings.prefsWindow_y = Me.Location.Y
+        LDSettings.Editor.prefsWindow_x = Me.Location.X
+        LDSettings.Editor.prefsWindow_y = Me.Location.Y
         MainForm.ViewPrefsToolStripMenuItem.Checked = False
     End Sub
 
@@ -86,7 +86,7 @@ Public Class PreferencesForm
         Me.NUDGrid.Value = View.rasterSnap
         Me.Refresh()
         isLoading = False
-        Me.Location = New Point(MainForm.mySettings.prefsWindow_x, MainForm.mySettings.prefsWindow_y)
+        Me.Location = New Point(LDSettings.Editor.prefsWindow_x, LDSettings.Editor.prefsWindow_y)
     End Sub
 
     Private Sub PreferencesForm_VisibleChanged(sender As Object, e As EventArgs) Handles Me.VisibleChanged

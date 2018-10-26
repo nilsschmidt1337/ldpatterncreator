@@ -5,8 +5,8 @@ Public Class ImageForm
     Dim isLoading As Boolean = True
 
     Private Sub ImageForm_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
-        MainForm.mySettings.backgroundWindow_x = Me.Location.X
-        MainForm.mySettings.backgroundWindow_y = Me.Location.Y
+        LDSettings.Editor.backgroundWindow_x = Me.Location.X
+        LDSettings.Editor.backgroundWindow_y = Me.Location.Y
         MainForm.ImageToolStripMenuItem.Checked = False
     End Sub
 
@@ -55,7 +55,7 @@ Public Class ImageForm
     Private Sub BtnAdjust_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnAdjust.Click
         If MainForm.MainToolStrip.Visible Then MainForm.startPrimitiveMode()
         MainState.primitiveMode = PrimitiveModes.Inactive
-        MainForm.BtnAbort.Text = I18N.trl8(I18N.lk.OK) & " []" : KeyToSet.setKey(MainForm.BtnAbort, MainForm.myKeys.Abort)
+        MainForm.BtnAbort.Text = I18N.trl8(I18N.lk.OK) & " []" : KeyToSet.setKey(MainForm.BtnAbort, LDSettings.Keys.Abort)
         MainForm.BtnAbort.BackColor = Color.Green
         MainForm.BtnAbort.Visible = True
         MainForm.MainToolStrip.Visible = False
@@ -114,6 +114,6 @@ Public Class ImageForm
         Me.TBImage.Text = View.imgPath
         Me.Refresh()
         isLoading = False
-        Me.Location = New Point(MainForm.mySettings.backgroundWindow_x, MainForm.mySettings.backgroundWindow_y)
+        Me.Location = New Point(LDSettings.Editor.backgroundWindow_x, LDSettings.Editor.backgroundWindow_y)
     End Sub
 End Class

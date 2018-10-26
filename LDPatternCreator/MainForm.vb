@@ -22,30 +22,27 @@ Imports System.Threading
 Imports System.Drawing.Drawing2D
 
 Public Class MainForm
-    Public myKeys As New KeySetting(True)
-    Public mySettings As New GeneralSetting(True)
-    Public myColours As New SystemColours(True)
 
 #Region "Main Form"
     Private Sub MainForm_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         If ColourForm.Visible Then
-            mySettings.colourWindow_x = ColourForm.Location.X
-            mySettings.colourWindow_y = ColourForm.Location.Y
-            mySettings.colourWindow_width = ColourForm.Size.Width
-            mySettings.colourWindow_height = ColourForm.Size.Height
+            LDSettings.Editor.colourWindow_x = ColourForm.Location.X
+            LDSettings.Editor.colourWindow_y = ColourForm.Location.Y
+            LDSettings.Editor.colourWindow_width = ColourForm.Size.Width
+            LDSettings.Editor.colourWindow_height = ColourForm.Size.Height
         End If
         If ImageForm.Visible Then
-            mySettings.backgroundWindow_x = ImageForm.Location.X
-            mySettings.backgroundWindow_y = ImageForm.Location.Y
+            LDSettings.Editor.backgroundWindow_x = ImageForm.Location.X
+            LDSettings.Editor.backgroundWindow_y = ImageForm.Location.Y
         End If
         If PreferencesForm.Visible Then
-            mySettings.prefsWindow_x = PreferencesForm.Location.X
-            mySettings.prefsWindow_y = PreferencesForm.Location.Y
+            LDSettings.Editor.prefsWindow_x = PreferencesForm.Location.X
+            LDSettings.Editor.prefsWindow_y = PreferencesForm.Location.Y
         End If
-        mySettings.mainWindow_x = Me.Location.X
-        mySettings.mainWindow_y = Me.Location.Y
-        mySettings.mainWindow_width = Me.Size.Width
-        mySettings.mainWindow_height = Me.Size.Height
+        LDSettings.Editor.mainWindow_x = Me.Location.X
+        LDSettings.Editor.mainWindow_y = Me.Location.Y
+        LDSettings.Editor.mainWindow_width = Me.Size.Width
+        LDSettings.Editor.mainWindow_height = Me.Size.Height
         saveConfig()
         If MainState.unsavedChanges AndAlso ShowAllWarningsToolStripMenuItem.Checked Then
             Dim result As MsgBoxResult = MsgBox(I18N.trl8(I18N.lk.UnsavedChanges), MsgBoxStyle.YesNoCancel + MsgBoxStyle.MsgBoxSetForeground + MsgBoxStyle.Information, I18N.trl8(I18N.lk.Question))
@@ -81,22 +78,22 @@ Public Class MainForm
                 Me.Refresh()
                 Exit Sub
             End If
-            If e.KeyCode = myKeys.Abort AndAlso BtnAbort.Visible AndAlso BtnAbort.Enabled Then Me.BtnAbort.PerformClick()
+            If e.KeyCode = LDSettings.Keys.Abort AndAlso BtnAbort.Visible AndAlso BtnAbort.Enabled Then Me.BtnAbort.PerformClick()
             If MainState.primitiveMode > PrimitiveModes.Inactive Then Exit Sub
             If e.KeyData = LoadPatternToolStripMenuItem.ShortcutKeys Then LoadPatternToolStripMenuItem.PerformClick()
-            If e.KeyCode = myKeys.Preview AndAlso BtnColours.Checked Then
+            If e.KeyCode = LDSettings.Keys.Preview AndAlso BtnColours.Checked Then
                 BtnPreview.PerformClick()
-            ElseIf e.KeyCode = myKeys.Preview Then
+            ElseIf e.KeyCode = LDSettings.Keys.Preview Then
                 BtnColours.PerformClick() : BtnPreview.PerformClick()
             End If
-            If mySettings.useAlternativeKeys Then
-                If e.KeyCode = myKeys.Translate Then
+            If LDSettings.Editor.useAlternativeKeys Then
+                If e.KeyCode = LDSettings.Keys.Translate Then
                     If Not MainState.mousePressed Then
                         MouseHelper.pressMouseRight()
                         MainState.mousePressed = True
                     End If
                     Exit Sub
-                ElseIf e.KeyCode = myKeys.Zoom Then
+                ElseIf e.KeyCode = LDSettings.Keys.Zoom Then
                     MainState.klickY = MouseHelper.getCursorpositionY()
                     MainState.zoomScroll = True
                 End If
@@ -108,18 +105,18 @@ Public Class MainForm
                 If e.KeyCode = Keys.Down Then SBZoom_Scroll(Me, New ScrollEventArgs(ScrollEventType.SmallDecrement, 0, -1, ScrollOrientation.VerticalScroll), False)
                 Exit Sub
             End If
-            If e.KeyCode = myKeys.ModeSelect Then Me.BtnSelect.PerformClick()
-            If e.KeyCode = myKeys.ModeMove Then Me.BtnMove.PerformClick()
-            If e.KeyCode = myKeys.ModeRotate Then Me.BtnRotate.PerformClick()
-            If e.KeyCode = myKeys.ModeScale Then Me.BtnScale.PerformClick()
-            If e.KeyCode = myKeys.AddVertex Then Me.BtnAddVertex.PerformClick()
-            If e.KeyCode = myKeys.AddTriangle Then Me.BtnAddTriangle.PerformClick()
-            If e.KeyCode = myKeys.Abort Then MainState.cstep = 100 : MainState.cnumber = 0
-            If e.KeyCode = myKeys.ShowColours Then BtnColours.PerformClick()
-            If e.KeyCode = myKeys.Pipette Then BtnPipette.PerformClick()
-            If e.KeyCode = myKeys.CSG AndAlso BtnCSG.Enabled Then BtnCSG.ShowDropDown() : CSGUnionToolStripMenuItem.Select()
-            If e.KeyCode = myKeys.MergeSplit AndAlso BtnMerge.Enabled Then BtnMerge.ShowDropDown() : ToAverageToolStripMenuItem.Select()
-            If e.KeyCode = myKeys.AddPrimitive Then BtnPrimitives.ShowDropDown() : LDrawPrimitivesToolStripMenuItem.Select()
+            If e.KeyCode = LDSettings.Keys.ModeSelect Then Me.BtnSelect.PerformClick()
+            If e.KeyCode = LDSettings.Keys.ModeMove Then Me.BtnMove.PerformClick()
+            If e.KeyCode = LDSettings.Keys.ModeRotate Then Me.BtnRotate.PerformClick()
+            If e.KeyCode = LDSettings.Keys.ModeScale Then Me.BtnScale.PerformClick()
+            If e.KeyCode = LDSettings.Keys.AddVertex Then Me.BtnAddVertex.PerformClick()
+            If e.KeyCode = LDSettings.Keys.AddTriangle Then Me.BtnAddTriangle.PerformClick()
+            If e.KeyCode = LDSettings.Keys.Abort Then MainState.cstep = 100 : MainState.cnumber = 0
+            If e.KeyCode = LDSettings.Keys.ShowColours Then BtnColours.PerformClick()
+            If e.KeyCode = LDSettings.Keys.Pipette Then BtnPipette.PerformClick()
+            If e.KeyCode = LDSettings.Keys.CSG AndAlso BtnCSG.Enabled Then BtnCSG.ShowDropDown() : CSGUnionToolStripMenuItem.Select()
+            If e.KeyCode = LDSettings.Keys.MergeSplit AndAlso BtnMerge.Enabled Then BtnMerge.ShowDropDown() : ToAverageToolStripMenuItem.Select()
+            If e.KeyCode = LDSettings.Keys.AddPrimitive Then BtnPrimitives.ShowDropDown() : LDrawPrimitivesToolStripMenuItem.Select()
             If MainState.adjustmode Then
                 If e.KeyCode = Keys.Left Then ImageForm.NUDoffsetX.Value -= View.moveSnap : SBZoom_Scroll(Me, New ScrollEventArgs(ScrollEventType.SmallIncrement, 0, 1, ScrollOrientation.VerticalScroll), False)
                 If e.KeyCode = Keys.Right Then ImageForm.NUDoffsetX.Value += View.moveSnap : SBZoom_Scroll(Me, New ScrollEventArgs(ScrollEventType.SmallDecrement, 0, -1, ScrollOrientation.VerticalScroll), False)
@@ -388,9 +385,9 @@ Public Class MainForm
             End Using
         End If
 
-        mySettings.myLanguage = LanguageHelper.loadLanguageFromConfig()
-        If mySettings.myLanguage <> "" Then
-            loadLanguage(mySettings.myLanguage)
+        LDSettings.Editor.myLanguage = LanguageHelper.loadLanguageFromConfig()
+        If LDSettings.Editor.myLanguage <> "" Then
+            loadLanguage(LDSettings.Editor.myLanguage)
         End If
         loadConfig()
         SBZoom_Scroll(Me, New ScrollEventArgs(ScrollEventType.SmallDecrement, 0, -15, ScrollOrientation.VerticalScroll))
@@ -644,7 +641,7 @@ Public Class MainForm
                                 Double_array(15), Double_array(16), Double_array(17), Double_array(18), Double_array(19)))
                             End If
                         End If
-                    Loop Until DateiIn.EndOfStream                    
+                    Loop Until DateiIn.EndOfStream
                     cleanupDATVertices()
                     scaleVertices(False)
                 End Using
@@ -798,7 +795,7 @@ Public Class MainForm
                 Try
                     Dim p As Primitive = LPCFile.Primitives(LPCFile.PrimitivesHMap(View.SelectedTriangles(0).groupindex))
                     If p.primitiveName Like "subfile*" Then
-                        LblCoords.Text = LPCFile.PrimitivesMetadataHMap(p.primitiveName).mdata(1) & "   "
+                        LblCoords.Text = LPCFile.PrimitivesMetadataHMap(p.primitiveName).mData(1) & "   "
                     Else
                         LblCoords.Text = p.primitiveName & "   "
                     End If
@@ -856,12 +853,12 @@ Public Class MainForm
                 End Select
             End If
             If Not MainState.doAdjust Then
-                If CType(absOffsetX - (View.backgroundPicture.Width / 2 * tScale - tempImgOffsetX) * View.zoomfactor, Integer) < tx AndAlso CType(absOffsetY - (View.backgroundPicture.Height / 2 * tScale - tempImgOffsetY) * View.zoomfactor, Integer) < ty AndAlso _
-                    CType(absOffsetX - (View.backgroundPicture.Width / 2 * tScale - tempImgOffsetX) * View.zoomfactor, Integer) + View.backgroundPicture.Width * View.zoomfactor * tScale > tx AndAlso _
+                If CType(absOffsetX - (View.backgroundPicture.Width / 2 * tScale - tempImgOffsetX) * View.zoomfactor, Integer) < tx AndAlso CType(absOffsetY - (View.backgroundPicture.Height / 2 * tScale - tempImgOffsetY) * View.zoomfactor, Integer) < ty AndAlso
+                    CType(absOffsetX - (View.backgroundPicture.Width / 2 * tScale - tempImgOffsetX) * View.zoomfactor, Integer) + View.backgroundPicture.Width * View.zoomfactor * tScale > tx AndAlso
                     CType(absOffsetY - (View.backgroundPicture.Height / 2 * tScale - tempImgOffsetY) * View.zoomfactor, Integer) + View.backgroundPicture.Height * View.zoomfactor * tScale > ty Then
                     Me.Cursor = Cursors.SizeAll
-                ElseIf CType(absOffsetX - (View.backgroundPicture.Width / 2 * tScale - tempImgOffsetX) * View.zoomfactor, Integer) <= tx + 6 AndAlso CType(absOffsetY - (View.backgroundPicture.Height / 2 * tScale - tempImgOffsetY) * View.zoomfactor, Integer) <= ty + 6 AndAlso _
-                    CType(absOffsetX - (View.backgroundPicture.Width / 2 * tScale - tempImgOffsetX) * View.zoomfactor, Integer) + View.backgroundPicture.Width * View.zoomfactor * tScale >= tx - 6 AndAlso _
+                ElseIf CType(absOffsetX - (View.backgroundPicture.Width / 2 * tScale - tempImgOffsetX) * View.zoomfactor, Integer) <= tx + 6 AndAlso CType(absOffsetY - (View.backgroundPicture.Height / 2 * tScale - tempImgOffsetY) * View.zoomfactor, Integer) <= ty + 6 AndAlso
+                    CType(absOffsetX - (View.backgroundPicture.Width / 2 * tScale - tempImgOffsetX) * View.zoomfactor, Integer) + View.backgroundPicture.Width * View.zoomfactor * tScale >= tx - 6 AndAlso
                     CType(absOffsetY - (View.backgroundPicture.Height / 2 * tScale - tempImgOffsetY) * View.zoomfactor, Integer) + View.backgroundPicture.Height * View.zoomfactor * tScale >= ty - 6 Then
                     If Math.Abs(CType(absOffsetY - (View.backgroundPicture.Height / 2 * tScale - tempImgOffsetY) * View.zoomfactor, Integer) - ty) < 6 OrElse Math.Abs(CType(absOffsetY - (View.backgroundPicture.Height / 2 * tScale - tempImgOffsetY) * View.zoomfactor, Integer) + View.backgroundPicture.Height * View.zoomfactor * tScale - ty) < 6 Then
                         If Math.Abs(CType(absOffsetY - (View.backgroundPicture.Height / 2 * tScale - tempImgOffsetY) * View.zoomfactor, Integer) - ty) < 6 Then
@@ -1070,7 +1067,7 @@ Public Class MainForm
                                     Dim min_vertSelected As Vertex = Nothing
                                     For Each vert As Vertex In LPCFile.Vertices
                                         If Not Control.ModifierKeys = Keys.Control Then vert.selected = False
-                                        If vert.X >= minX AndAlso vert.X <= maxX AndAlso _
+                                        If vert.X >= minX AndAlso vert.X <= maxX AndAlso
                                            vert.Y >= minY AndAlso vert.Y <= maxY Then
                                             delta = Math.Sqrt((vert.X - (minX + maxX) / 2) ^ 2 + (vert.Y - (minY + maxY) / 2) ^ 2)
                                             If delta < minDelta Then
@@ -1143,7 +1140,7 @@ Public Class MainForm
                                                 endVertex = Nothing
                                             End If
                                         Else
-                                                endVertex = New Vertex(0, 0, False, False)
+                                            endVertex = New Vertex(0, 0, False, False)
                                             endVertex.X = LPCFile.templateShape(i).X
                                             endVertex.Y = LPCFile.templateShape(i).Y
                                             distVertex = CSG.distanceVectorFromVertexToLine(New Vertex(minX, minY, False, False), startVertex, endVertex)
@@ -1182,7 +1179,7 @@ Public Class MainForm
                                 LPCFile.helperLineEndIndex = -1
                                 If BtnAddTriangle.Checked Then
                                     For Each vert As Vertex In LPCFile.Vertices
-                                        If vert.X >= minX AndAlso vert.X <= maxX AndAlso _
+                                        If vert.X >= minX AndAlso vert.X <= maxX AndAlso
                                            vert.Y >= minY AndAlso vert.Y <= maxY Then
                                             If Not vert.selected Then
                                                 View.SelectedVertices.Add(vert)
@@ -1196,7 +1193,7 @@ Public Class MainForm
                                 Else
                                     For Each vert As Vertex In LPCFile.Vertices
                                         If Not Control.ModifierKeys = Keys.Control Then vert.selected = False
-                                        If vert.X >= minX AndAlso vert.X <= maxX AndAlso _
+                                        If vert.X >= minX AndAlso vert.X <= maxX AndAlso
                                            vert.Y >= minY AndAlso vert.Y <= maxY Then
                                             If Not vert.selected Then
                                                 If vert.groupindex < 0 Then
@@ -1220,11 +1217,11 @@ Public Class MainForm
                                 View.SelectedVertices.Clear()
                                 For Each tri As Triangle In LPCFile.Triangles
                                     If tri.groupindex = -1 Then
-                                        If tri.vertexA.X >= minX AndAlso tri.vertexA.X <= maxX AndAlso _
-                                           tri.vertexA.Y >= minY AndAlso tri.vertexA.Y <= maxY AndAlso _
-                                           tri.vertexB.X >= minX AndAlso tri.vertexB.X <= maxX AndAlso _
-                                           tri.vertexB.Y >= minY AndAlso tri.vertexB.Y <= maxY AndAlso _
-                                           tri.vertexC.X >= minX AndAlso tri.vertexC.X <= maxX AndAlso _
+                                        If tri.vertexA.X >= minX AndAlso tri.vertexA.X <= maxX AndAlso
+                                           tri.vertexA.Y >= minY AndAlso tri.vertexA.Y <= maxY AndAlso
+                                           tri.vertexB.X >= minX AndAlso tri.vertexB.X <= maxX AndAlso
+                                           tri.vertexB.Y >= minY AndAlso tri.vertexB.Y <= maxY AndAlso
+                                           tri.vertexC.X >= minX AndAlso tri.vertexC.X <= maxX AndAlso
                                            tri.vertexC.Y >= minY AndAlso tri.vertexC.Y <= maxY Then
                                             If tri.selected Then
                                                 View.SelectedTriangles.Remove(tri)
@@ -1292,7 +1289,7 @@ newTry:
                                     Dim min_vertSelected As Vertex = Nothing
                                     For Each vert As Vertex In LPCFile.Vertices
                                         If vert.groupindex >= 0 Then
-                                            If vert.X >= minX AndAlso vert.X <= maxX AndAlso _
+                                            If vert.X >= minX AndAlso vert.X <= maxX AndAlso
                                                vert.Y >= minY AndAlso vert.Y <= maxY Then
                                                 delta = Math.Sqrt((vert.X - (minX + maxX) / 2) ^ 2 + (vert.Y - (minY + maxY) / 2) ^ 2)
                                                 If delta < minDelta Then
@@ -1443,54 +1440,54 @@ newTry:
                                 End If
                             End If
 
-                If View.SelectedVertices.Count = 1 Then
-                    If BtnAddTriangle.Checked Then
-                        MainState.lastPointX = View.SelectedVertices(0).X
-                        MainState.lastPointY = View.SelectedVertices(0).Y
-                        If MainState.trianglemode = 2 AndAlso Not MainState.temp_vertices(0).Equals(View.SelectedVertices(0)) AndAlso Not MainState.temp_vertices(1).Equals(View.SelectedVertices(0)) Then
-                            If canBuiltTriangle(MainState.temp_vertices(0), MainState.temp_vertices(1), View.SelectedVertices(0)) Then
-                                LPCFile.Triangles.Add(New Triangle(MainState.temp_vertices(0), MainState.temp_vertices(1), View.SelectedVertices(0)))
-                                ListHelper.LLast(LPCFile.Triangles).myColour = MainState.lastColour
-                                ListHelper.LLast(LPCFile.Triangles).myColourNumber = MainState.lastColourNumber
-                                MainState.temp_vertices(0).linkedTriangles.Add(ListHelper.LLast(LPCFile.Triangles))
-                                MainState.temp_vertices(1).linkedTriangles.Add(ListHelper.LLast(LPCFile.Triangles))
-                                View.SelectedVertices(0).linkedTriangles.Add(ListHelper.LLast(LPCFile.Triangles))
-                                MainState.trianglemode = 0
+                            If View.SelectedVertices.Count = 1 Then
+                                If BtnAddTriangle.Checked Then
+                                    MainState.lastPointX = View.SelectedVertices(0).X
+                                    MainState.lastPointY = View.SelectedVertices(0).Y
+                                    If MainState.trianglemode = 2 AndAlso Not MainState.temp_vertices(0).Equals(View.SelectedVertices(0)) AndAlso Not MainState.temp_vertices(1).Equals(View.SelectedVertices(0)) Then
+                                        If canBuiltTriangle(MainState.temp_vertices(0), MainState.temp_vertices(1), View.SelectedVertices(0)) Then
+                                            LPCFile.Triangles.Add(New Triangle(MainState.temp_vertices(0), MainState.temp_vertices(1), View.SelectedVertices(0)))
+                                            ListHelper.LLast(LPCFile.Triangles).myColour = MainState.lastColour
+                                            ListHelper.LLast(LPCFile.Triangles).myColourNumber = MainState.lastColourNumber
+                                            MainState.temp_vertices(0).linkedTriangles.Add(ListHelper.LLast(LPCFile.Triangles))
+                                            MainState.temp_vertices(1).linkedTriangles.Add(ListHelper.LLast(LPCFile.Triangles))
+                                            View.SelectedVertices(0).linkedTriangles.Add(ListHelper.LLast(LPCFile.Triangles))
+                                            MainState.trianglemode = 0
+                                        End If
+                                        If FastTriangulationToolStripMenuItem.Checked Then
+                                            MainState.doIntelligentSelection = True
+                                            MainState.intelligentFocusTriangle = ListHelper.LLast(LPCFile.Triangles)
+                                            MainState.trianglemode = 2
+                                        End If
+                                    Else
+                                        If MainState.trianglemode = 1 AndAlso Not MainState.temp_vertices(0).Equals(View.SelectedVertices(0)) Then
+                                            MainState.temp_vertices(1) = View.SelectedVertices(0)
+                                            MainState.trianglemode = 2
+                                        End If
+                                        If MainState.trianglemode = 0 Then
+                                            MainState.temp_vertices(0) = View.SelectedVertices(0)
+                                            MainState.trianglemode = 1
+                                        End If
+                                    End If
+                                    View.SelectedVertices(0).selected = False
+                                    View.SelectedVertices.Clear()
+                                End If
                             End If
-                            If FastTriangulationToolStripMenuItem.Checked Then
-                                MainState.doIntelligentSelection = True
-                                MainState.intelligentFocusTriangle = ListHelper.LLast(LPCFile.Triangles)
-                                MainState.trianglemode = 2
-                            End If
-                        Else
-                            If MainState.trianglemode = 1 AndAlso Not MainState.temp_vertices(0).Equals(View.SelectedVertices(0)) Then
-                                MainState.temp_vertices(1) = View.SelectedVertices(0)
-                                MainState.trianglemode = 2
-                            End If
-                            If MainState.trianglemode = 0 Then
-                                MainState.temp_vertices(0) = View.SelectedVertices(0)
-                                MainState.trianglemode = 1
-                            End If
-                        End If
-                        View.SelectedVertices(0).selected = False
-                        View.SelectedVertices.Clear()
-                    End If
-                End If
 
-                If BtnAddVertex.Checked Then
-                    If Not View.SelectedVertices.Contains(ListHelper.LLast(LPCFile.Vertices)) Then
-                        View.SelectedVertices.Add(ListHelper.LLast(LPCFile.Vertices))
-                        ListHelper.LLast(View.SelectedVertices).selected = True
-                    End If
-                End If
+                            If BtnAddVertex.Checked Then
+                                If Not View.SelectedVertices.Contains(ListHelper.LLast(LPCFile.Vertices)) Then
+                                    View.SelectedVertices.Add(ListHelper.LLast(LPCFile.Vertices))
+                                    ListHelper.LLast(View.SelectedVertices).selected = True
+                                End If
+                            End If
 
-                If MainState.objectToModify <> Modified.Vertex Then
-                    BtnAddToGroup.Enabled = View.SelectedTriangles.Count > 0 AndAlso View.SelectedVertices.Count > 0 AndAlso Not MainState.objectToModify = Modified.Primitive
-                    BtnUngroup.Enabled = View.SelectedTriangles.Count > 0 AndAlso View.SelectedVertices.Count > 0 AndAlso MainState.objectToModify = Modified.Primitive
-                Else
-                    BtnAddToGroup.Enabled = View.SelectedTriangles.Count > 0 AndAlso View.SelectedVertices.Count > 0 AndAlso Not MainState.objectToModify = Modified.Primitive
-                End If
-                Exit Select
+                            If MainState.objectToModify <> Modified.Vertex Then
+                                BtnAddToGroup.Enabled = View.SelectedTriangles.Count > 0 AndAlso View.SelectedVertices.Count > 0 AndAlso Not MainState.objectToModify = Modified.Primitive
+                                BtnUngroup.Enabled = View.SelectedTriangles.Count > 0 AndAlso View.SelectedVertices.Count > 0 AndAlso MainState.objectToModify = Modified.Primitive
+                            Else
+                                BtnAddToGroup.Enabled = View.SelectedTriangles.Count > 0 AndAlso View.SelectedVertices.Count > 0 AndAlso Not MainState.objectToModify = Modified.Primitive
+                            End If
+                            Exit Select
                         Case EditModes.Translation
                             Dim vabsOffsetX As Integer = Fix((MouseHelper.getCursorpositionX() - MainState.klickX) / View.zoomfactor / View.moveSnap) * View.moveSnap
                             Dim vabsOffsetY As Integer = Fix((MouseHelper.getCursorpositionY() - MainState.klickY) / View.zoomfactor / View.moveSnap) * View.moveSnap
@@ -1700,8 +1697,8 @@ newTry:
 skipPrimitiveMode:
 
                     If MainState.primitiveMode = PrimitiveModes.SetTheFrameSize Then
-                        If mySettings.radiusInner_circle > 0 AndAlso MainState.primitiveHeight > mySettings.radiusInner_circle AndAlso (MainState.primitiveObject = PrimitiveObjects.CircleWithFrame OrElse MainState.primitiveObject = PrimitiveObjects.HollowCircle) Then
-                            MainState.primitiveBordersize = mySettings.radiusInner_circle / MainState.primitiveHeight
+                        If LDSettings.Editor.radiusInner_circle > 0 AndAlso MainState.primitiveHeight > LDSettings.Editor.radiusInner_circle AndAlso (MainState.primitiveObject = PrimitiveObjects.CircleWithFrame OrElse MainState.primitiveObject = PrimitiveObjects.HollowCircle) Then
+                            MainState.primitiveBordersize = LDSettings.Editor.radiusInner_circle / MainState.primitiveHeight
                         Else
                             MainState.primitiveBordersize = Fix(getXcoordinate(MouseHelper.getCursorpositionX()) - MainState.primitiveCenter.X) / Math.Sqrt(MainState.primitiveWidth ^ 2 + MainState.primitiveHeight ^ 2)
                         End If
@@ -1856,7 +1853,7 @@ skipPrimitiveMode:
                         End If
                         If MainState.primitiveObject = PrimitiveObjects.CircleWithFrame OrElse MainState.primitiveObject = PrimitiveObjects.HollowCircle OrElse MainState.primitiveObject = PrimitiveObjects.OvalWithFrame OrElse MainState.primitiveObject = PrimitiveObjects.HollowOval Then
                             Dim segments_temp As Integer
-                            If MainState.primitiveObject < 10 Then segments_temp = mySettings.segments_circle Else segments_temp = mySettings.segments_oval
+                            If MainState.primitiveObject < 10 Then segments_temp = LDSettings.Editor.segments_circle Else segments_temp = LDSettings.Editor.segments_oval
                             For Each tri As Triangle In View.SelectedTriangles
                                 tri.selected = False
                             Next
@@ -1947,8 +1944,8 @@ skipPrimitiveMode:
                         abortPrimitiveMode()
                     End If
                     If MainState.primitiveMode = PrimitiveModes.SetTheWidth Then
-                        If mySettings.radius_oval_x > 0 AndAlso (MainState.primitiveObject = PrimitiveObjects.OvalWithFrame OrElse MainState.primitiveObject = PrimitiveObjects.HollowOval) Then
-                            MainState.primitiveWidth = mySettings.radius_oval_x
+                        If LDSettings.Editor.radius_oval_x > 0 AndAlso (MainState.primitiveObject = PrimitiveObjects.OvalWithFrame OrElse MainState.primitiveObject = PrimitiveObjects.HollowOval) Then
+                            MainState.primitiveWidth = LDSettings.Editor.radius_oval_x
                         Else
                             MainState.primitiveWidth = Fix(getXcoordinate(MouseHelper.getCursorpositionX()) - MainState.primitiveCenter.X)
                         End If
@@ -2016,13 +2013,13 @@ skipPrimitiveMode:
                             Next
                             View.SelectedTriangles.Clear()
                             View.SelectedVertices.Clear()
-                            If mySettings.radius_oval_x > 0 Then
-                                MainState.primitiveWidth = mySettings.radius_oval_x
+                            If LDSettings.Editor.radius_oval_x > 0 Then
+                                MainState.primitiveWidth = LDSettings.Editor.radius_oval_x
                             Else
                                 MainState.primitiveWidth = Fix(Math.Sqrt((getYcoordinate(MouseHelper.getCursorpositionY()) - MainState.primitiveCenter.Y) ^ 2 + (getXcoordinate(MouseHelper.getCursorpositionX()) - MainState.primitiveCenter.X) ^ 2))
                             End If
                             Dim vcenter As Vertex
-                            Dim vouter(mySettings.segments_oval) As Vertex
+                            Dim vouter(LDSettings.Editor.segments_oval) As Vertex
                             Dim counter As Integer = 0
                             Dim vouterIndexFromID As New Hashtable
                             Dim vcenterIndexFromID As Integer
@@ -2031,19 +2028,19 @@ skipPrimitiveMode:
                             LPCFile.Vertices.Add(vcenter)
                             vcenterIndexFromID = LPCFile.Vertices.Count - 1
                             View.SelectedVertices.Add(ListHelper.LLast(LPCFile.Vertices))
-                            For a As Double = 0 To Math.PI * 2 Step Math.PI * 2 / mySettings.segments_oval
+                            For a As Double = 0 To Math.PI * 2 Step Math.PI * 2 / LDSettings.Editor.segments_oval
                                 vouter(counter) = New Vertex(MainState.primitiveCenter.X + Math.Cos(a) * MainState.primitiveWidth, MainState.primitiveCenter.Y + Math.Sin(a) * MainState.primitiveHeight, False)
                                 LPCFile.Vertices.Add(vouter(counter))
                                 vc += 1
                                 vouterIndexFromID.Add(vouter(counter).vertexID, LPCFile.Vertices.Count - 1)
                                 counter += 1
                             Next
-                            LPCFile.Triangles.Add(New Triangle(vcenter, vouter(mySettings.segments_oval - 1), vouter(0)) With {.myColour = MainState.lastColour, .myColourNumber = MainState.lastColourNumber})
+                            LPCFile.Triangles.Add(New Triangle(vcenter, vouter(LDSettings.Editor.segments_oval - 1), vouter(0)) With {.myColour = MainState.lastColour, .myColourNumber = MainState.lastColourNumber})
                             LPCFile.Vertices(vcenterIndexFromID).linkedTriangles.Add(ListHelper.LLast(LPCFile.Triangles))
-                            LPCFile.Vertices(vouterIndexFromID(vouter(mySettings.segments_oval - 1).vertexID)).linkedTriangles.Add(ListHelper.LLast(LPCFile.Triangles))
+                            LPCFile.Vertices(vouterIndexFromID(vouter(LDSettings.Editor.segments_oval - 1).vertexID)).linkedTriangles.Add(ListHelper.LLast(LPCFile.Triangles))
                             LPCFile.Vertices(vouterIndexFromID(vouter(0).vertexID)).linkedTriangles.Add(ListHelper.LLast(LPCFile.Triangles))
                             View.SelectedTriangles.Add(ListHelper.LLast(LPCFile.Triangles)) : ListHelper.LLast(LPCFile.Triangles).selected = True
-                            For counter = 1 To mySettings.segments_oval - 1
+                            For counter = 1 To LDSettings.Editor.segments_oval - 1
                                 LPCFile.Triangles.Add(New Triangle(vcenter, vouter(counter), vouter(counter - 1)) With {.myColour = MainState.lastColour, .myColourNumber = MainState.lastColourNumber})
                                 LPCFile.Vertices(vcenterIndexFromID).linkedTriangles.Add(ListHelper.LLast(LPCFile.Triangles))
                                 LPCFile.Vertices(vouterIndexFromID(vouter(counter).vertexID)).linkedTriangles.Add(ListHelper.LLast(LPCFile.Triangles))
@@ -2082,13 +2079,13 @@ skipPrimitiveMode:
                             Next
                             View.SelectedTriangles.Clear()
                             View.SelectedVertices.Clear()
-                            If mySettings.radius_circle > 0 Then
-                                MainState.primitiveHeight = mySettings.radius_circle
+                            If LDSettings.Editor.radius_circle > 0 Then
+                                MainState.primitiveHeight = LDSettings.Editor.radius_circle
                             Else
                                 MainState.primitiveHeight = Fix(Math.Sqrt((getYcoordinate(MouseHelper.getCursorpositionY()) - MainState.primitiveCenter.Y) ^ 2 + (getXcoordinate(MouseHelper.getCursorpositionX()) - MainState.primitiveCenter.X) ^ 2))
                             End If
                             Dim vcenter As Vertex
-                            Dim vouter(mySettings.segments_circle) As Vertex
+                            Dim vouter(LDSettings.Editor.segments_circle) As Vertex
                             Dim counter As Integer = 0
                             Dim vouterIndexFromID As New Hashtable
                             Dim vcenterIndexFromID As Integer
@@ -2097,19 +2094,19 @@ skipPrimitiveMode:
                             LPCFile.Vertices.Add(vcenter)
                             vcenterIndexFromID = LPCFile.Vertices.Count - 1
                             View.SelectedVertices.Add(ListHelper.LLast(LPCFile.Vertices))
-                            For a As Double = 0 To Math.PI * 2 Step Math.PI * 2 / mySettings.segments_circle
+                            For a As Double = 0 To Math.PI * 2 Step Math.PI * 2 / LDSettings.Editor.segments_circle
                                 vouter(counter) = New Vertex(MainState.primitiveCenter.X + Math.Cos(a) * MainState.primitiveHeight, MainState.primitiveCenter.Y + Math.Sin(a) * MainState.primitiveHeight, False)
                                 LPCFile.Vertices.Add(vouter(counter))
                                 vc += 1
                                 vouterIndexFromID.Add(vouter(counter).vertexID, LPCFile.Vertices.Count - 1)
                                 counter += 1
                             Next
-                            LPCFile.Triangles.Add(New Triangle(vcenter, vouter(mySettings.segments_circle - 1), vouter(0)) With {.myColour = MainState.lastColour, .myColourNumber = MainState.lastColourNumber})
+                            LPCFile.Triangles.Add(New Triangle(vcenter, vouter(LDSettings.Editor.segments_circle - 1), vouter(0)) With {.myColour = MainState.lastColour, .myColourNumber = MainState.lastColourNumber})
                             LPCFile.Vertices(vcenterIndexFromID).linkedTriangles.Add(ListHelper.LLast(LPCFile.Triangles))
-                            LPCFile.Vertices(vouterIndexFromID(vouter(mySettings.segments_circle - 1).vertexID)).linkedTriangles.Add(ListHelper.LLast(LPCFile.Triangles))
+                            LPCFile.Vertices(vouterIndexFromID(vouter(LDSettings.Editor.segments_circle - 1).vertexID)).linkedTriangles.Add(ListHelper.LLast(LPCFile.Triangles))
                             LPCFile.Vertices(vouterIndexFromID(vouter(0).vertexID)).linkedTriangles.Add(ListHelper.LLast(LPCFile.Triangles))
                             View.SelectedTriangles.Add(ListHelper.LLast(LPCFile.Triangles)) : ListHelper.LLast(LPCFile.Triangles).selected = True
-                            For counter = 1 To mySettings.segments_circle - 1
+                            For counter = 1 To LDSettings.Editor.segments_circle - 1
                                 LPCFile.Triangles.Add(New Triangle(vcenter, vouter(counter), vouter(counter - 1)) With {.myColour = MainState.lastColour, .myColourNumber = MainState.lastColourNumber})
                                 LPCFile.Vertices(vcenterIndexFromID).linkedTriangles.Add(ListHelper.LLast(LPCFile.Triangles))
                                 LPCFile.Vertices(vouterIndexFromID(vouter(counter).vertexID)).linkedTriangles.Add(ListHelper.LLast(LPCFile.Triangles))
@@ -2130,8 +2127,8 @@ skipPrimitiveMode:
                             abortPrimitiveMode()
                         End If
                         If MainState.primitiveObject = PrimitiveObjects.CircleWithFrame OrElse MainState.primitiveObject = PrimitiveObjects.HollowCircle Then
-                            If mySettings.radius_circle > 0 Then
-                                MainState.primitiveHeight = mySettings.radius_circle
+                            If LDSettings.Editor.radius_circle > 0 Then
+                                MainState.primitiveHeight = LDSettings.Editor.radius_circle
                             Else
                                 MainState.primitiveHeight = Fix(Math.Sqrt((getYcoordinate(MouseHelper.getCursorpositionY()) - MainState.primitiveCenter.Y) ^ 2 + (getXcoordinate(MouseHelper.getCursorpositionX()) - MainState.primitiveCenter.X) ^ 2))
                             End If
@@ -2139,8 +2136,8 @@ skipPrimitiveMode:
                             MainState.primitiveMode = PrimitiveModes.SetTheFrameSize
                         End If
                         If MainState.primitiveObject = PrimitiveObjects.SolidOval OrElse MainState.primitiveObject = PrimitiveObjects.OvalWithFrame OrElse MainState.primitiveObject = PrimitiveObjects.HollowOval Then
-                            If mySettings.radius_oval_y > 0 Then
-                                MainState.primitiveHeight = mySettings.radius_oval_y
+                            If LDSettings.Editor.radius_oval_y > 0 Then
+                                MainState.primitiveHeight = LDSettings.Editor.radius_oval_y
                             Else
                                 MainState.primitiveHeight = Fix(Math.Sqrt((getYcoordinate(MouseHelper.getCursorpositionY()) - MainState.primitiveCenter.Y) ^ 2 + (getXcoordinate(MouseHelper.getCursorpositionX()) - MainState.primitiveCenter.X) ^ 2))
                             End If
@@ -2153,13 +2150,13 @@ skipPrimitiveMode:
                             MainState.primitiveMode = PrimitiveModes.SetTheHeight
                         Else
                             abortPrimitiveMode()
-                            inlinePrimitive(1, "16", _
-                                1, 0, 0, 0, _
-                                0, 1, 0, 0, _
-                                0, 0, 1, 0, _
-                                1, 0, 0, 0, _
-                                0, 1, 0, 0, _
-                                0, 0, 1, 0, _
+                            inlinePrimitive(1, "16",
+                                1, 0, 0, 0,
+                                0, 1, 0, 0,
+                                0, 0, 1, 0,
+                                1, 0, 0, 0,
+                                0, 1, 0, 0,
+                                0, 0, 1, 0,
                                 MainState.primitiveNewName, New List(Of String))
                             MainState.primitiveNewName = ""
                             PrimitiveModeToolStripMenuItem.PerformClick()
@@ -2169,18 +2166,18 @@ skipPrimitiveMode:
                 End If
                 ' Automatic primitive routines
                 If MainState.primitiveMode = PrimitiveModes.SetTheHeight Then
-                    If mySettings.radius_circle > 0 AndAlso MainState.primitiveObject >= PrimitiveObjects.SolidCircle AndAlso MainState.primitiveObject <= PrimitiveObjects.HollowCircle Then
+                    If LDSettings.Editor.radius_circle > 0 AndAlso MainState.primitiveObject >= PrimitiveObjects.SolidCircle AndAlso MainState.primitiveObject <= PrimitiveObjects.HollowCircle Then
                         GoTo skipPrimitiveMode
                     End If
-                    If mySettings.radius_oval_y > 0 AndAlso MainState.primitiveObject >= PrimitiveObjects.SolidOval AndAlso MainState.primitiveObject <= PrimitiveObjects.HollowOval Then
+                    If LDSettings.Editor.radius_oval_y > 0 AndAlso MainState.primitiveObject >= PrimitiveObjects.SolidOval AndAlso MainState.primitiveObject <= PrimitiveObjects.HollowOval Then
                         GoTo skipPrimitiveMode
                     End If
                 ElseIf MainState.primitiveMode = PrimitiveModes.SetTheWidth Then
-                    If mySettings.radius_oval_x > 0 AndAlso MainState.primitiveObject >= PrimitiveObjects.SolidOval AndAlso MainState.primitiveObject <= PrimitiveObjects.HollowOval Then
+                    If LDSettings.Editor.radius_oval_x > 0 AndAlso MainState.primitiveObject >= PrimitiveObjects.SolidOval AndAlso MainState.primitiveObject <= PrimitiveObjects.HollowOval Then
                         GoTo skipPrimitiveMode
                     End If
                 ElseIf MainState.primitiveMode = PrimitiveModes.SetTheFrameSize Then
-                    If mySettings.radiusInner_circle > 0 AndAlso MainState.primitiveHeight > mySettings.radiusInner_circle AndAlso MainState.primitiveObject >= PrimitiveObjects.SolidCircle AndAlso MainState.primitiveObject <= PrimitiveObjects.HollowCircle Then
+                    If LDSettings.Editor.radiusInner_circle > 0 AndAlso MainState.primitiveHeight > LDSettings.Editor.radiusInner_circle AndAlso MainState.primitiveObject >= PrimitiveObjects.SolidCircle AndAlso MainState.primitiveObject <= PrimitiveObjects.HollowCircle Then
                         GoTo skipPrimitiveMode
                     End If
                 End If
@@ -2250,39 +2247,39 @@ skipPrimitiveMode:
         If Not BtnInvert.Enabled Then
             BtnInvert.BackColor = Color.Transparent
             ' YZ mit -X (Right) [OK]
-            Dim cmatrix1(,) As Double = {{0.0, 0.0, -1.0, 0.0}, _
-                                         {0.0, 1.0, 0.0, 0.0}, _
-                                         {1.0, 0.0, 0.0, 0.0}, _
+            Dim cmatrix1(,) As Double = {{0.0, 0.0, -1.0, 0.0},
+                                         {0.0, 1.0, 0.0, 0.0},
+                                         {1.0, 0.0, 0.0, 0.0},
                                          {0.0, 0.0, 0.0, 1.0}}
             If compareArray(p.matrixR, cmatrix1) Then CBProject.SelectedItem = I18N.trl8(I18N.lk.Right)
             ' XZ mit -Y (Top) [OK]
-            Dim cmatrix2(,) As Double = {{1.0, 0.0, 0.0, 0.0}, _
-                                        {0.0, 0.0, -1.0, 0.0}, _
-                                        {0.0, 1.0, 0.0, 0.0}, _
+            Dim cmatrix2(,) As Double = {{1.0, 0.0, 0.0, 0.0},
+                                        {0.0, 0.0, -1.0, 0.0},
+                                        {0.0, 1.0, 0.0, 0.0},
                                         {0.0, 0.0, 0.0, 1.0}}
             If compareArray(p.matrixR, cmatrix2) Then CBProject.SelectedItem = I18N.trl8(I18N.lk.Top)
             ' XY mit -Z (Front) [OK] 
-            Dim cmatrix3(,) As Double = {{1.0, 0.0, 0.0, 0.0}, _
-                                        {0.0, 1.0, 0.0, 0.0}, _
-                                        {0.0, 0.0, 1.0, 0.0}, _
+            Dim cmatrix3(,) As Double = {{1.0, 0.0, 0.0, 0.0},
+                                        {0.0, 1.0, 0.0, 0.0},
+                                        {0.0, 0.0, 1.0, 0.0},
                                         {0.0, 0.0, 0.0, 1.0}}
             If compareArray(p.matrixR, cmatrix3) Then CBProject.SelectedItem = I18N.trl8(I18N.lk.Front)
             ' YZ mit +X (Left) [OK]
-            Dim cmatrix4(,) As Double = {{0.0, 0.0, 1.0, 0.0}, _
-                                         {0.0, 1.0, 0.0, 0.0}, _
-                                         {-1.0, 0.0, 0.0, 0.0}, _
+            Dim cmatrix4(,) As Double = {{0.0, 0.0, 1.0, 0.0},
+                                         {0.0, 1.0, 0.0, 0.0},
+                                         {-1.0, 0.0, 0.0, 0.0},
                                          {0.0, 0.0, 0.0, 1.0}}
             If compareArray(p.matrixR, cmatrix4) Then CBProject.SelectedItem = I18N.trl8(I18N.lk.Left)
             ' XZ mit -Y (Bottom) [OK]
-            Dim cmatrix5(,) As Double = {{1.0, 0.0, 0.0, 0.0}, _
-                                        {0.0, 0.0, 1.0, 0.0}, _
-                                        {0.0, -1.0, 0.0, 0.0}, _
+            Dim cmatrix5(,) As Double = {{1.0, 0.0, 0.0, 0.0},
+                                        {0.0, 0.0, 1.0, 0.0},
+                                        {0.0, -1.0, 0.0, 0.0},
                                         {0.0, 0.0, 0.0, 1.0}}
             If compareArray(p.matrixR, cmatrix5) Then CBProject.SelectedItem = I18N.trl8(I18N.lk.Bottom)
             ' XY mit +Z (Back) [OK]
-            Dim cmatrix6(,) As Double = {{-1.0, 0.0, 0.0, 0.0}, _
-                                        {0.0, 1.0, 0.0, 0.0}, _
-                                        {0.0, 0.0, -1.0, 0.0}, _
+            Dim cmatrix6(,) As Double = {{-1.0, 0.0, 0.0, 0.0},
+                                        {0.0, 1.0, 0.0, 0.0},
+                                        {0.0, 0.0, -1.0, 0.0},
                                         {0.0, 0.0, 0.0, 1.0}}
             If compareArray(p.matrixR, cmatrix6) Then CBProject.SelectedItem = I18N.trl8(I18N.lk.Back)
 
@@ -2315,8 +2312,6 @@ skipPrimitiveMode:
     Public Function getYcoordinateD(ByVal relY As Double) As Double
         Return -((-relY + Me.ClientSize.Height / 2) / View.zoomfactor + View.offsetY)
     End Function
-
-    Private CDialog As Form
 
 #End Region
 #Region "View Properties"
@@ -2397,7 +2392,7 @@ skipPrimitiveMode:
                 Case 2 : BtnRotate.PerformClick()
                 Case 3 : BtnScale.PerformClick()
             End Select
-        ElseIf mySettings.lockModeChange Then
+        ElseIf LDSettings.Editor.lockModeChange Then
             VerticesModeToolStripMenuItem.PerformClick()
             BtnMode.Enabled = False : VerticesModeToolStripMenuItem.Enabled = False : TrianglesModeToolStripMenuItem.Enabled = False : PrimitiveModeToolStripMenuItem.Enabled = False
         End If
@@ -2430,7 +2425,7 @@ skipPrimitiveMode:
                 Case 2 : BtnRotate.PerformClick()
                 Case 3 : BtnScale.PerformClick()
             End Select
-        ElseIf mySettings.lockModeChange Then
+        ElseIf LDSettings.Editor.lockModeChange Then
             VerticesModeToolStripMenuItem.PerformClick()
             BtnMode.Enabled = False : VerticesModeToolStripMenuItem.Enabled = False : TrianglesModeToolStripMenuItem.Enabled = False : PrimitiveModeToolStripMenuItem.Enabled = False
         End If
@@ -2472,7 +2467,7 @@ skipPrimitiveMode:
                 Case 2 : PrimitiveModeToolStripMenuItem.PerformClick()
                 Case 3 : ReferenceLineModeToolStripMenuItem.PerformClick()
             End Select
-        ElseIf mySettings.lockModeChange Then
+        ElseIf LDSettings.Editor.lockModeChange Then
             BtnMode.Text = I18N.trl8(I18N.lk.TriangleMode)
             BtnMode.Enabled = False : VerticesModeToolStripMenuItem.Enabled = False : TrianglesModeToolStripMenuItem.Enabled = False : PrimitiveModeToolStripMenuItem.Enabled = False
         End If
@@ -3289,8 +3284,8 @@ newDelete:
             For i As Integer = start To tc
                 Dim tri As Triangle = LPCFile.Triangles(i)
                 tri.groupindex = -1
-                If tri.vertexA.vertexID = tri.vertexB.vertexID OrElse _
-                tri.vertexB.vertexID = tri.vertexC.vertexID OrElse _
+                If tri.vertexA.vertexID = tri.vertexB.vertexID OrElse
+                tri.vertexB.vertexID = tri.vertexC.vertexID OrElse
                 tri.vertexC.vertexID = tri.vertexA.vertexID Then
                     LPCFile.Triangles.RemoveAt(i)
                     start = i
@@ -3473,10 +3468,10 @@ newDelete:
                 For j As Integer = 0 To s.Length - 1
                     double_array(j) = CType(s(j), Double)
                 Next
-                LPCFile.templateProjectionQuads.Add(New ProjectionQuad( _
-                double_array(0), double_array(1), double_array(2), double_array(3), double_array(4), _
-                double_array(5), double_array(6), double_array(7), double_array(8), double_array(9), _
-                double_array(10), double_array(11), double_array(12), double_array(13), double_array(14), _
+                LPCFile.templateProjectionQuads.Add(New ProjectionQuad(
+                double_array(0), double_array(1), double_array(2), double_array(3), double_array(4),
+                double_array(5), double_array(6), double_array(7), double_array(8), double_array(9),
+                double_array(10), double_array(11), double_array(12), double_array(13), double_array(14),
                 double_array(15), double_array(16), double_array(17), double_array(18), double_array(19)))
                 For r As Integer = 0 To 3
                     For c As Integer = 0 To 3
@@ -3542,8 +3537,8 @@ newDelete:
             For i As Integer = start To tc
                 Dim tri As Triangle = LPCFile.Triangles(i)
                 tri.groupindex = -1
-                If tri.vertexA.vertexID = tri.vertexB.vertexID OrElse _
-                tri.vertexB.vertexID = tri.vertexC.vertexID OrElse _
+                If tri.vertexA.vertexID = tri.vertexB.vertexID OrElse
+                tri.vertexB.vertexID = tri.vertexC.vertexID OrElse
                 tri.vertexC.vertexID = tri.vertexA.vertexID Then
                     LPCFile.Triangles.RemoveAt(i)
                     start = i
@@ -3723,16 +3718,16 @@ newDelete:
                 For j As Integer = 0 To s.Length - 1
                     double_array(j) = CType(s(j), Double)
                 Next
-                LPCFile.templateProjectionQuads.Add(New ProjectionQuad( _
-                double_array(0), double_array(1), double_array(2), double_array(3), double_array(4), _
-                double_array(5), double_array(6), double_array(7), double_array(8), double_array(9), _
-                double_array(10), double_array(11), double_array(12), double_array(13), double_array(14), _
+                LPCFile.templateProjectionQuads.Add(New ProjectionQuad(
+                double_array(0), double_array(1), double_array(2), double_array(3), double_array(4),
+                double_array(5), double_array(6), double_array(7), double_array(8), double_array(9),
+                double_array(10), double_array(11), double_array(12), double_array(13), double_array(14),
                 double_array(15), double_array(16), double_array(17), double_array(18), double_array(19)))
                 For r As Integer = 0 To 3
                     For c As Integer = 0 To 3
                         LPCFile.templateProjectionQuads(i + transformedQuadCount).matrix(r, c) = CType(Replace(DateiIn.ReadLine, ".", MathHelper.comma), Decimal)
                     Next
-                Next               
+                Next
             Next
             Dim templateTextsCount As Integer = CType(DateiIn.ReadLine(), Integer)
             For i As Integer = 0 To templateTextsCount - 1
@@ -3799,7 +3794,7 @@ newDelete:
                 LPCFile.newColours.Add(c)
                 If Not LPCFile.colourReplacementMapBrush.ContainsKey(LPCFile.oldColours(i).rgbValue.ToArgb) Then
                     If LPCFile.newColours(i).ldrawIndex = 16 Then
-                        LPCFile.colourReplacementMapBrush.Add(LPCFile.oldColours(i).rgbValue.ToArgb, CType(New HatchBrush(HatchStyle.Percent05, myColours.linePen.Color, Color.Transparent), Brush))
+                        LPCFile.colourReplacementMapBrush.Add(LPCFile.oldColours(i).rgbValue.ToArgb, CType(New HatchBrush(HatchStyle.Percent05, LDSettings.Colours.linePen.Color, Color.Transparent), Brush))
                     Else
                         LPCFile.colourReplacementMapBrush.Add(LPCFile.oldColours(i).rgbValue.ToArgb, CType(New SolidBrush(LPCFile.newColours(i).rgbValue), Brush))
                     End If
@@ -3920,8 +3915,8 @@ newDelete:
             For i As Integer = start To tc
                 Dim tri As Triangle = LPCFile.Triangles(i)
                 tri.groupindex = -1
-                If tri.vertexA.vertexID = tri.vertexB.vertexID OrElse _
-                tri.vertexB.vertexID = tri.vertexC.vertexID OrElse _
+                If tri.vertexA.vertexID = tri.vertexB.vertexID OrElse
+                tri.vertexB.vertexID = tri.vertexC.vertexID OrElse
                 tri.vertexC.vertexID = tri.vertexA.vertexID Then
                     LPCFile.Triangles.RemoveAt(i)
                     start = i
@@ -4281,11 +4276,10 @@ newDelete:
         Return False
     End Function
 
-    Private sc As Integer = 0
     Public Sub performStep()
-        sc += 1
-        If sc = 20 Then
-            sc = 0
+        LDSettings.StepCount += 1
+        If LDSettings.StepCount = 20 Then
+            LDSettings.StepCount = 0
             Try
                 ExportProgressBar.PerformStep()
             Catch aoore As ArgumentOutOfRangeException
@@ -4478,9 +4472,9 @@ skipSlicing:
 
         If filePath Like "*\s" Then filePath = Mid(filePath, 1, filePath.Length - 2)
         If LPCFile.includeMetadata Then
-            If LPCFile.myMetadata.mData(2) = "" Then LPCFile.myMetadata.mData(2) = mySettings.defaultName
-            If LPCFile.myMetadata.mData(3) = "" Then LPCFile.myMetadata.mData(3) = mySettings.defaultUser
-            If LPCFile.myMetadata.mData(5) = "" Then LPCFile.myMetadata.mData(5) = mySettings.defaultLicense
+            If LPCFile.myMetadata.mData(2) = "" Then LPCFile.myMetadata.mData(2) = LDSettings.Editor.defaultName
+            If LPCFile.myMetadata.mData(3) = "" Then LPCFile.myMetadata.mData(3) = LDSettings.Editor.defaultUser
+            If LPCFile.myMetadata.mData(5) = "" Then LPCFile.myMetadata.mData(5) = LDSettings.Editor.defaultLicense
             If LPCFile.myMetadata.mData(4) Like "*Subpart" Then
                 If fileName.Length < 2 OrElse fileName.LastIndexOf(CChar("s")) = -1 OrElse fileName.Chars(fileName.Length - 1) = CChar("s") Then
                     fileName = fileName + "s01"
@@ -4502,16 +4496,16 @@ skipSlicing:
                 If prim.primitiveName Like "subfile*" Then
                     If Not subfile.Contains(prim.primitiveName) Then
                         If CType(LPCFile.PrimitivesMetadataHMap(prim.primitiveName), Metadata).mData(2) = "" Then
-                            CType(LPCFile.PrimitivesMetadataHMap(prim.primitiveName), Metadata).mData(2) = mySettings.defaultName
+                            CType(LPCFile.PrimitivesMetadataHMap(prim.primitiveName), Metadata).mData(2) = LDSettings.Editor.defaultName
                         End If
                         If CType(LPCFile.PrimitivesMetadataHMap(prim.primitiveName), Metadata).mData(3) = "" Then
-                            CType(LPCFile.PrimitivesMetadataHMap(prim.primitiveName), Metadata).mData(3) = mySettings.defaultUser
+                            CType(LPCFile.PrimitivesMetadataHMap(prim.primitiveName), Metadata).mData(3) = LDSettings.Editor.defaultUser
                         End If
                         If CType(LPCFile.PrimitivesMetadataHMap(prim.primitiveName), Metadata).mData(4) = "" Then
                             CType(LPCFile.PrimitivesMetadataHMap(prim.primitiveName), Metadata).mData(4) = "Unofficial_Subpart"
                         End If
                         If CType(LPCFile.PrimitivesMetadataHMap(prim.primitiveName), Metadata).mData(5) = "" Then
-                            CType(LPCFile.PrimitivesMetadataHMap(prim.primitiveName), Metadata).mData(5) = mySettings.defaultLicense
+                            CType(LPCFile.PrimitivesMetadataHMap(prim.primitiveName), Metadata).mData(5) = LDSettings.Editor.defaultLicense
                         End If
                         If isSubpart AndAlso LPCFile.myMetadata.mData(1) = ("s\" & partName & "s" & counter & ".dat") Then
                             counter += 1
@@ -4626,11 +4620,11 @@ skipSlicing:
                                 LPCFile.templateProjectionQuads(i).CalculateMatrix()
                                 q.CalculateMatrix()
                                 LPCFile.templateProjectionQuads.Add(q)
-                                exportAgain = True
+                                LDSettings.ExportAgain = True
                             End If
                         End If
                     Next
-                    If exportAgain Then
+                    If LDSettings.ExportAgain Then
                         If LPCFile.templateShape(0).X = Single.Epsilon Then
                             LPCFile.templateShape.Clear()
                             LPCFile.templateShape.Add(New PointF(Single.Epsilon, Single.Epsilon))
@@ -4868,7 +4862,7 @@ skipSlicing:
         Me.ColourToolStrip.Visible = Me.ColourToolStrip.Tag
         Me.BtnAbort.Visible = False
         Me.MenuStrip1.Visible = True
-        Me.BtnAbort.Text = I18N.trl8(I18N.lk.ABORT) & " []" : KeyToSet.setKey(BtnAbort, myKeys.Abort)
+        Me.BtnAbort.Text = I18N.trl8(I18N.lk.ABORT) & " []" : KeyToSet.setKey(BtnAbort, LDSettings.Keys.Abort)
         Me.BtnAbort.BackColor = Color.Red
     End Sub
 #End Region
@@ -4977,59 +4971,59 @@ skipSlicing:
 
     Private Sub CircleSegments_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CircleSegments.TextChanged
         Try
-            mySettings.segments_circle = CType(CircleSegments.Text, Integer)
-            If mySettings.segments_circle < 3 Then mySettings.segments_circle = 3
+            LDSettings.Editor.segments_circle = CType(CircleSegments.Text, Integer)
+            If LDSettings.Editor.segments_circle < 3 Then LDSettings.Editor.segments_circle = 3
         Catch ex As Exception
-            CircleSegments.Text = mySettings.segments_circle
+            CircleSegments.Text = LDSettings.Editor.segments_circle
         End Try
     End Sub
 
     Private Sub OvalSegments_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OvalSegments.TextChanged
         Try
-            mySettings.segments_oval = CType(OvalSegments.Text, Integer)
-            If mySettings.segments_oval < 3 Then mySettings.segments_oval = 3
+            LDSettings.Editor.segments_oval = CType(OvalSegments.Text, Integer)
+            If LDSettings.Editor.segments_oval < 3 Then LDSettings.Editor.segments_oval = 3
         Catch ex As Exception
-            OvalSegments.Text = mySettings.segments_oval
+            OvalSegments.Text = LDSettings.Editor.segments_oval
         End Try
     End Sub
 
     Private Sub CircleRadius_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CircleRadius.TextChanged
-        If CircleRadius.Text = "" Then mySettings.radius_circle = 0 : Return
+        If CircleRadius.Text = "" Then LDSettings.Editor.radius_circle = 0 : Return
         Try
-            mySettings.radius_circle = CType(CircleRadius.Text, Double) * 1000 / View.unitFactor
-            If mySettings.radius_circle < 0 Then mySettings.radius_circle *= -1
+            LDSettings.Editor.radius_circle = CType(CircleRadius.Text, Double) * 1000 / View.unitFactor
+            If LDSettings.Editor.radius_circle < 0 Then LDSettings.Editor.radius_circle *= -1
         Catch ex As Exception
-            CircleRadius.Text = mySettings.radius_circle / 1000
+            CircleRadius.Text = LDSettings.Editor.radius_circle / 1000
         End Try
     End Sub
 
     Private Sub CircleInnerRadius_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CircleInnerRadius.TextChanged
-        If CircleInnerRadius.Text = "" Then mySettings.radiusInner_circle = 0 : Return
+        If CircleInnerRadius.Text = "" Then LDSettings.Editor.radiusInner_circle = 0 : Return
         Try
-            mySettings.radiusInner_circle = CType(CircleInnerRadius.Text, Double) * 1000 / View.unitFactor
-            If mySettings.radiusInner_circle < 0 Then mySettings.radiusInner_circle *= -1
+            LDSettings.Editor.radiusInner_circle = CType(CircleInnerRadius.Text, Double) * 1000 / View.unitFactor
+            If LDSettings.Editor.radiusInner_circle < 0 Then LDSettings.Editor.radiusInner_circle *= -1
         Catch ex As Exception
-            CircleInnerRadius.Text = mySettings.radiusInner_circle / 1000
+            CircleInnerRadius.Text = LDSettings.Editor.radiusInner_circle / 1000
         End Try
     End Sub
 
     Private Sub OvalRadiusX_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OvalRadiusX.TextChanged
-        If OvalRadiusX.Text = "" Then mySettings.radius_oval_x = 0 : Return
+        If OvalRadiusX.Text = "" Then LDSettings.Editor.radius_oval_x = 0 : Return
         Try
-            mySettings.radius_oval_x = CType(OvalRadiusX.Text, Double) * 1000 / View.unitFactor
-            If mySettings.radius_oval_x < 0 Then mySettings.radius_oval_x *= -1
+            LDSettings.Editor.radius_oval_x = CType(OvalRadiusX.Text, Double) * 1000 / View.unitFactor
+            If LDSettings.Editor.radius_oval_x < 0 Then LDSettings.Editor.radius_oval_x *= -1
         Catch ex As Exception
-            OvalRadiusX.Text = mySettings.radius_oval_x / 1000
+            OvalRadiusX.Text = LDSettings.Editor.radius_oval_x / 1000
         End Try
     End Sub
 
     Private Sub OvalRadiusY_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OvalRadiusY.TextChanged
-        If OvalRadiusY.Text = "" Then mySettings.radius_oval_y = 0 : Return
+        If OvalRadiusY.Text = "" Then LDSettings.Editor.radius_oval_y = 0 : Return
         Try
-            mySettings.radius_oval_y = CType(OvalRadiusY.Text, Double) * 1000 / View.unitFactor
-            If mySettings.radius_oval_y < 0 Then mySettings.radius_oval_y *= -1
+            LDSettings.Editor.radius_oval_y = CType(OvalRadiusY.Text, Double) * 1000 / View.unitFactor
+            If LDSettings.Editor.radius_oval_y < 0 Then LDSettings.Editor.radius_oval_y *= -1
         Catch ex As Exception
-            OvalRadiusY.Text = mySettings.radius_oval_y / 1000
+            OvalRadiusY.Text = LDSettings.Editor.radius_oval_y / 1000
         End Try
     End Sub
 #End Region
@@ -5349,21 +5343,21 @@ raster_zechnen:
             relOffsetX = absOffsetX Mod scale
             relOffsetY = absOffsetY Mod scale
             For x As Single = relOffsetX To Me.ClientSize.Width Step scale
-                e.Graphics.DrawLine(myColours.gridPen, x, 0, x, Me.ClientSize.Height)
+                e.Graphics.DrawLine(LDSettings.Colours.gridPen, x, 0, x, Me.ClientSize.Height)
             Next
             For y As Single = relOffsetY To Me.ClientSize.Height Step scale
-                e.Graphics.DrawLine(myColours.gridPen, 0, y, Me.ClientSize.Width, y)
+                e.Graphics.DrawLine(LDSettings.Colours.gridPen, 0, y, Me.ClientSize.Width, y)
             Next
             relOffsetX = absOffsetX Mod (scale * 10)
             relOffsetY = absOffsetY Mod (scale * 10)
             For x As Single = relOffsetX To Me.ClientSize.Width Step scale * 10
-                e.Graphics.DrawLine(myColours.grid10Pen, x, 0, x, Me.ClientSize.Height)
+                e.Graphics.DrawLine(LDSettings.Colours.grid10Pen, x, 0, x, Me.ClientSize.Height)
             Next
             For y As Single = relOffsetY To Me.ClientSize.Height Step scale * 10
-                e.Graphics.DrawLine(myColours.grid10Pen, 0, y, Me.ClientSize.Width, y)
+                e.Graphics.DrawLine(LDSettings.Colours.grid10Pen, 0, y, Me.ClientSize.Width, y)
             Next
-            e.Graphics.DrawLine(myColours.originPen, absOffsetX, 0, absOffsetX, Me.ClientSize.Height)
-            e.Graphics.DrawLine(myColours.originPen, 0, absOffsetY, Me.ClientSize.Width, absOffsetY)
+            e.Graphics.DrawLine(LDSettings.Colours.originPen, absOffsetX, 0, absOffsetX, Me.ClientSize.Height)
+            e.Graphics.DrawLine(LDSettings.Colours.originPen, 0, absOffsetY, Me.ClientSize.Width, absOffsetY)
         End If
 
         If MainState.movemode Then
@@ -5448,7 +5442,7 @@ raster_zechnen:
                                     endVertex = Nothing
                                 End If
                             Else
-                                    endVertex = New Vertex(0, 0, False, False)
+                                endVertex = New Vertex(0, 0, False, False)
                                 endVertex.X = LPCFile.templateShape(i).X
                                 endVertex.Y = LPCFile.templateShape(i).Y
                                 distVertex = CSG.distanceVectorFromVertexToLine(View.SelectedVertices(0), startVertex, endVertex)
@@ -5540,7 +5534,7 @@ raster_zechnen:
             Next
         End If
 
-        If Not mySettings.showTemplateLinesOnTop Then
+        If Not LDSettings.Editor.showTemplateLinesOnTop Then
             ' Templates:
             Dim shapeCount As Integer = LPCFile.templateShape.Count
             If shapeCount > 1 AndAlso Not BtnPreview.Checked Then
@@ -5555,14 +5549,14 @@ raster_zechnen:
                             Dim lenght As Integer = i - start - 1
                             Dim templatePolyPart(lenght) As PointF
                             Array.Copy(templateShapeArray, start, templatePolyPart, 0, lenght + 1)
-                            e.Graphics.DrawPolygon(myColours.templatePen, templatePolyPart)
+                            e.Graphics.DrawPolygon(LDSettings.Colours.templatePen, templatePolyPart)
                             start = i + 1
                         End If
                     Next
                     Dim lenght2 As Integer = finish - start
                     Dim templatePolyPart2(lenght2) As PointF
                     Array.Copy(templateShapeArray, start, templatePolyPart2, 0, lenght2 + 1)
-                    e.Graphics.DrawPolygon(myColours.templatePen, templatePolyPart2)
+                    e.Graphics.DrawPolygon(LDSettings.Colours.templatePen, templatePolyPart2)
 
                     For i = 0 To LPCFile.templateTexts.Count - 1
                         e.Graphics.DrawString(LPCFile.templateTexts(i).Text, New Font("Arial", (1000 * View.zoomfactor) + 8, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, absOffsetX - LPCFile.templateTexts(i).X * View.zoomfactor + 2, absOffsetY + LPCFile.templateTexts(i).Y * View.zoomfactor + 2)
@@ -5597,7 +5591,7 @@ raster_zechnen:
                             templateShapeArray(3).X = templateShapeArray(0).X
                             templateShapeArray(3).Y = templateShapeArray(0).Y
                         End If
-                        e.Graphics.DrawPolygon(myColours.projectionPen, templateShapeArray)
+                        e.Graphics.DrawPolygon(LDSettings.Colours.projectionPen, templateShapeArray)
                     Next
                 End If
             End If
@@ -5613,7 +5607,7 @@ raster_zechnen:
         e.Graphics.ScaleTransform(View.zoomfactor, View.zoomfactor)
         ' Filled Triangles
         Dim transColour As Color = Color.FromArgb(20, 0, 0, 0)
-        Dim lineColour As Color = myColours.linePen.Color
+        Dim lineColour As Color = LDSettings.Colours.linePen.Color
         If BtnColours.Checked Then
             Dim brushDict As New Dictionary(Of Integer, Brush)
             If BtnBFC.Checked AndAlso BtnPreview.Checked Then
@@ -5941,9 +5935,9 @@ raster_zechnen:
                         pf2(3).X = pf2(0).X
                         pf2(3).Y = pf2(0).Y
                         If tri.groupindex = -1 Then
-                            e.Graphics.DrawPolygon(myColours.linePen, pf2)
+                            e.Graphics.DrawPolygon(LDSettings.Colours.linePen, pf2)
                         Else
-                            e.Graphics.DrawPolygon(myColours.originPen, pf2)
+                            e.Graphics.DrawPolygon(LDSettings.Colours.originPen, pf2)
                         End If
                     Else
                         pf2(0).X = -tri.vertexA.X
@@ -5955,9 +5949,9 @@ raster_zechnen:
                         pf2(3).X = pf2(0).X
                         pf2(3).Y = pf2(0).Y
                         If tri.groupindex = -1 Then
-                            e.Graphics.DrawPolygon(myColours.inverseLinePen, pf2)
+                            e.Graphics.DrawPolygon(LDSettings.Colours.inverseLinePen, pf2)
                         Else
-                            e.Graphics.DrawPolygon(myColours.originPen, pf2)
+                            e.Graphics.DrawPolygon(LDSettings.Colours.originPen, pf2)
                         End If
                     End If
                 End If
@@ -5973,7 +5967,7 @@ raster_zechnen:
                     pf2(2).Y = tri.vertexC.Y
                     pf2(3).X = pf2(0).X
                     pf2(3).Y = pf2(0).Y
-                    e.Graphics.DrawPolygon(myColours.selectedLinePen, pf2)
+                    e.Graphics.DrawPolygon(LDSettings.Colours.selectedLinePen, pf2)
                 Next
             Else
                 For i As Integer = 0 To View.SelectedTriangles.Count - 1
@@ -5986,7 +5980,7 @@ raster_zechnen:
                     pf2(2).Y = tri.vertexC.Y
                     pf2(3).X = pf2(0).X
                     pf2(3).Y = pf2(0).Y
-                    e.Graphics.DrawPolygon(myColours.selectedLineInVertexModePen, pf2)
+                    e.Graphics.DrawPolygon(LDSettings.Colours.selectedLineInVertexModePen, pf2)
                 Next
             End If
             If MainState.trianglemode > 0 Then
@@ -5999,12 +5993,12 @@ raster_zechnen:
 
             e.Graphics.ScaleTransform(1 / View.zoomfactor, 1 / View.zoomfactor)
             If MainState.referenceLineMode > 0 Then
-                e.Graphics.DrawLine(myColours.selectedLinePenFat, CType(-MainState.lastPointX * View.zoomfactor, Single), CType(MainState.lastPointY * View.zoomfactor, Single), CType((MouseHelper.getCursorpositionX() - absOffsetX), Single), CType((MouseHelper.getCursorpositionY() - absOffsetY), Single))
+                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePenFat, CType(-MainState.lastPointX * View.zoomfactor, Single), CType(MainState.lastPointY * View.zoomfactor, Single), CType((MouseHelper.getCursorpositionX() - absOffsetX), Single), CType((MouseHelper.getCursorpositionY() - absOffsetY), Single))
             End If
             e.Graphics.TranslateTransform(-absOffsetX, -absOffsetY)
 
 
-            If mySettings.showTemplateLinesOnTop Then
+            If LDSettings.Editor.showTemplateLinesOnTop Then
                 ' Templates:
                 Dim shapeCount As Integer = LPCFile.templateShape.Count
                 If shapeCount > 1 AndAlso Not BtnPreview.Checked Then
@@ -6019,14 +6013,14 @@ raster_zechnen:
                                 Dim lenght As Integer = i - start - 1
                                 Dim templatePolyPart(lenght) As PointF
                                 Array.Copy(templateShapeArray, start, templatePolyPart, 0, lenght + 1)
-                                e.Graphics.DrawPolygon(myColours.templatePen, templatePolyPart)
+                                e.Graphics.DrawPolygon(LDSettings.Colours.templatePen, templatePolyPart)
                                 start = i + 1
                             End If
                         Next
                         Dim lenght2 As Integer = finish - start
                         Dim templatePolyPart2(lenght2) As PointF
                         Array.Copy(templateShapeArray, start, templatePolyPart2, 0, lenght2 + 1)
-                        e.Graphics.DrawPolygon(myColours.templatePen, templatePolyPart2)
+                        e.Graphics.DrawPolygon(LDSettings.Colours.templatePen, templatePolyPart2)
 
                         For i = 0 To LPCFile.templateTexts.Count - 1
                             e.Graphics.DrawString(LPCFile.templateTexts(i).Text, New Font("Arial", (1000 * View.zoomfactor) + 8, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, absOffsetX - LPCFile.templateTexts(i).X * View.zoomfactor + 2, absOffsetY + LPCFile.templateTexts(i).Y * View.zoomfactor + 2)
@@ -6062,7 +6056,7 @@ raster_zechnen:
                                 templateShapeArray(3).Y = templateShapeArray(0).Y
                             End If
 
-                            e.Graphics.DrawPolygon(myColours.projectionPen, templateShapeArray)
+                            e.Graphics.DrawPolygon(LDSettings.Colours.projectionPen, templateShapeArray)
                         Next
                     End If
                 End If
@@ -6076,7 +6070,7 @@ raster_zechnen:
                     templateShapeArray(counter).Y = absOffsetY + LPCFile.templateShape(i).Y * View.zoomfactor
                     counter += 1
                 Next
-                e.Graphics.DrawPolygon(myColours.selectedLinePenFat, templateShapeArray)
+                e.Graphics.DrawPolygon(LDSettings.Colours.selectedLinePenFat, templateShapeArray)
             End If
 
             e.Graphics.TranslateTransform(absOffsetX, absOffsetY)
@@ -6094,7 +6088,7 @@ raster_zechnen:
             '    pfq(3).Y = q.inCoords(3, 1) * View.zoomfactor * 1000
             '    pfq(4).X = -q.inCoords(0, 0) * View.zoomfactor * 1000
             '    pfq(4).Y = q.inCoords(0, 1) * View.zoomfactor * 1000
-            '    e.Graphics.DrawPolygon(myColours.originPen, pfq)
+            '    e.Graphics.DrawPolygon(Settings.Colours.originPen, pfq)
             'Next
             'If LPCFile.templateProjectionQuads.Count > 0 Then
             '    Dim q2 As ProjectionQuad = LPCFile.templateProjectionQuads(sq)
@@ -6108,7 +6102,7 @@ raster_zechnen:
             '    pfq(3).Y = q2.inCoords(3, 1) * View.zoomfactor * 1000
             '    pfq(4).X = -q2.inCoords(0, 0) * View.zoomfactor * 1000
             '    pfq(4).Y = q2.inCoords(0, 1) * View.zoomfactor * 1000
-            '    e.Graphics.DrawPolygon(myColours.selectedLinePen, pfq)
+            '    e.Graphics.DrawPolygon(Settings.Colours.selectedLinePen, pfq)
             'End If
 
             ' LPCFile.Vertices
@@ -6124,10 +6118,10 @@ raster_zechnen:
                     End If
                 End If
             Next
-            If vs.Count > 0 Then e.Graphics.FillRectangles(myColours.selectedVertexBrush, vs.ToArray)
-            If v.Count > 0 Then e.Graphics.FillRectangles(myColours.vertexBrush, v.ToArray)
+            If vs.Count > 0 Then e.Graphics.FillRectangles(LDSettings.Colours.selectedVertexBrush, vs.ToArray)
+            If v.Count > 0 Then e.Graphics.FillRectangles(LDSettings.Colours.vertexBrush, v.ToArray)
             If MainState.trianglemode > 0 OrElse MainState.referenceLineMode > 0 Then
-                e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(-MainState.lastPointX * View.zoomfactor - View.pointsizeHalf, MainState.lastPointY * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(-MainState.lastPointX * View.zoomfactor - View.pointsizeHalf, MainState.lastPointY * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
             End If
             e.Graphics.TranslateTransform(-absOffsetX, -absOffsetY)
             For i As Integer = 0 To View.CollisionVertices.Count - 1
@@ -6180,13 +6174,13 @@ raster_zechnen:
             tY = Math.Min(MainState.klickY, MouseHelper.getCursorpositionY)
             tW = Math.Abs(MouseHelper.getCursorpositionX() - MainState.klickX)
             tH = Math.Abs(MouseHelper.getCursorpositionY() - MainState.klickY)
-            e.Graphics.DrawRectangle(myColours.selectionRectPen, tX, tY, tW, tH)
+            e.Graphics.DrawRectangle(LDSettings.Colours.selectionRectPen, tX, tY, tW, tH)
         End If
 
         ' Add Vertex
         If BtnAddVertex.Checked Then
             Dim v1 As New Vertex(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX()) / View.moveSnap) * View.moveSnap, Math.Round(getYcoordinate(MouseHelper.getCursorpositionY()) / View.moveSnap) * View.moveSnap, False, False)
-            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v1.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v1.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v1.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v1.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
         End If
 
         ' Primitive Modes
@@ -6196,14 +6190,14 @@ raster_zechnen:
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.POrigin), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, 12, 32)
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.POrigin), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Azure, 10, 30)
                     MainState.primitiveCenter = New Vertex(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX()) / View.moveSnap) * View.moveSnap, Math.Round(getYcoordinate(MouseHelper.getCursorpositionY()) / View.moveSnap) * View.moveSnap, False, False)
-                    e.Graphics.FillRectangle(myColours.selectionCrossBrush, New RectangleF(absOffsetX - MainState.primitiveCenter.X * View.zoomfactor - 1, absOffsetY + MainState.primitiveCenter.Y * View.zoomfactor - 16, 3, 33))
-                    e.Graphics.FillRectangle(myColours.selectionCrossBrush, New RectangleF(absOffsetX - MainState.primitiveCenter.X * View.zoomfactor - 16, absOffsetY + MainState.primitiveCenter.Y * View.zoomfactor - 1, 33, 3))
+                    e.Graphics.FillRectangle(LDSettings.Colours.selectionCrossBrush, New RectangleF(absOffsetX - MainState.primitiveCenter.X * View.zoomfactor - 1, absOffsetY + MainState.primitiveCenter.Y * View.zoomfactor - 16, 3, 33))
+                    e.Graphics.FillRectangle(LDSettings.Colours.selectionCrossBrush, New RectangleF(absOffsetX - MainState.primitiveCenter.X * View.zoomfactor - 16, absOffsetY + MainState.primitiveCenter.Y * View.zoomfactor - 1, 33, 3))
                     Exit Select
                 Case PrimitiveModes.SetTheHeight
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.PHeight), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, 12, 32)
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.PHeight), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Azure, 10, 30)
-                    e.Graphics.FillRectangle(myColours.selectionCrossBrush, New RectangleF(absOffsetX - MainState.primitiveCenter.X * View.zoomfactor - 1, absOffsetY + MainState.primitiveCenter.Y * View.zoomfactor - 16, 2, 32))
-                    e.Graphics.FillRectangle(myColours.selectionCrossBrush, New RectangleF(absOffsetX - MainState.primitiveCenter.X * View.zoomfactor - 16, absOffsetY + MainState.primitiveCenter.Y * View.zoomfactor - 1, 32, 2))
+                    e.Graphics.FillRectangle(LDSettings.Colours.selectionCrossBrush, New RectangleF(absOffsetX - MainState.primitiveCenter.X * View.zoomfactor - 1, absOffsetY + MainState.primitiveCenter.Y * View.zoomfactor - 16, 2, 32))
+                    e.Graphics.FillRectangle(LDSettings.Colours.selectionCrossBrush, New RectangleF(absOffsetX - MainState.primitiveCenter.X * View.zoomfactor - 16, absOffsetY + MainState.primitiveCenter.Y * View.zoomfactor - 1, 32, 2))
                     MainState.primitiveHeight = Fix(getYcoordinate(MouseHelper.getCursorpositionY()) - MainState.primitiveCenter.Y)
                     Select Case MainState.primitiveObject
                         Case Is < 3
@@ -6211,12 +6205,12 @@ raster_zechnen:
                             v1 = New Vertex(MainState.primitiveCenter.X, MainState.primitiveCenter.Y + MainState.primitiveHeight, False, False)
                             v2 = New Vertex(MainState.primitiveCenter.X + MainState.primitiveHeight, MainState.primitiveCenter.Y - (MainState.primitiveHeight / 2), False, False)
                             v3 = New Vertex(MainState.primitiveCenter.X - MainState.primitiveHeight, MainState.primitiveCenter.Y - (MainState.primitiveHeight / 2), False, False)
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v1.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v1.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v2.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v2.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v3.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v3.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single), CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single), CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single), CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v1.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v1.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v2.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v2.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v3.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v3.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single), CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single), CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single), CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single))
                             Exit Select
                         Case Is < 6
                             Dim v1, v2, v3, v4 As Vertex
@@ -6224,63 +6218,63 @@ raster_zechnen:
                             v2 = New Vertex(MainState.primitiveCenter.X - MainState.primitiveHeight, MainState.primitiveCenter.Y + MainState.primitiveHeight, False, False)
                             v3 = New Vertex(MainState.primitiveCenter.X - MainState.primitiveHeight, MainState.primitiveCenter.Y - MainState.primitiveHeight, False, False)
                             v4 = New Vertex(MainState.primitiveCenter.X + MainState.primitiveHeight, MainState.primitiveCenter.Y - MainState.primitiveHeight, False, False)
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v1.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v1.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v2.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v2.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v3.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v3.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v4.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v4.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single), CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single), CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single), CType(absOffsetX - v4.X * View.zoomfactor, Single), CType(absOffsetY + v4.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v4.X * View.zoomfactor, Single), CType(absOffsetY + v4.Y * View.zoomfactor, Single), CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single), CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v1.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v1.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v2.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v2.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v3.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v3.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v4.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v4.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single), CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single), CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single), CType(absOffsetX - v4.X * View.zoomfactor, Single), CType(absOffsetY + v4.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v4.X * View.zoomfactor, Single), CType(absOffsetY + v4.Y * View.zoomfactor, Single), CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single), CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single))
                             Exit Select
                         Case Is < 9
                             MainState.primitiveHeight = Fix(Math.Sqrt((getYcoordinate(MouseHelper.getCursorpositionY()) - MainState.primitiveCenter.Y) ^ 2 + (getXcoordinate(MouseHelper.getCursorpositionX()) - MainState.primitiveCenter.X) ^ 2))
                             Dim vcenter As Vertex
-                            Dim vouter(mySettings.segments_circle) As Vertex
+                            Dim vouter(LDSettings.Editor.segments_circle) As Vertex
                             Dim counter As Integer = 0
                             vcenter = New Vertex(MainState.primitiveCenter.X, MainState.primitiveCenter.Y, False, False)
-                            For a As Double = 0 To Math.PI * 2 Step Math.PI * 2 / mySettings.segments_circle
+                            For a As Double = 0 To Math.PI * 2 Step Math.PI * 2 / LDSettings.Editor.segments_circle
                                 vouter(counter) = New Vertex(MainState.primitiveCenter.X + Math.Cos(a) * MainState.primitiveHeight, MainState.primitiveCenter.Y + Math.Sin(a) * MainState.primitiveHeight, False, False)
                                 counter += 1
                             Next
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(0).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(0).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vouter(0).X * View.zoomfactor, Single), CType(absOffsetY + vouter(0).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(mySettings.segments_circle - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(mySettings.segments_circle - 1).Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vouter(0).X * View.zoomfactor, Single), CType(absOffsetY + vouter(0).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
-                            For counter = 1 To mySettings.segments_circle - 1
-                                e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vouter(counter).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter - 1).Y * View.zoomfactor, Single))
-                                e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vouter(counter).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
-                                e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(counter).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(counter).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(0).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(0).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vouter(0).X * View.zoomfactor, Single), CType(absOffsetY + vouter(0).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(LDSettings.Editor.segments_circle - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(LDSettings.Editor.segments_circle - 1).Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vouter(0).X * View.zoomfactor, Single), CType(absOffsetY + vouter(0).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
+                            For counter = 1 To LDSettings.Editor.segments_circle - 1
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vouter(counter).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter - 1).Y * View.zoomfactor, Single))
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vouter(counter).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
+                                e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(counter).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(counter).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
                             Next
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - vcenter.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vcenter.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - vcenter.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vcenter.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
                             Exit Select
                         Case Is < 12
                             MainState.primitiveHeight = Fix(Math.Sqrt((getYcoordinate(MouseHelper.getCursorpositionY()) - MainState.primitiveCenter.Y) ^ 2 + (getXcoordinate(MouseHelper.getCursorpositionX()) - MainState.primitiveCenter.X) ^ 2))
                             Dim vcenter As Vertex
-                            Dim vouter(mySettings.segments_oval) As Vertex
+                            Dim vouter(LDSettings.Editor.segments_oval) As Vertex
                             Dim counter As Integer = 0
                             vcenter = New Vertex(MainState.primitiveCenter.X, MainState.primitiveCenter.Y, False, False)
-                            For a As Double = 0 To Math.PI * 2 Step Math.PI * 2 / mySettings.segments_oval
+                            For a As Double = 0 To Math.PI * 2 Step Math.PI * 2 / LDSettings.Editor.segments_oval
                                 vouter(counter) = New Vertex(MainState.primitiveCenter.X + Math.Cos(a) * MainState.primitiveHeight, MainState.primitiveCenter.Y + Math.Sin(a) * MainState.primitiveHeight, False, False)
                                 counter += 1
                             Next
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(0).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(0).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vouter(0).X * View.zoomfactor, Single), CType(absOffsetY + vouter(0).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(mySettings.segments_oval - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(mySettings.segments_oval - 1).Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vouter(0).X * View.zoomfactor, Single), CType(absOffsetY + vouter(0).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
-                            For counter = 1 To mySettings.segments_oval - 1
-                                e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vouter(counter).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter - 1).Y * View.zoomfactor, Single))
-                                e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vouter(counter).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
-                                e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(counter).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(counter).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(0).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(0).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vouter(0).X * View.zoomfactor, Single), CType(absOffsetY + vouter(0).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(LDSettings.Editor.segments_oval - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(LDSettings.Editor.segments_oval - 1).Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vouter(0).X * View.zoomfactor, Single), CType(absOffsetY + vouter(0).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
+                            For counter = 1 To LDSettings.Editor.segments_oval - 1
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vouter(counter).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter - 1).Y * View.zoomfactor, Single))
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vouter(counter).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
+                                e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(counter).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(counter).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
                             Next
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - vcenter.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vcenter.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - vcenter.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vcenter.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
                             Exit Select
                     End Select
                     Exit Select
                 Case PrimitiveModes.SetTheWidth
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.PWidth), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, 12, 32)
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.PWidth), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Azure, 10, 30)
-                    e.Graphics.FillRectangle(myColours.selectionCrossBrush, New RectangleF(absOffsetX - MainState.primitiveCenter.X * View.zoomfactor - 1, absOffsetY + MainState.primitiveCenter.Y * View.zoomfactor - 16, 2, 32))
-                    e.Graphics.FillRectangle(myColours.selectionCrossBrush, New RectangleF(absOffsetX - MainState.primitiveCenter.X * View.zoomfactor - 16, absOffsetY + MainState.primitiveCenter.Y * View.zoomfactor - 1, 32, 2))
+                    e.Graphics.FillRectangle(LDSettings.Colours.selectionCrossBrush, New RectangleF(absOffsetX - MainState.primitiveCenter.X * View.zoomfactor - 1, absOffsetY + MainState.primitiveCenter.Y * View.zoomfactor - 16, 2, 32))
+                    e.Graphics.FillRectangle(LDSettings.Colours.selectionCrossBrush, New RectangleF(absOffsetX - MainState.primitiveCenter.X * View.zoomfactor - 16, absOffsetY + MainState.primitiveCenter.Y * View.zoomfactor - 1, 32, 2))
                     MainState.primitiveWidth = Fix(getXcoordinate(MouseHelper.getCursorpositionX()) - MainState.primitiveCenter.X)
                     Select Case MainState.primitiveObject
                         Case Is < 3
@@ -6288,12 +6282,12 @@ raster_zechnen:
                             v1 = New Vertex(MainState.primitiveCenter.X, MainState.primitiveCenter.Y + MainState.primitiveHeight, False, False)
                             v2 = New Vertex(MainState.primitiveCenter.X + MainState.primitiveHeight + MainState.primitiveWidth, MainState.primitiveCenter.Y - (MainState.primitiveHeight / 2), False, False)
                             v3 = New Vertex(MainState.primitiveCenter.X - MainState.primitiveHeight - MainState.primitiveWidth, MainState.primitiveCenter.Y - (MainState.primitiveHeight / 2), False, False)
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v1.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v1.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v2.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v2.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v3.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v3.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single), CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single), CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single), CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v1.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v1.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v2.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v2.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v3.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v3.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single), CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single), CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single), CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single))
                             Exit Select
                         Case Is < 6
                             Dim v1, v2, v3, v4 As Vertex
@@ -6301,43 +6295,43 @@ raster_zechnen:
                             v2 = New Vertex(MainState.primitiveCenter.X - MainState.primitiveWidth, MainState.primitiveCenter.Y + MainState.primitiveHeight, False, False)
                             v3 = New Vertex(MainState.primitiveCenter.X - MainState.primitiveWidth, MainState.primitiveCenter.Y - MainState.primitiveHeight, False, False)
                             v4 = New Vertex(MainState.primitiveCenter.X + MainState.primitiveWidth, MainState.primitiveCenter.Y - MainState.primitiveHeight, False, False)
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v1.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v1.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v2.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v2.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v3.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v3.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v4.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v4.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single), CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single), CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single), CType(absOffsetX - v4.X * View.zoomfactor, Single), CType(absOffsetY + v4.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v4.X * View.zoomfactor, Single), CType(absOffsetY + v4.Y * View.zoomfactor, Single), CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single), CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v1.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v1.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v2.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v2.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v3.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v3.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v4.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v4.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single), CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single), CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single), CType(absOffsetX - v4.X * View.zoomfactor, Single), CType(absOffsetY + v4.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v4.X * View.zoomfactor, Single), CType(absOffsetY + v4.Y * View.zoomfactor, Single), CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single), CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single))
                             Exit Select
                         Case Is < 12
                             MainState.primitiveWidth = Fix(Math.Sqrt((getYcoordinate(MouseHelper.getCursorpositionY()) - MainState.primitiveCenter.Y) ^ 2 + (getXcoordinate(MouseHelper.getCursorpositionX()) - MainState.primitiveCenter.X) ^ 2))
                             Dim vcenter As Vertex
-                            Dim vouter(mySettings.segments_oval) As Vertex
+                            Dim vouter(LDSettings.Editor.segments_oval) As Vertex
                             Dim counter As Integer = 0
                             vcenter = New Vertex(MainState.primitiveCenter.X, MainState.primitiveCenter.Y, False, False)
-                            For a As Double = 0 To Math.PI * 2 Step Math.PI * 2 / mySettings.segments_oval
+                            For a As Double = 0 To Math.PI * 2 Step Math.PI * 2 / LDSettings.Editor.segments_oval
                                 vouter(counter) = New Vertex(MainState.primitiveCenter.X + Math.Cos(a) * MainState.primitiveWidth, MainState.primitiveCenter.Y + Math.Sin(a) * MainState.primitiveHeight, False, False)
                                 counter += 1
                             Next
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(0).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(0).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vouter(0).X * View.zoomfactor, Single), CType(absOffsetY + vouter(0).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(mySettings.segments_oval - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(mySettings.segments_oval - 1).Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vouter(0).X * View.zoomfactor, Single), CType(absOffsetY + vouter(0).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
-                            For counter = 1 To mySettings.segments_oval - 1
-                                e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vouter(counter).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter - 1).Y * View.zoomfactor, Single))
-                                e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vouter(counter).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
-                                e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(counter).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(counter).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(0).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(0).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vouter(0).X * View.zoomfactor, Single), CType(absOffsetY + vouter(0).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(LDSettings.Editor.segments_oval - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(LDSettings.Editor.segments_oval - 1).Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vouter(0).X * View.zoomfactor, Single), CType(absOffsetY + vouter(0).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
+                            For counter = 1 To LDSettings.Editor.segments_oval - 1
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vouter(counter).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter - 1).Y * View.zoomfactor, Single))
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vouter(counter).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
+                                e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(counter).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(counter).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
                             Next
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - vcenter.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vcenter.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - vcenter.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vcenter.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
                             Exit Select
                     End Select
                     Exit Select
                 Case PrimitiveModes.SetTheFrameSize
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.PFrameSize), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, 12, 32)
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.PFrameSize), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Azure, 10, 30)
-                    e.Graphics.FillRectangle(myColours.selectionCrossBrush, New RectangleF(absOffsetX - MainState.primitiveCenter.X * View.zoomfactor - 1, absOffsetY + MainState.primitiveCenter.Y * View.zoomfactor - 16, 2, 32))
-                    e.Graphics.FillRectangle(myColours.selectionCrossBrush, New RectangleF(absOffsetX - MainState.primitiveCenter.X * View.zoomfactor - 16, absOffsetY + MainState.primitiveCenter.Y * View.zoomfactor - 1, 32, 2))
+                    e.Graphics.FillRectangle(LDSettings.Colours.selectionCrossBrush, New RectangleF(absOffsetX - MainState.primitiveCenter.X * View.zoomfactor - 1, absOffsetY + MainState.primitiveCenter.Y * View.zoomfactor - 16, 2, 32))
+                    e.Graphics.FillRectangle(LDSettings.Colours.selectionCrossBrush, New RectangleF(absOffsetX - MainState.primitiveCenter.X * View.zoomfactor - 16, absOffsetY + MainState.primitiveCenter.Y * View.zoomfactor - 1, 32, 2))
                     MainState.primitiveBordersize = Fix(getXcoordinate(MouseHelper.getCursorpositionX()) - MainState.primitiveCenter.X) / Math.Sqrt(MainState.primitiveWidth ^ 2 + MainState.primitiveHeight ^ 2)
                     If MainState.primitiveBordersize < 0 Then MainState.primitiveBordersize *= -1
                     MathHelper.clip(MainState.primitiveBordersize, 0, 1)
@@ -6347,28 +6341,28 @@ raster_zechnen:
                             v11 = New Vertex(MainState.primitiveCenter.X, MainState.primitiveCenter.Y + MainState.primitiveHeight, False, False)
                             v21 = New Vertex(MainState.primitiveCenter.X + MainState.primitiveHeight + MainState.primitiveWidth, MainState.primitiveCenter.Y - (MainState.primitiveHeight / 2), False, False)
                             v31 = New Vertex(MainState.primitiveCenter.X - MainState.primitiveHeight - MainState.primitiveWidth, MainState.primitiveCenter.Y - (MainState.primitiveHeight / 2), False, False)
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v11.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v11.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v21.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v21.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v31.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v31.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v11.X * View.zoomfactor, Single), CType(absOffsetY + v11.Y * View.zoomfactor, Single), CType(absOffsetX - v21.X * View.zoomfactor, Single), CType(absOffsetY + v21.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v21.X * View.zoomfactor, Single), CType(absOffsetY + v21.Y * View.zoomfactor, Single), CType(absOffsetX - v31.X * View.zoomfactor, Single), CType(absOffsetY + v31.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v31.X * View.zoomfactor, Single), CType(absOffsetY + v31.Y * View.zoomfactor, Single), CType(absOffsetX - v11.X * View.zoomfactor, Single), CType(absOffsetY + v11.Y * View.zoomfactor, Single))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v11.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v11.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v21.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v21.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v31.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v31.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v11.X * View.zoomfactor, Single), CType(absOffsetY + v11.Y * View.zoomfactor, Single), CType(absOffsetX - v21.X * View.zoomfactor, Single), CType(absOffsetY + v21.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v21.X * View.zoomfactor, Single), CType(absOffsetY + v21.Y * View.zoomfactor, Single), CType(absOffsetX - v31.X * View.zoomfactor, Single), CType(absOffsetY + v31.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v31.X * View.zoomfactor, Single), CType(absOffsetY + v31.Y * View.zoomfactor, Single), CType(absOffsetX - v11.X * View.zoomfactor, Single), CType(absOffsetY + v11.Y * View.zoomfactor, Single))
                             Dim v12, v22, v32 As Vertex
                             v12 = New Vertex(MainState.primitiveCenter.X, MainState.primitiveCenter.Y + MainState.primitiveHeight * MainState.primitiveBordersize, False, False)
                             v22 = New Vertex(MainState.primitiveCenter.X + (MainState.primitiveHeight + MainState.primitiveWidth) * MainState.primitiveBordersize, MainState.primitiveCenter.Y - (MainState.primitiveHeight / 2) * MainState.primitiveBordersize, False, False)
                             v32 = New Vertex(MainState.primitiveCenter.X - (MainState.primitiveHeight + MainState.primitiveWidth) * MainState.primitiveBordersize, MainState.primitiveCenter.Y - (MainState.primitiveHeight / 2) * MainState.primitiveBordersize, False, False)
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v12.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v12.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v22.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v22.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v32.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v32.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v12.X * View.zoomfactor, Single), CType(absOffsetY + v12.Y * View.zoomfactor, Single), CType(absOffsetX - v22.X * View.zoomfactor, Single), CType(absOffsetY + v22.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v22.X * View.zoomfactor, Single), CType(absOffsetY + v22.Y * View.zoomfactor, Single), CType(absOffsetX - v32.X * View.zoomfactor, Single), CType(absOffsetY + v32.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v32.X * View.zoomfactor, Single), CType(absOffsetY + v32.Y * View.zoomfactor, Single), CType(absOffsetX - v12.X * View.zoomfactor, Single), CType(absOffsetY + v12.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v11.X * View.zoomfactor, Single), CType(absOffsetY + v11.Y * View.zoomfactor, Single), CType(absOffsetX - v12.X * View.zoomfactor, Single), CType(absOffsetY + v12.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v21.X * View.zoomfactor, Single), CType(absOffsetY + v21.Y * View.zoomfactor, Single), CType(absOffsetX - v22.X * View.zoomfactor, Single), CType(absOffsetY + v22.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v31.X * View.zoomfactor, Single), CType(absOffsetY + v31.Y * View.zoomfactor, Single), CType(absOffsetX - v32.X * View.zoomfactor, Single), CType(absOffsetY + v32.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v11.X * View.zoomfactor, Single), CType(absOffsetY + v11.Y * View.zoomfactor, Single), CType(absOffsetX - v22.X * View.zoomfactor, Single), CType(absOffsetY + v22.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v21.X * View.zoomfactor, Single), CType(absOffsetY + v21.Y * View.zoomfactor, Single), CType(absOffsetX - v32.X * View.zoomfactor, Single), CType(absOffsetY + v32.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v31.X * View.zoomfactor, Single), CType(absOffsetY + v31.Y * View.zoomfactor, Single), CType(absOffsetX - v12.X * View.zoomfactor, Single), CType(absOffsetY + v12.Y * View.zoomfactor, Single))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v12.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v12.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v22.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v22.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v32.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v32.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v12.X * View.zoomfactor, Single), CType(absOffsetY + v12.Y * View.zoomfactor, Single), CType(absOffsetX - v22.X * View.zoomfactor, Single), CType(absOffsetY + v22.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v22.X * View.zoomfactor, Single), CType(absOffsetY + v22.Y * View.zoomfactor, Single), CType(absOffsetX - v32.X * View.zoomfactor, Single), CType(absOffsetY + v32.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v32.X * View.zoomfactor, Single), CType(absOffsetY + v32.Y * View.zoomfactor, Single), CType(absOffsetX - v12.X * View.zoomfactor, Single), CType(absOffsetY + v12.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v11.X * View.zoomfactor, Single), CType(absOffsetY + v11.Y * View.zoomfactor, Single), CType(absOffsetX - v12.X * View.zoomfactor, Single), CType(absOffsetY + v12.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v21.X * View.zoomfactor, Single), CType(absOffsetY + v21.Y * View.zoomfactor, Single), CType(absOffsetX - v22.X * View.zoomfactor, Single), CType(absOffsetY + v22.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v31.X * View.zoomfactor, Single), CType(absOffsetY + v31.Y * View.zoomfactor, Single), CType(absOffsetX - v32.X * View.zoomfactor, Single), CType(absOffsetY + v32.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v11.X * View.zoomfactor, Single), CType(absOffsetY + v11.Y * View.zoomfactor, Single), CType(absOffsetX - v22.X * View.zoomfactor, Single), CType(absOffsetY + v22.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v21.X * View.zoomfactor, Single), CType(absOffsetY + v21.Y * View.zoomfactor, Single), CType(absOffsetX - v32.X * View.zoomfactor, Single), CType(absOffsetY + v32.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v31.X * View.zoomfactor, Single), CType(absOffsetY + v31.Y * View.zoomfactor, Single), CType(absOffsetX - v12.X * View.zoomfactor, Single), CType(absOffsetY + v12.Y * View.zoomfactor, Single))
                             Exit Select
                         Case Is < 6
                             Dim v1, v2, v3, v4, v5, v6, v7, v8 As Vertex
@@ -6380,94 +6374,94 @@ raster_zechnen:
                             v6 = New Vertex(MainState.primitiveCenter.X - MainState.primitiveWidth * MainState.primitiveBordersize, MainState.primitiveCenter.Y + MainState.primitiveHeight * MainState.primitiveBordersize, False, False)
                             v7 = New Vertex(MainState.primitiveCenter.X - MainState.primitiveWidth * MainState.primitiveBordersize, MainState.primitiveCenter.Y - MainState.primitiveHeight * MainState.primitiveBordersize, False, False)
                             v8 = New Vertex(MainState.primitiveCenter.X + MainState.primitiveWidth * MainState.primitiveBordersize, MainState.primitiveCenter.Y - MainState.primitiveHeight * MainState.primitiveBordersize, False, False)
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v1.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v1.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v2.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v2.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v3.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v3.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v4.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v4.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v5.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v5.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v6.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v6.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v7.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v7.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v8.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v8.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v1.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v1.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v2.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v2.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v3.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v3.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v4.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v4.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v5.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v5.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v6.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v6.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v7.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v7.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v8.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v8.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
                             ' Kontur: Rechteck aussen
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single), CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single), CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single), CType(absOffsetX - v4.X * View.zoomfactor, Single), CType(absOffsetY + v4.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v4.X * View.zoomfactor, Single), CType(absOffsetY + v4.Y * View.zoomfactor, Single), CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single), CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single), CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single), CType(absOffsetX - v4.X * View.zoomfactor, Single), CType(absOffsetY + v4.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v4.X * View.zoomfactor, Single), CType(absOffsetY + v4.Y * View.zoomfactor, Single), CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single))
                             ' Kontur: Rechteck innen
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v5.X * View.zoomfactor, Single), CType(absOffsetY + v5.Y * View.zoomfactor, Single), CType(absOffsetX - v6.X * View.zoomfactor, Single), CType(absOffsetY + v6.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v6.X * View.zoomfactor, Single), CType(absOffsetY + v6.Y * View.zoomfactor, Single), CType(absOffsetX - v7.X * View.zoomfactor, Single), CType(absOffsetY + v7.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v7.X * View.zoomfactor, Single), CType(absOffsetY + v7.Y * View.zoomfactor, Single), CType(absOffsetX - v8.X * View.zoomfactor, Single), CType(absOffsetY + v8.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v8.X * View.zoomfactor, Single), CType(absOffsetY + v8.Y * View.zoomfactor, Single), CType(absOffsetX - v5.X * View.zoomfactor, Single), CType(absOffsetY + v5.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v5.X * View.zoomfactor, Single), CType(absOffsetY + v5.Y * View.zoomfactor, Single), CType(absOffsetX - v6.X * View.zoomfactor, Single), CType(absOffsetY + v6.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v6.X * View.zoomfactor, Single), CType(absOffsetY + v6.Y * View.zoomfactor, Single), CType(absOffsetX - v7.X * View.zoomfactor, Single), CType(absOffsetY + v7.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v7.X * View.zoomfactor, Single), CType(absOffsetY + v7.Y * View.zoomfactor, Single), CType(absOffsetX - v8.X * View.zoomfactor, Single), CType(absOffsetY + v8.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v8.X * View.zoomfactor, Single), CType(absOffsetY + v8.Y * View.zoomfactor, Single), CType(absOffsetX - v5.X * View.zoomfactor, Single), CType(absOffsetY + v5.Y * View.zoomfactor, Single))
                             ' Diagonale: Innen
-                            If MainState.primitiveObject = PrimitiveObjects.RectangleWithFrame Then e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v5.X * View.zoomfactor, Single), CType(absOffsetY + v5.Y * View.zoomfactor, Single), CType(absOffsetX - v7.X * View.zoomfactor, Single), CType(absOffsetY + v7.Y * View.zoomfactor, Single))
+                            If MainState.primitiveObject = PrimitiveObjects.RectangleWithFrame Then e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v5.X * View.zoomfactor, Single), CType(absOffsetY + v5.Y * View.zoomfactor, Single), CType(absOffsetX - v7.X * View.zoomfactor, Single), CType(absOffsetY + v7.Y * View.zoomfactor, Single))
                             ' Verbindungslinien: Aussen/Innen
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single), CType(absOffsetX - v5.X * View.zoomfactor, Single), CType(absOffsetY + v5.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single), CType(absOffsetX - v6.X * View.zoomfactor, Single), CType(absOffsetY + v6.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single), CType(absOffsetX - v7.X * View.zoomfactor, Single), CType(absOffsetY + v7.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v4.X * View.zoomfactor, Single), CType(absOffsetY + v4.Y * View.zoomfactor, Single), CType(absOffsetX - v8.X * View.zoomfactor, Single), CType(absOffsetY + v8.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single), CType(absOffsetX - v5.X * View.zoomfactor, Single), CType(absOffsetY + v5.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single), CType(absOffsetX - v6.X * View.zoomfactor, Single), CType(absOffsetY + v6.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single), CType(absOffsetX - v7.X * View.zoomfactor, Single), CType(absOffsetY + v7.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v4.X * View.zoomfactor, Single), CType(absOffsetY + v4.Y * View.zoomfactor, Single), CType(absOffsetX - v8.X * View.zoomfactor, Single), CType(absOffsetY + v8.Y * View.zoomfactor, Single))
                             ' Verbindungslinien: Diagonal
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single), CType(absOffsetX - v6.X * View.zoomfactor, Single), CType(absOffsetY + v6.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single), CType(absOffsetX - v7.X * View.zoomfactor, Single), CType(absOffsetY + v7.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single), CType(absOffsetX - v8.X * View.zoomfactor, Single), CType(absOffsetY + v8.Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - v4.X * View.zoomfactor, Single), CType(absOffsetY + v4.Y * View.zoomfactor, Single), CType(absOffsetX - v5.X * View.zoomfactor, Single), CType(absOffsetY + v5.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v1.X * View.zoomfactor, Single), CType(absOffsetY + v1.Y * View.zoomfactor, Single), CType(absOffsetX - v6.X * View.zoomfactor, Single), CType(absOffsetY + v6.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v2.X * View.zoomfactor, Single), CType(absOffsetY + v2.Y * View.zoomfactor, Single), CType(absOffsetX - v7.X * View.zoomfactor, Single), CType(absOffsetY + v7.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v3.X * View.zoomfactor, Single), CType(absOffsetY + v3.Y * View.zoomfactor, Single), CType(absOffsetX - v8.X * View.zoomfactor, Single), CType(absOffsetY + v8.Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - v4.X * View.zoomfactor, Single), CType(absOffsetY + v4.Y * View.zoomfactor, Single), CType(absOffsetX - v5.X * View.zoomfactor, Single), CType(absOffsetY + v5.Y * View.zoomfactor, Single))
                             Exit Select
                         Case Is < 9
                             Dim vcenter As Vertex
-                            Dim vinner(mySettings.segments_circle) As Vertex
-                            Dim vouter(mySettings.segments_circle) As Vertex
+                            Dim vinner(LDSettings.Editor.segments_circle) As Vertex
+                            Dim vouter(LDSettings.Editor.segments_circle) As Vertex
                             Dim counter As Integer = 0
                             vcenter = New Vertex(MainState.primitiveCenter.X, MainState.primitiveCenter.Y, False, False)
-                            For a As Double = 0 To Math.PI * 2 Step Math.PI * 2 / mySettings.segments_circle
+                            For a As Double = 0 To Math.PI * 2 Step Math.PI * 2 / LDSettings.Editor.segments_circle
                                 vinner(counter) = New Vertex(MainState.primitiveCenter.X + Math.Cos(a) * MainState.primitiveHeight * MainState.primitiveBordersize, MainState.primitiveCenter.Y + Math.Sin(a) * MainState.primitiveHeight * MainState.primitiveBordersize, False, False)
                                 vouter(counter) = New Vertex(MainState.primitiveCenter.X + Math.Cos(a) * MainState.primitiveHeight, MainState.primitiveCenter.Y + Math.Sin(a) * MainState.primitiveHeight, False, False)
                                 counter += 1
                             Next
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(0).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(0).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - vinner(0).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vinner(0).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vouter(0).X * View.zoomfactor, Single), CType(absOffsetY + vouter(0).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(mySettings.segments_circle - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(mySettings.segments_circle - 1).Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vinner(0).X * View.zoomfactor, Single), CType(absOffsetY + vinner(0).Y * View.zoomfactor, Single), CType(absOffsetX - vinner(mySettings.segments_circle - 1).X * View.zoomfactor, Single), CType(absOffsetY + vinner(mySettings.segments_circle - 1).Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vinner(0).X * View.zoomfactor, Single), CType(absOffsetY + vinner(0).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(mySettings.segments_circle - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(mySettings.segments_circle - 1).Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vinner(mySettings.segments_circle - 1).X * View.zoomfactor, Single), CType(absOffsetY + vinner(mySettings.segments_circle - 1).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(mySettings.segments_circle - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(mySettings.segments_circle - 1).Y * View.zoomfactor, Single))
-                            If MainState.primitiveObject = PrimitiveObjects.CircleWithFrame Then e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vinner(0).X * View.zoomfactor, Single), CType(absOffsetY + vinner(0).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
-                            For counter = 1 To mySettings.segments_circle - 1
-                                e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vouter(counter).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter - 1).Y * View.zoomfactor, Single))
-                                e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vinner(counter).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vinner(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter - 1).Y * View.zoomfactor, Single))
-                                e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vinner(counter).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter - 1).Y * View.zoomfactor, Single))
-                                e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vinner(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter - 1).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter - 1).Y * View.zoomfactor, Single))
-                                If MainState.primitiveObject = PrimitiveObjects.CircleWithFrame Then e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vinner(counter).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
-                                e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(counter).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(counter).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                                e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - vinner(counter).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vinner(counter).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(0).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(0).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - vinner(0).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vinner(0).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vouter(0).X * View.zoomfactor, Single), CType(absOffsetY + vouter(0).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(LDSettings.Editor.segments_circle - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(LDSettings.Editor.segments_circle - 1).Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vinner(0).X * View.zoomfactor, Single), CType(absOffsetY + vinner(0).Y * View.zoomfactor, Single), CType(absOffsetX - vinner(LDSettings.Editor.segments_circle - 1).X * View.zoomfactor, Single), CType(absOffsetY + vinner(LDSettings.Editor.segments_circle - 1).Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vinner(0).X * View.zoomfactor, Single), CType(absOffsetY + vinner(0).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(LDSettings.Editor.segments_circle - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(LDSettings.Editor.segments_circle - 1).Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vinner(LDSettings.Editor.segments_circle - 1).X * View.zoomfactor, Single), CType(absOffsetY + vinner(LDSettings.Editor.segments_circle - 1).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(LDSettings.Editor.segments_circle - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(LDSettings.Editor.segments_circle - 1).Y * View.zoomfactor, Single))
+                            If MainState.primitiveObject = PrimitiveObjects.CircleWithFrame Then e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vinner(0).X * View.zoomfactor, Single), CType(absOffsetY + vinner(0).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
+                            For counter = 1 To LDSettings.Editor.segments_circle - 1
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vouter(counter).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter - 1).Y * View.zoomfactor, Single))
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vinner(counter).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vinner(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter - 1).Y * View.zoomfactor, Single))
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vinner(counter).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter - 1).Y * View.zoomfactor, Single))
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vinner(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter - 1).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter - 1).Y * View.zoomfactor, Single))
+                                If MainState.primitiveObject = PrimitiveObjects.CircleWithFrame Then e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vinner(counter).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
+                                e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(counter).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(counter).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                                e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - vinner(counter).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vinner(counter).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
                             Next
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - vcenter.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vcenter.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - vcenter.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vcenter.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
                             Exit Select
                         Case Is < 12
                             Dim vcenter As Vertex
-                            Dim vinner(mySettings.segments_oval) As Vertex
-                            Dim vouter(mySettings.segments_oval) As Vertex
+                            Dim vinner(LDSettings.Editor.segments_oval) As Vertex
+                            Dim vouter(LDSettings.Editor.segments_oval) As Vertex
                             Dim counter As Integer = 0
                             vcenter = New Vertex(MainState.primitiveCenter.X, MainState.primitiveCenter.Y, False, False)
-                            For a As Double = 0 To Math.PI * 2 Step Math.PI * 2 / mySettings.segments_oval
+                            For a As Double = 0 To Math.PI * 2 Step Math.PI * 2 / LDSettings.Editor.segments_oval
                                 vinner(counter) = New Vertex(MainState.primitiveCenter.X + Math.Cos(a) * MainState.primitiveWidth * MainState.primitiveBordersize, MainState.primitiveCenter.Y + Math.Sin(a) * MainState.primitiveHeight * MainState.primitiveBordersize, False, False)
                                 vouter(counter) = New Vertex(MainState.primitiveCenter.X + Math.Cos(a) * MainState.primitiveWidth, MainState.primitiveCenter.Y + Math.Sin(a) * MainState.primitiveHeight, False, False)
                                 counter += 1
                             Next
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(0).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(0).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - vinner(0).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vinner(0).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vouter(0).X * View.zoomfactor, Single), CType(absOffsetY + vouter(0).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(mySettings.segments_oval - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(mySettings.segments_oval - 1).Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vinner(0).X * View.zoomfactor, Single), CType(absOffsetY + vinner(0).Y * View.zoomfactor, Single), CType(absOffsetX - vinner(mySettings.segments_oval - 1).X * View.zoomfactor, Single), CType(absOffsetY + vinner(mySettings.segments_oval - 1).Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vinner(0).X * View.zoomfactor, Single), CType(absOffsetY + vinner(0).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(mySettings.segments_oval - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(mySettings.segments_oval - 1).Y * View.zoomfactor, Single))
-                            e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vinner(mySettings.segments_oval - 1).X * View.zoomfactor, Single), CType(absOffsetY + vinner(mySettings.segments_oval - 1).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(mySettings.segments_oval - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(mySettings.segments_oval - 1).Y * View.zoomfactor, Single))
-                            If MainState.primitiveObject = PrimitiveObjects.OvalWithFrame Then e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vinner(0).X * View.zoomfactor, Single), CType(absOffsetY + vinner(0).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
-                            For counter = 1 To mySettings.segments_oval - 1
-                                e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vouter(counter).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter - 1).Y * View.zoomfactor, Single))
-                                e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vinner(counter).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vinner(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter - 1).Y * View.zoomfactor, Single))
-                                e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vinner(counter).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter - 1).Y * View.zoomfactor, Single))
-                                e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vinner(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter - 1).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter - 1).Y * View.zoomfactor, Single))
-                                If MainState.primitiveObject = PrimitiveObjects.OvalWithFrame Then e.Graphics.DrawLine(myColours.selectedLinePen, CType(absOffsetX - vinner(counter).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
-                                e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(counter).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(counter).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
-                                e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - vinner(counter).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vinner(counter).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(0).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(0).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - vinner(0).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vinner(0).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vouter(0).X * View.zoomfactor, Single), CType(absOffsetY + vouter(0).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(LDSettings.Editor.segments_oval - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(LDSettings.Editor.segments_oval - 1).Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vinner(0).X * View.zoomfactor, Single), CType(absOffsetY + vinner(0).Y * View.zoomfactor, Single), CType(absOffsetX - vinner(LDSettings.Editor.segments_oval - 1).X * View.zoomfactor, Single), CType(absOffsetY + vinner(LDSettings.Editor.segments_oval - 1).Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vinner(0).X * View.zoomfactor, Single), CType(absOffsetY + vinner(0).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(LDSettings.Editor.segments_oval - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(LDSettings.Editor.segments_oval - 1).Y * View.zoomfactor, Single))
+                            e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vinner(LDSettings.Editor.segments_oval - 1).X * View.zoomfactor, Single), CType(absOffsetY + vinner(LDSettings.Editor.segments_oval - 1).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(LDSettings.Editor.segments_oval - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(LDSettings.Editor.segments_oval - 1).Y * View.zoomfactor, Single))
+                            If MainState.primitiveObject = PrimitiveObjects.OvalWithFrame Then e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vinner(0).X * View.zoomfactor, Single), CType(absOffsetY + vinner(0).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
+                            For counter = 1 To LDSettings.Editor.segments_oval - 1
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vouter(counter).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter - 1).Y * View.zoomfactor, Single))
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vinner(counter).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vinner(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter - 1).Y * View.zoomfactor, Single))
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vinner(counter).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter - 1).Y * View.zoomfactor, Single))
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vinner(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter - 1).Y * View.zoomfactor, Single), CType(absOffsetX - vouter(counter - 1).X * View.zoomfactor, Single), CType(absOffsetY + vouter(counter - 1).Y * View.zoomfactor, Single))
+                                If MainState.primitiveObject = PrimitiveObjects.OvalWithFrame Then e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - vinner(counter).X * View.zoomfactor, Single), CType(absOffsetY + vinner(counter).Y * View.zoomfactor, Single), CType(absOffsetX - vcenter.X * View.zoomfactor, Single), CType(absOffsetY + vcenter.Y * View.zoomfactor, Single))
+                                e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - vouter(counter).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vouter(counter).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                                e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - vinner(counter).X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vinner(counter).Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
                             Next
-                            e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - vcenter.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vcenter.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                            e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - vcenter.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + vcenter.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
                             Exit Select
                     End Select
                 Case PrimitiveModes.SetSplineStartingPoint
@@ -6475,7 +6469,7 @@ raster_zechnen:
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.SplineStart), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, 12, 32)
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.SplineStart), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Azure, 10, 30)
                     Dim v1 As New Vertex(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX()) / View.moveSnap) * View.moveSnap, Math.Round(getYcoordinate(MouseHelper.getCursorpositionY()) / View.moveSnap) * View.moveSnap, False, False)
-                    e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v1.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v1.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                    e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v1.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v1.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
                 Case PrimitiveModes.SetSplineStartingDirection
                     ' Spline Starting Direction
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.SplineFirstDir), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, 12, 32)
@@ -6488,7 +6482,7 @@ raster_zechnen:
                     cap2.WidthScale = 3
                     cap2.BaseCap = LineCap.Triangle
                     cap2.Height = 10
-                    Dim blackPen As New Pen(Me.myColours.linePen.Color, 1)
+                    Dim blackPen As New Pen(LDSettings.Colours.linePen.Color, 1)
                     blackPen.CustomStartCap = cap1
                     blackPen.CustomEndCap = cap2
                     Dim v1 As New Vertex(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX()) / View.moveSnap) * View.moveSnap, Math.Round(getYcoordinate(MouseHelper.getCursorpositionY()) / View.moveSnap) * View.moveSnap, False, False)
@@ -6499,7 +6493,7 @@ raster_zechnen:
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.SplineNext), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, 12, 32)
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.SplineNext), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Azure, 10, 30)
                     Dim v1 As New Vertex(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX()) / View.moveSnap) * View.moveSnap, Math.Round(getYcoordinate(MouseHelper.getCursorpositionY()) / View.moveSnap) * View.moveSnap, False, False)
-                    e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v1.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v1.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                    e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v1.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v1.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
                 Case PrimitiveModes.SetSplineNextDirection
                     ' Spline Next Direction
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.SplineNextDir), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, 12, 32)
@@ -6512,7 +6506,7 @@ raster_zechnen:
                     cap2.WidthScale = 3
                     cap2.BaseCap = LineCap.Triangle
                     cap2.Height = 10
-                    Dim blackPen As New Pen(Me.myColours.linePen.Color, 1)
+                    Dim blackPen As New Pen(LDSettings.Colours.linePen.Color, 1)
                     blackPen.CustomStartCap = cap1
                     blackPen.CustomEndCap = cap2
                     Dim v1 As New Vertex(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX()) / View.moveSnap) * View.moveSnap, Math.Round(getYcoordinate(MouseHelper.getCursorpositionY()) / View.moveSnap) * View.moveSnap, False, False)
@@ -6533,16 +6527,16 @@ raster_zechnen:
             End Select
             If MainState.primitiveMode > PrimitiveModes.SetSplineStartingPoint Then
                 For Each s As Spline In MainState.Splines
-                    e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - s.startAt.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + s.startAt.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                    e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - s.startAt.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + s.startAt.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
                     If Not s.stopAt Is Nothing Then
-                        e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - s.stopAt.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + s.stopAt.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                        e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - s.stopAt.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + s.stopAt.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
                     End If
                 Next
                 If MainState.primitiveMode > PrimitiveModes.SetSplineStartingDirection AndAlso MainState.primitiveMode <> PrimitiveModes.CreateTriangleChain Then
                     Dim v1 As New Vertex(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX()) / View.moveSnap) * View.moveSnap, Math.Round(getYcoordinate(MouseHelper.getCursorpositionY()) / View.moveSnap) * View.moveSnap, False, False)
                     ListHelper.LLast(MainState.Splines).calculateSimulationGeometry(v1.X, v1.Y)
                     For Each v As Vertex In ListHelper.LLast(MainState.Splines).Vertices
-                        e.Graphics.FillRectangle(myColours.selectedVertexBrush, New RectangleF(absOffsetX - v.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+                        e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
                     Next
                 End If
             End If
@@ -6674,7 +6668,7 @@ newTry:
                 Try
                     If RBnew.Checked OrElse RBtemplate.Checked Then
                         If RBtemplate.Checked Then
-                            MainState.isLoading = True                            
+                            MainState.isLoading = True
                             LPCFile.myMetadata = New Metadata() With {.isMainMetadata = True}
                             For r As Integer = 0 To 3
                                 For c As Integer = 0 To 3
@@ -6731,8 +6725,8 @@ newTry:
                                 m1.m(3, 0) = 0.0 : m1.m(3, 1) = 0.0 : m1.m(3, 2) = 0.0 : m1.m(3, 3) = 1.0
                         End Select
                         If LPCFile.PrimitivesMetadataHMap.ContainsKey("s\" & Path.GetFileName(OpenDAT.FileName)) Then Exit Try
-                        appendSubpart(Path.GetFileName(OpenDAT.FileName), "16", _
-                                      m1, _
+                        appendSubpart(Path.GetFileName(OpenDAT.FileName), "16",
+                                      m1,
                                       projectMode, subfileMetadata, New Dictionary(Of String, Byte))
                         endTriangle = LPCFile.Triangles.Count
                         endVertex = LPCFile.Vertices.Count
@@ -6750,39 +6744,39 @@ newTry:
 
                             Select Case projectMode
                                 Case 0 ' YZ mit -X (Right) [OK]
-                                    Dim cmatrix(,) As Double = {{0.0, 0.0, -1.0, 0.0}, _
-                                                                {0.0, 1.0, 0.0, 0.0}, _
-                                                                {1.0, 0.0, 0.0, 0.0}, _
+                                    Dim cmatrix(,) As Double = {{0.0, 0.0, -1.0, 0.0},
+                                                                {0.0, 1.0, 0.0, 0.0},
+                                                                {1.0, 0.0, 0.0, 0.0},
                                                                 {0.0, 0.0, 0.0, 1.0}}
                                     ListHelper.LLast(LPCFile.Primitives).matrixR = cmatrix.Clone
                                 Case 1 ' XZ mit -Y (Top) [OK]
-                                    Dim cmatrix(,) As Double = {{1.0, 0.0, 0.0, 0.0}, _
-                                                                {0.0, 0.0, -1.0, 0.0}, _
-                                                                {0.0, 1.0, 0.0, 0.0}, _
+                                    Dim cmatrix(,) As Double = {{1.0, 0.0, 0.0, 0.0},
+                                                                {0.0, 0.0, -1.0, 0.0},
+                                                                {0.0, 1.0, 0.0, 0.0},
                                                                 {0.0, 0.0, 0.0, 1.0}}
                                     ListHelper.LLast(LPCFile.Primitives).matrixR = cmatrix.Clone
                                 Case 2 ' XY mit -Z (Front) [OK] 
-                                    Dim cmatrix(,) As Double = {{1.0, 0.0, 0.0, 0.0}, _
-                                                                {0.0, 1.0, 0.0, 0.0}, _
-                                                                {0.0, 0.0, 1.0, 0.0}, _
+                                    Dim cmatrix(,) As Double = {{1.0, 0.0, 0.0, 0.0},
+                                                                {0.0, 1.0, 0.0, 0.0},
+                                                                {0.0, 0.0, 1.0, 0.0},
                                                                 {0.0, 0.0, 0.0, 1.0}}
                                     ListHelper.LLast(LPCFile.Primitives).matrixR = cmatrix.Clone
                                 Case 3 ' YZ mit +X (Left) [OK]
-                                    Dim cmatrix(,) As Double = {{0.0, 0.0, 1.0, 0.0}, _
-                                                                {0.0, 1.0, 0.0, 0.0}, _
-                                                                {-1.0, 0.0, 0.0, 0.0}, _
+                                    Dim cmatrix(,) As Double = {{0.0, 0.0, 1.0, 0.0},
+                                                                {0.0, 1.0, 0.0, 0.0},
+                                                                {-1.0, 0.0, 0.0, 0.0},
                                                                 {0.0, 0.0, 0.0, 1.0}}
                                     ListHelper.LLast(LPCFile.Primitives).matrixR = cmatrix.Clone
                                 Case 4 ' XZ mit -Y (Bottom) [OK]
-                                    Dim cmatrix(,) As Double = {{1.0, 0.0, 0.0, 0.0}, _
-                                                                {0.0, 0.0, 1.0, 0.0}, _
-                                                                {0.0, -1.0, 0.0, 0.0}, _
+                                    Dim cmatrix(,) As Double = {{1.0, 0.0, 0.0, 0.0},
+                                                                {0.0, 0.0, 1.0, 0.0},
+                                                                {0.0, -1.0, 0.0, 0.0},
                                                                 {0.0, 0.0, 0.0, 1.0}}
                                     ListHelper.LLast(LPCFile.Primitives).matrixR = cmatrix.Clone
                                 Case 5 ' XY mit +Z (Back) [OK]
-                                    Dim cmatrix(,) As Double = {{-1.0, 0.0, 0.0, 0.0}, _
-                                                                {0.0, 1.0, 0.0, 0.0}, _
-                                                                {0.0, 0.0, -1.0, 0.0}, _
+                                    Dim cmatrix(,) As Double = {{-1.0, 0.0, 0.0, 0.0},
+                                                                {0.0, 1.0, 0.0, 0.0},
+                                                                {0.0, 0.0, -1.0, 0.0},
                                                                 {0.0, 0.0, 0.0, 1.0}}
                                     ListHelper.LLast(LPCFile.Primitives).matrixR = cmatrix.Clone
                             End Select
@@ -6944,58 +6938,58 @@ newTry:
                                     Else
                                         Select Case projectMode
                                             ' YZ mit -X (Right) []
-                                            Case 0 : inlinePrimitive(projectMode, words(1), _
-                                                    -CType(words(11), Double), -CType(words(13), Double), 0, CType(words(4), Double), _
-                                                    -CType(words(8), Double), -CType(words(10), Double), 0, CType(words(3), Double), _
-                                                    0, 0, 1, 0, _
-                                                    1, 0, 0, 0, _
-                                                    0, 1, 0, 0, _
-                                                    0, 0, -1, 0, _
+                                            Case 0 : inlinePrimitive(projectMode, words(1),
+                                                    -CType(words(11), Double), -CType(words(13), Double), 0, CType(words(4), Double),
+                                                    -CType(words(8), Double), -CType(words(10), Double), 0, CType(words(3), Double),
+                                                    0, 0, 1, 0,
+                                                    1, 0, 0, 0,
+                                                    0, 1, 0, 0,
+                                                    0, 0, -1, 0,
                                                     getDATFilename(origline), mySubfiles, False, createPrimitives)
-                                                ' YZ mit +X (Left) []
-                                            Case 3 : inlinePrimitive(projectMode, words(1), _
-                                                    CType(words(11), Double), CType(words(13), Double), 0, -CType(words(4), Double), _
-                                                    -CType(words(8), Double), -CType(words(10), Double), 0, CType(words(3), Double), _
-                                                    0, 0, 1, 0, _
-                                                    1, 0, 0, 0, _
-                                                    0, 1, 0, 0, _
-                                                    0, 0, -1, 0, _
+                                            ' YZ mit +X (Left) []
+                                            Case 3 : inlinePrimitive(projectMode, words(1),
+                                                    CType(words(11), Double), CType(words(13), Double), 0, -CType(words(4), Double),
+                                                    -CType(words(8), Double), -CType(words(10), Double), 0, CType(words(3), Double),
+                                                    0, 0, 1, 0,
+                                                    1, 0, 0, 0,
+                                                    0, 1, 0, 0,
+                                                    0, 0, -1, 0,
                                                     getDATFilename(origline), mySubfiles, False, createPrimitives)
-                                                ' XZ mit -Y (Top) [OK]
-                                            Case 1 : inlinePrimitive(projectMode, words(1), _
-                                                    -CType(words(5), Double), -CType(words(7), Double), 0, -CType(words(2), Double), _
-                                                    -CType(words(11), Double), -CType(words(13), Double), 0, -CType(words(4), Double), _
-                                                    0, 0, 1, 0, _
-                                                    -1, 0, 0, 0, _
-                                                    0, -1, 0, 0, _
-                                                    0, 0, -1, 0, _
+                                            ' XZ mit -Y (Top) [OK]
+                                            Case 1 : inlinePrimitive(projectMode, words(1),
+                                                    -CType(words(5), Double), -CType(words(7), Double), 0, -CType(words(2), Double),
+                                                    -CType(words(11), Double), -CType(words(13), Double), 0, -CType(words(4), Double),
+                                                    0, 0, 1, 0,
+                                                    -1, 0, 0, 0,
+                                                    0, -1, 0, 0,
+                                                    0, 0, -1, 0,
                                                     getDATFilename(origline), mySubfiles, False, createPrimitives)
-                                                ' XZ mit -Y (Bottom) [OK]
-                                            Case 4 : inlinePrimitive(projectMode, words(1), _
-                                                CType(words(5), Double), CType(words(7), Double), 0, -CType(words(2), Double), _
-                                                -CType(words(11), Double), -CType(words(13), Double), 0, CType(words(4), Double), _
-                                                0, 0, 1, 0, _
-                                                1, 0, 0, 0, _
-                                                0, 1, 0, 0, _
-                                                0, 0, -1, 0, _
+                                            ' XZ mit -Y (Bottom) [OK]
+                                            Case 4 : inlinePrimitive(projectMode, words(1),
+                                                CType(words(5), Double), CType(words(7), Double), 0, -CType(words(2), Double),
+                                                -CType(words(11), Double), -CType(words(13), Double), 0, CType(words(4), Double),
+                                                0, 0, 1, 0,
+                                                1, 0, 0, 0,
+                                                0, 1, 0, 0,
+                                                0, 0, -1, 0,
                                                 getDATFilename(origline), mySubfiles, False, createPrimitives)
-                                                ' XY mit -Z (Front) [OK]
-                                            Case 2 : inlinePrimitive(projectMode, words(1), _
-                                               CType(words(5), Double), CType(words(7), Double), 0, -CType(words(2), Double), _
-                                                -CType(words(8), Double), -CType(words(10), Double), 0, CType(words(3), Double), _
-                                                    0, 0, 1, 0, _
-                                                    1, 0, 0, 0, _
-                                                    0, 1, 0, 0, _
-                                                    0, 0, -1, 0, _
+                                            ' XY mit -Z (Front) [OK]
+                                            Case 2 : inlinePrimitive(projectMode, words(1),
+                                               CType(words(5), Double), CType(words(7), Double), 0, -CType(words(2), Double),
+                                                -CType(words(8), Double), -CType(words(10), Double), 0, CType(words(3), Double),
+                                                    0, 0, 1, 0,
+                                                    1, 0, 0, 0,
+                                                    0, 1, 0, 0,
+                                                    0, 0, -1, 0,
                                                     getDATFilename(origline), mySubfiles, False, createPrimitives)
-                                                ' XY mit +Z (Back) [OK]
-                                            Case 5 : inlinePrimitive(projectMode, words(1), _
-                                                -CType(words(5), Double), -CType(words(7), Double), 0, CType(words(2), Double), _
-                                                -CType(words(8), Double), -CType(words(10), Double), 0, CType(words(3), Double), _
-                                                    0, 0, 1, 0, _
-                                                    1, 0, 0, 0, _
-                                                    0, 1, 0, 0, _
-                                                    0, 0, -1, 0, _
+                                            ' XY mit +Z (Back) [OK]
+                                            Case 5 : inlinePrimitive(projectMode, words(1),
+                                                -CType(words(5), Double), -CType(words(7), Double), 0, CType(words(2), Double),
+                                                -CType(words(8), Double), -CType(words(10), Double), 0, CType(words(3), Double),
+                                                    0, 0, 1, 0,
+                                                    1, 0, 0, 0,
+                                                    0, 1, 0, 0,
+                                                    0, 0, -1, 0,
                                                     getDATFilename(origline), mySubfiles, False, createPrimitives)
                                         End Select
                                     End If
@@ -7035,9 +7029,9 @@ newTry:
                                     If Not RBtemplate.Checked Then
                                         LPCFile.Triangles.Add(New Triangle(LPCFile.Vertices(LPCFile.Vertices.Count - 1), LPCFile.Vertices(LPCFile.Vertices.Count - 2), LPCFile.Vertices(LPCFile.Vertices.Count - 3)))
                                         If words(1) Like "0x2*" Then
-                                            ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255, _
-                                                                                       Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16), _
-                                                                                       Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16), _
+                                            ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255,
+                                                                                       Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16),
+                                                                                       Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16),
                                                                                        Convert.ToInt32("0x" & Mid(words(1), 8, 2), 16))
                                             ListHelper.LLast(LPCFile.Triangles).myColourNumber = -1
                                         ElseIf words(1) Like "0x*" Then
@@ -7053,13 +7047,13 @@ newTry:
                                         LPCFile.templateShape.Add(New PointF(CType(LPCFile.Vertices(LPCFile.Vertices.Count - 3).X * 1000, Single), CType(LPCFile.Vertices(LPCFile.Vertices.Count - 3).Y * 1000, Single)))
                                         LPCFile.templateShape.Add(New PointF(CType(LPCFile.Vertices(LPCFile.Vertices.Count - 2).X * 1000, Single), CType(LPCFile.Vertices(LPCFile.Vertices.Count - 2).Y * 1000, Single)))
                                         LPCFile.templateShape.Add(New PointF(CType(LPCFile.Vertices(LPCFile.Vertices.Count - 1).X * 1000, Single), CType(LPCFile.Vertices(LPCFile.Vertices.Count - 1).Y * 1000, Single)))
-                                        LPCFile.templateProjectionQuads.Add(New ProjectionQuad(LPCFile.Vertices(LPCFile.Vertices.Count - 3).X, LPCFile.Vertices(LPCFile.Vertices.Count - 3).Y, _
-                                                                                      LPCFile.Vertices(LPCFile.Vertices.Count - 3).X, LPCFile.Vertices(LPCFile.Vertices.Count - 3).Y, _
-                                                                                      LPCFile.Vertices(LPCFile.Vertices.Count - 2).X, LPCFile.Vertices(LPCFile.Vertices.Count - 2).Y, _
-                                                                                      LPCFile.Vertices(LPCFile.Vertices.Count - 1).X, LPCFile.Vertices(LPCFile.Vertices.Count - 1).Y, _
-                                                                                      CType(words(2), Double), CType(words(3), Double), CType(words(4), Double), _
-                                                                                      CType(words(2), Double), CType(words(3), Double), CType(words(4), Double), _
-                                                                                      CType(words(5), Double), CType(words(6), Double), CType(words(7), Double), _
+                                        LPCFile.templateProjectionQuads.Add(New ProjectionQuad(LPCFile.Vertices(LPCFile.Vertices.Count - 3).X, LPCFile.Vertices(LPCFile.Vertices.Count - 3).Y,
+                                                                                      LPCFile.Vertices(LPCFile.Vertices.Count - 3).X, LPCFile.Vertices(LPCFile.Vertices.Count - 3).Y,
+                                                                                      LPCFile.Vertices(LPCFile.Vertices.Count - 2).X, LPCFile.Vertices(LPCFile.Vertices.Count - 2).Y,
+                                                                                      LPCFile.Vertices(LPCFile.Vertices.Count - 1).X, LPCFile.Vertices(LPCFile.Vertices.Count - 1).Y,
+                                                                                      CType(words(2), Double), CType(words(3), Double), CType(words(4), Double),
+                                                                                      CType(words(2), Double), CType(words(3), Double), CType(words(4), Double),
+                                                                                      CType(words(5), Double), CType(words(6), Double), CType(words(7), Double),
                                                                                       CType(words(8), Double), CType(words(9), Double), CType(words(10), Double)))
                                     End If
                                 ElseIf words(0) Like "*4*" AndAlso words.Length = 14 Then
@@ -7072,9 +7066,9 @@ newTry:
                                             If Not RBtemplate.Checked Then
                                                 LPCFile.Triangles.Add(New Triangle(LPCFile.Vertices(LPCFile.Vertices.Count - 1), LPCFile.Vertices(LPCFile.Vertices.Count - 2), LPCFile.Vertices(LPCFile.Vertices.Count - 3)))
                                                 If words(1) Like "0x2*" Then
-                                                    ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255, _
-                                                                                               Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16), _
-                                                                                               Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16), _
+                                                    ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255,
+                                                                                               Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16),
+                                                                                               Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16),
                                                                                                Convert.ToInt32("0x" & Mid(words(1), 8, 2), 16))
                                                     ListHelper.LLast(LPCFile.Triangles).myColourNumber = -1
                                                 ElseIf words(1) Like "0x*" Then
@@ -7095,9 +7089,9 @@ newTry:
                                             If Not RBtemplate.Checked Then
                                                 LPCFile.Triangles.Add(New Triangle(LPCFile.Vertices(LPCFile.Vertices.Count - 1), LPCFile.Vertices(LPCFile.Vertices.Count - 2), LPCFile.Vertices(LPCFile.Vertices.Count - 3)))
                                                 If words(1) Like "0x2*" Then
-                                                    ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255, _
-                                                                                               Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16), _
-                                                                                               Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16), _
+                                                    ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255,
+                                                                                               Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16),
+                                                                                               Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16),
                                                                                                Convert.ToInt32("0x" & Mid(words(1), 8, 2), 16))
                                                     ListHelper.LLast(LPCFile.Triangles).myColourNumber = -1
                                                 ElseIf words(1) Like "0x*" Then
@@ -7118,9 +7112,9 @@ newTry:
                                             If Not RBtemplate.Checked Then
                                                 LPCFile.Triangles.Add(New Triangle(LPCFile.Vertices(LPCFile.Vertices.Count - 1), LPCFile.Vertices(LPCFile.Vertices.Count - 2), LPCFile.Vertices(LPCFile.Vertices.Count - 3)))
                                                 If words(1) Like "0x2*" Then
-                                                    ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255, _
-                                                                                               Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16), _
-                                                                                               Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16), _
+                                                    ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255,
+                                                                                               Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16),
+                                                                                               Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16),
                                                                                                Convert.ToInt32("0x" & Mid(words(1), 8, 2), 16))
                                                     ListHelper.LLast(LPCFile.Triangles).myColourNumber = -1
                                                 ElseIf words(1) Like "0x*" Then
@@ -7141,9 +7135,9 @@ newTry:
                                             If Not RBtemplate.Checked Then
                                                 LPCFile.Triangles.Add(New Triangle(LPCFile.Vertices(LPCFile.Vertices.Count - 1), LPCFile.Vertices(LPCFile.Vertices.Count - 2), LPCFile.Vertices(LPCFile.Vertices.Count - 3)))
                                                 If words(1) Like "0x2*" Then
-                                                    ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255, _
-                                                                                               Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16), _
-                                                                                               Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16), _
+                                                    ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255,
+                                                                                               Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16),
+                                                                                               Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16),
                                                                                                Convert.ToInt32("0x" & Mid(words(1), 8, 2), 16))
                                                     ListHelper.LLast(LPCFile.Triangles).myColourNumber = -1
                                                 ElseIf words(1) Like "0x*" Then
@@ -7164,9 +7158,9 @@ newTry:
                                             If Not RBtemplate.Checked Then
                                                 LPCFile.Triangles.Add(New Triangle(LPCFile.Vertices(LPCFile.Vertices.Count - 1), LPCFile.Vertices(LPCFile.Vertices.Count - 2), LPCFile.Vertices(LPCFile.Vertices.Count - 3)))
                                                 If words(1) Like "0x2*" Then
-                                                    ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255, _
-                                                                                               Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16), _
-                                                                                               Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16), _
+                                                    ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255,
+                                                                                               Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16),
+                                                                                               Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16),
                                                                                                Convert.ToInt32("0x" & Mid(words(1), 8, 2), 16))
                                                     ListHelper.LLast(LPCFile.Triangles).myColourNumber = -1
                                                 ElseIf words(1) Like "0x*" Then
@@ -7187,9 +7181,9 @@ newTry:
                                             If Not RBtemplate.Checked Then
                                                 LPCFile.Triangles.Add(New Triangle(LPCFile.Vertices(LPCFile.Vertices.Count - 1), LPCFile.Vertices(LPCFile.Vertices.Count - 2), LPCFile.Vertices(LPCFile.Vertices.Count - 3)))
                                                 If words(1) Like "0x2*" Then
-                                                    ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255, _
-                                                                                               Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16), _
-                                                                                               Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16), _
+                                                    ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255,
+                                                                                               Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16),
+                                                                                               Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16),
                                                                                                Convert.ToInt32("0x" & Mid(words(1), 8, 2), 16))
                                                     ListHelper.LLast(LPCFile.Triangles).myColourNumber = -1
                                                 ElseIf words(1) Like "0x*" Then
@@ -7206,9 +7200,9 @@ newTry:
                                     If Not RBtemplate.Checked Then
                                         LPCFile.Triangles.Add(New Triangle(LPCFile.Vertices(LPCFile.Vertices.Count - 1), LPCFile.Vertices(LPCFile.Vertices.Count - 2), LPCFile.Vertices(LPCFile.Vertices.Count - 4)))
                                         If words(1) Like "0x2*" Then
-                                            ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255, _
-                                                                                       Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16), _
-                                                                                       Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16), _
+                                            ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255,
+                                                                                       Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16),
+                                                                                       Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16),
                                                                                        Convert.ToInt32("0x" & Mid(words(1), 8, 2), 16))
                                             ListHelper.LLast(LPCFile.Triangles).myColourNumber = -1
                                         ElseIf words(1) Like "0x*" Then
@@ -7224,13 +7218,13 @@ newTry:
                                         LPCFile.templateShape.Add(New PointF(CType(LPCFile.Vertices(LPCFile.Vertices.Count - 3).X * 1000, Single), CType(LPCFile.Vertices(LPCFile.Vertices.Count - 3).Y * 1000, Single)))
                                         LPCFile.templateShape.Add(New PointF(CType(LPCFile.Vertices(LPCFile.Vertices.Count - 2).X * 1000, Single), CType(LPCFile.Vertices(LPCFile.Vertices.Count - 2).Y * 1000, Single)))
                                         LPCFile.templateShape.Add(New PointF(CType(LPCFile.Vertices(LPCFile.Vertices.Count - 1).X * 1000, Single), CType(LPCFile.Vertices(LPCFile.Vertices.Count - 1).Y * 1000, Single)))
-                                        LPCFile.templateProjectionQuads.Add(New ProjectionQuad(LPCFile.Vertices(LPCFile.Vertices.Count - 4).X, LPCFile.Vertices(LPCFile.Vertices.Count - 4).Y, _
-                                                                                      LPCFile.Vertices(LPCFile.Vertices.Count - 3).X, LPCFile.Vertices(LPCFile.Vertices.Count - 3).Y, _
-                                                                                      LPCFile.Vertices(LPCFile.Vertices.Count - 2).X, LPCFile.Vertices(LPCFile.Vertices.Count - 2).Y, _
-                                                                                      LPCFile.Vertices(LPCFile.Vertices.Count - 1).X, LPCFile.Vertices(LPCFile.Vertices.Count - 1).Y, _
-                                                                                      CType(words(2), Double), CType(words(3), Double), CType(words(4), Double), _
-                                                                                      CType(words(5), Double), CType(words(6), Double), CType(words(7), Double), _
-                                                                                      CType(words(8), Double), CType(words(9), Double), CType(words(10), Double), _
+                                        LPCFile.templateProjectionQuads.Add(New ProjectionQuad(LPCFile.Vertices(LPCFile.Vertices.Count - 4).X, LPCFile.Vertices(LPCFile.Vertices.Count - 4).Y,
+                                                                                      LPCFile.Vertices(LPCFile.Vertices.Count - 3).X, LPCFile.Vertices(LPCFile.Vertices.Count - 3).Y,
+                                                                                      LPCFile.Vertices(LPCFile.Vertices.Count - 2).X, LPCFile.Vertices(LPCFile.Vertices.Count - 2).Y,
+                                                                                      LPCFile.Vertices(LPCFile.Vertices.Count - 1).X, LPCFile.Vertices(LPCFile.Vertices.Count - 1).Y,
+                                                                                      CType(words(2), Double), CType(words(3), Double), CType(words(4), Double),
+                                                                                      CType(words(5), Double), CType(words(6), Double), CType(words(7), Double),
+                                                                                      CType(words(8), Double), CType(words(9), Double), CType(words(10), Double),
                                                                                       CType(words(11), Double), CType(words(12), Double), CType(words(13), Double)))
                                     End If
                                 ElseIf words(0) Like "*2*" Then
@@ -7299,8 +7293,8 @@ newDelete:
                         For i As Integer = start To tc
                             Dim tri As Triangle = LPCFile.Triangles(i)
                             tri.groupindex = -1
-                            If tri.vertexA.vertexID = tri.vertexB.vertexID OrElse _
-                            tri.vertexB.vertexID = tri.vertexC.vertexID OrElse _
+                            If tri.vertexA.vertexID = tri.vertexB.vertexID OrElse
+                            tri.vertexB.vertexID = tri.vertexC.vertexID OrElse
                             tri.vertexC.vertexID = tri.vertexA.vertexID Then
                                 LPCFile.Triangles.RemoveAt(i)
                                 start = i
@@ -7337,9 +7331,9 @@ newDelete:
         Me.Refresh()
     End Sub
 
-    Private Sub appendSubpart(ByVal filename As String, _
-                              ByVal colour As String, _
-                              ByVal m1 As Matrix3D, _
+    Private Sub appendSubpart(ByVal filename As String,
+                              ByVal colour As String,
+                              ByVal m1 As Matrix3D,
                               ByVal projMode As Byte, ByRef mdata As Metadata, ByVal fileList As Dictionary(Of String, Byte))
 
         Dim filepath As String
@@ -7468,13 +7462,13 @@ nextTry:
                         appendSubpart(getDATFilename(origline), words(1), tm, projMode, Nothing, newFileList)
                     ElseIf words(0) Like "*3*" AndAlso words.Length = 11 Then
                         If words(1) = "16" Then words(1) = colour
-                        triangles3D.Add(New Triangle3D(New Vertex3D(CType(words(2), Double), CType(words(3), Double), CType(words(4), Double)), _
-                                                       New Vertex3D(CType(words(5), Double), CType(words(6), Double), CType(words(7), Double)), _
+                        triangles3D.Add(New Triangle3D(New Vertex3D(CType(words(2), Double), CType(words(3), Double), CType(words(4), Double)),
+                                                       New Vertex3D(CType(words(5), Double), CType(words(6), Double), CType(words(7), Double)),
                                                        New Vertex3D(CType(words(8), Double), CType(words(9), Double), CType(words(10), Double))))
                         If words(1) Like "0x2*" Then
-                            ListHelper.LLast(triangles3D).myColour = Color.FromArgb(255, _
-                                                                       Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16), _
-                                                                       Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16), _
+                            ListHelper.LLast(triangles3D).myColour = Color.FromArgb(255,
+                                                                       Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16),
+                                                                       Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16),
                                                                        Convert.ToInt32("0x" & Mid(words(1), 8, 2), 16))
                             ListHelper.LLast(triangles3D).myColourNumber = -1
                         ElseIf words(1) Like "0x*" Then
@@ -7484,13 +7478,13 @@ nextTry:
                         End If
                     ElseIf words(0) Like "*4*" AndAlso words.Length = 14 Then
                         If words(1) = "16" Then words(1) = colour
-                        triangles3D.Add(New Triangle3D(New Vertex3D(CType(words(2), Double), CType(words(3), Double), CType(words(4), Double)), _
-                                                       New Vertex3D(CType(words(5), Double), CType(words(6), Double), CType(words(7), Double)), _
+                        triangles3D.Add(New Triangle3D(New Vertex3D(CType(words(2), Double), CType(words(3), Double), CType(words(4), Double)),
+                                                       New Vertex3D(CType(words(5), Double), CType(words(6), Double), CType(words(7), Double)),
                                                        New Vertex3D(CType(words(8), Double), CType(words(9), Double), CType(words(10), Double))))
                         If words(1) Like "0x2*" Then
-                            ListHelper.LLast(triangles3D).myColour = Color.FromArgb(255, _
-                                                                       Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16), _
-                                                                       Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16), _
+                            ListHelper.LLast(triangles3D).myColour = Color.FromArgb(255,
+                                                                       Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16),
+                                                                       Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16),
                                                                        Convert.ToInt32("0x" & Mid(words(1), 8, 2), 16))
                             ListHelper.LLast(triangles3D).myColourNumber = -1
                         ElseIf words(1) Like "0x*" Then
@@ -7499,13 +7493,13 @@ nextTry:
                             ListHelper.LLast(triangles3D).myColourNumber = CType(words(1), Short)
                         End If
 
-                        triangles3D.Add(New Triangle3D(New Vertex3D(CType(words(8), Double), CType(words(9), Double), CType(words(10), Double)), _
-                                                       New Vertex3D(CType(words(11), Double), CType(words(12), Double), CType(words(13), Double)), _
+                        triangles3D.Add(New Triangle3D(New Vertex3D(CType(words(8), Double), CType(words(9), Double), CType(words(10), Double)),
+                                                       New Vertex3D(CType(words(11), Double), CType(words(12), Double), CType(words(13), Double)),
                                                        New Vertex3D(CType(words(2), Double), CType(words(3), Double), CType(words(4), Double))))
                         If words(1) Like "0x2*" Then
-                            ListHelper.LLast(triangles3D).myColour = Color.FromArgb(255, _
-                                                                       Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16), _
-                                                                       Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16), _
+                            ListHelper.LLast(triangles3D).myColour = Color.FromArgb(255,
+                                                                       Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16),
+                                                                       Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16),
                                                                        Convert.ToInt32("0x" & Mid(words(1), 8, 2), 16))
                             ListHelper.LLast(triangles3D).myColourNumber = -1
                         ElseIf words(1) Like "0x*" Then
@@ -7534,14 +7528,14 @@ nextTry:
         If Not mdata Is Nothing Then mdata = tempMetadata.Clone
     End Sub
 
-    Private Sub inlinePrimitive(ByVal projectMode As Byte, ByVal colour As String, _
-                                ByVal M11 As Double, ByVal M12 As Double, ByVal M13 As Double, ByVal M14 As Double, _
-                                ByVal M21 As Double, ByVal M22 As Double, ByVal M23 As Double, ByVal M24 As Double, _
+    Private Sub inlinePrimitive(ByVal projectMode As Byte, ByVal colour As String,
+                                ByVal M11 As Double, ByVal M12 As Double, ByVal M13 As Double, ByVal M14 As Double,
+                                ByVal M21 As Double, ByVal M22 As Double, ByVal M23 As Double, ByVal M24 As Double,
                                 ByVal M31 As Double, ByVal M32 As Double, ByVal M33 As Double, ByVal M34 As Double, _
  _
-                                ByVal N11 As Double, ByVal N12 As Double, ByVal N13 As Double, ByVal N14 As Double, _
-                                ByVal N21 As Double, ByVal N22 As Double, ByVal N23 As Double, ByVal N24 As Double, _
-                                ByVal N31 As Double, ByVal N32 As Double, ByVal N33 As Double, ByVal N34 As Double, _
+                                ByVal N11 As Double, ByVal N12 As Double, ByVal N13 As Double, ByVal N14 As Double,
+                                ByVal N21 As Double, ByVal N22 As Double, ByVal N23 As Double, ByVal N24 As Double,
+                                ByVal N31 As Double, ByVal N32 As Double, ByVal N33 As Double, ByVal N34 As Double,
                                 ByVal name As String, ByRef subFileList As List(Of String), Optional ByVal scale As Boolean = True, Optional ByVal createPrimitives As Boolean = True)
 
         Dim matrix(3, 3) As Double
@@ -7621,14 +7615,14 @@ nextTry:
         End If
 
         If name Like "ring#.dat" OrElse name Like "ring##.dat" Then name = "4-4" & name
-        If Not createPrimitives OrElse (name Like "48\*" AndAlso (name Like "48\#-#ring#.dat" OrElse name Like "48\#-#rin##.dat" OrElse name Like "48\#-##rin#.dat" OrElse name Like "48\#-##ri##.dat" OrElse name Like "48\##-##ri#.dat")) OrElse _
-            (name Like "48\*aring.dat") OrElse _
-            (name Like "48\*chrd.dat") OrElse _
-            (name Like "*chrd.dat") OrElse _
-            (name Like "48\*ndis.dat") OrElse _
-            (name Like "*ndis.dat") OrElse _
-            (name Like "#-#ring#.dat" OrElse name Like "#-#rin##.dat" OrElse name Like "#-##rin#.dat" OrElse name Like "#-##ri##.dat" OrElse name Like "##-##ri#.dat") OrElse _
-            (name Like "48\*disc.dat") OrElse _
+        If Not createPrimitives OrElse (name Like "48\*" AndAlso (name Like "48\#-#ring#.dat" OrElse name Like "48\#-#rin##.dat" OrElse name Like "48\#-##rin#.dat" OrElse name Like "48\#-##ri##.dat" OrElse name Like "48\##-##ri#.dat")) OrElse
+            (name Like "48\*aring.dat") OrElse
+            (name Like "48\*chrd.dat") OrElse
+            (name Like "*chrd.dat") OrElse
+            (name Like "48\*ndis.dat") OrElse
+            (name Like "*ndis.dat") OrElse
+            (name Like "#-#ring#.dat" OrElse name Like "#-#rin##.dat" OrElse name Like "#-##rin#.dat" OrElse name Like "#-##ri##.dat" OrElse name Like "##-##ri#.dat") OrElse
+            (name Like "48\*disc.dat") OrElse
             (name Like "*disc.dat") Then
             If My.Computer.FileSystem.FileExists(filepath) Then
 newTry:
@@ -7662,13 +7656,13 @@ newTry:
                                 If words(0) Like "*1*" AndAlso words.Length > 14 Then
                                     If Not createPrimitives Then words(1) = colour
 
-                                    inlineSubfile(projectMode, words(1), _
-                                                    -CType(words(5), Double), -CType(words(7), Double), 0, -CType(words(2), Double), _
-                                                    -CType(words(11), Double), -CType(words(13), Double), 0, -CType(words(4), Double), _
-                                                    0, 0, 1, 0, _
-                                                    1, 0, 0, 0, _
-                                                    0, 1, 0, 0, _
-                                                    0, 0, 1, 0, _
+                                    inlineSubfile(projectMode, words(1),
+                                                    -CType(words(5), Double), -CType(words(7), Double), 0, -CType(words(2), Double),
+                                                    -CType(words(11), Double), -CType(words(13), Double), 0, -CType(words(4), Double),
+                                                    0, 0, 1, 0,
+                                                    1, 0, 0, 0,
+                                                    0, 1, 0, 0,
+                                                    0, 0, 1, 0,
                                                     getDATFilename(origline), subfiles)
 
                                 ElseIf words(0) Like "*3*" AndAlso words.Length = 11 Then
@@ -7679,9 +7673,9 @@ newTry:
 
                                     LPCFile.Triangles.Add(New Triangle(LPCFile.Vertices(LPCFile.Vertices.Count - 1), LPCFile.Vertices(LPCFile.Vertices.Count - 2), LPCFile.Vertices(LPCFile.Vertices.Count - 3)))
                                     If words(1) Like "0x2*" Then
-                                        ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255, _
-                                                                                   Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16), _
-                                                                                   Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16), _
+                                        ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255,
+                                                                                   Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16),
+                                                                                   Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16),
                                                                                    Convert.ToInt32("0x" & Mid(words(1), 8, 2), 16))
                                         ListHelper.LLast(LPCFile.Triangles).myColourNumber = -1
                                     ElseIf words(1) Like "0x*" Then
@@ -7701,9 +7695,9 @@ newTry:
                                     LPCFile.Vertices.Add(New Vertex(-CType(words(8), Double), -CType(words(10), Double), False))
                                     LPCFile.Triangles.Add(New Triangle(LPCFile.Vertices(LPCFile.Vertices.Count - 1), LPCFile.Vertices(LPCFile.Vertices.Count - 2), LPCFile.Vertices(LPCFile.Vertices.Count - 3)))
                                     If words(1) Like "0x2*" Then
-                                        ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255, _
-                                                                                   Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16), _
-                                                                                   Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16), _
+                                        ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255,
+                                                                                   Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16),
+                                                                                   Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16),
                                                                                    Convert.ToInt32("0x" & Mid(words(1), 8, 2), 16))
                                         ListHelper.LLast(LPCFile.Triangles).myColourNumber = -1
                                     ElseIf words(1) Like "0x*" Then
@@ -7717,9 +7711,9 @@ newTry:
                                     LPCFile.Vertices.Add(New Vertex(-CType(words(11), Double), -CType(words(13), Double), False))
                                     LPCFile.Triangles.Add(New Triangle(LPCFile.Vertices(LPCFile.Vertices.Count - 1), LPCFile.Vertices(LPCFile.Vertices.Count - 2), LPCFile.Vertices(LPCFile.Vertices.Count - 4)))
                                     If words(1) Like "0x2*" Then
-                                        ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255, _
-                                                                                   Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16), _
-                                                                                   Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16), _
+                                        ListHelper.LLast(LPCFile.Triangles).myColour = Color.FromArgb(255,
+                                                                                   Convert.ToInt32("0x" & Mid(words(1), 4, 2), 16),
+                                                                                   Convert.ToInt32("0x" & Mid(words(1), 6, 2), 16),
                                                                                    Convert.ToInt32("0x" & Mid(words(1), 8, 2), 16))
                                         ListHelper.LLast(LPCFile.Triangles).myColourNumber = -1
                                     ElseIf words(1) Like "0x*" Then
@@ -7992,9 +7986,9 @@ newTry:
                     linkedTris.AddRange(MainState.intelligentFocusTriangle.vertexB.linkedTriangles)
                     linkedTris.AddRange(MainState.intelligentFocusTriangle.vertexC.linkedTriangles)
                 Else
-                    isClosed = CSG.pointsConnected(MainState.temp_vertices(0), MainState.temp_vertices(1)) OrElse _
-                    CSG.isVertexInTriangle(MainState.intelligentFocusTriangle.vertexA, newTri) OrElse _
-                    CSG.isVertexInTriangle(MainState.intelligentFocusTriangle.vertexB, newTri) OrElse _
+                    isClosed = CSG.pointsConnected(MainState.temp_vertices(0), MainState.temp_vertices(1)) OrElse
+                    CSG.isVertexInTriangle(MainState.intelligentFocusTriangle.vertexA, newTri) OrElse
+                    CSG.isVertexInTriangle(MainState.intelligentFocusTriangle.vertexB, newTri) OrElse
                     CSG.isVertexInTriangle(MainState.intelligentFocusTriangle.vertexC, newTri)
                 End If
                 For Each tri As Triangle In linkedTris
@@ -8035,19 +8029,19 @@ newTry:
 
     Private Sub MainForm_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         ImageToolStripMenuItem.Checked = False
-        If mySettings.showImageViewAtStartup Then
+        If LDSettings.Editor.showImageViewAtStartup Then
             ImageToolStripMenuItem.PerformClick()
         End If
         ViewPrefsToolStripMenuItem.Checked = False
-        If mySettings.showPreferencesViewAtStartup Then
+        If LDSettings.Editor.showPreferencesViewAtStartup Then
             ViewPrefsToolStripMenuItem.PerformClick()
         End If
-        Me.BackColor = myColours.background
+        Me.BackColor = LDSettings.Colours.background
         Dim tmx, tmy As Integer
         tmx = System.Windows.Forms.Cursor.Position.X
         tmy = System.Windows.Forms.Cursor.Position.Y
         Me.Activate()
-        If mySettings.startWithFullscreen Then
+        If LDSettings.Editor.startWithFullscreen Then
             Me.WindowState = FormWindowState.Maximized
             Me.BringToFront()
             View.getCorrectionOffset = True
@@ -8058,9 +8052,9 @@ newTry:
             View.getCorrectionOffset = True
             MouseHelper.moveMouseAbsoluteLeftClick(Me.Location.X + Me.Width / 2 + View.correctionOffsetX, Me.Location.Y + View.correctionOffsetY + Me.Height / 2)
         End If
-        If Not mySettings.startWithFullscreen Then
-            Me.Location = New Point(mySettings.mainWindow_x, mySettings.mainWindow_y)
-            Me.Size = New Point(mySettings.mainWindow_width, mySettings.mainWindow_height)
+        If Not LDSettings.Editor.startWithFullscreen Then
+            Me.Location = New Point(LDSettings.Editor.mainWindow_x, LDSettings.Editor.mainWindow_y)
+            Me.Size = New Point(LDSettings.Editor.mainWindow_width, LDSettings.Editor.mainWindow_height)
         End If
         Me.Activate()
         Me.BringToFront()
@@ -8119,10 +8113,10 @@ newTry:
         CircleInnerRadius.Text = ""
         OvalRadiusX.Text = ""
         OvalRadiusY.Text = ""
-        mySettings.radius_circle = 0
-        mySettings.radiusInner_circle = 0
-        mySettings.radius_oval_x = 0
-        mySettings.radius_oval_y = 0
+        LDSettings.Editor.radius_circle = 0
+        LDSettings.Editor.radiusInner_circle = 0
+        LDSettings.Editor.radius_oval_x = 0
+        LDSettings.Editor.radius_oval_y = 0
         GBMatrix.Visible = False
         MainState.conversionEnabled = True
         PreferencesForm.NUDMoveSnap.DecimalPlaces = 0
@@ -8162,10 +8156,10 @@ newTry:
         CircleInnerRadius.Text = ""
         OvalRadiusX.Text = ""
         OvalRadiusY.Text = ""
-        mySettings.radius_circle = 0
-        mySettings.radiusInner_circle = 0
-        mySettings.radius_oval_x = 0
-        mySettings.radius_oval_y = 0
+        LDSettings.Editor.radius_circle = 0
+        LDSettings.Editor.radiusInner_circle = 0
+        LDSettings.Editor.radius_oval_x = 0
+        LDSettings.Editor.radius_oval_y = 0
         GBMatrix.Visible = False
         MainState.conversionEnabled = True
         PreferencesForm.NUDMoveSnap.DecimalPlaces = 1
@@ -8205,10 +8199,10 @@ newTry:
         CircleInnerRadius.Text = ""
         OvalRadiusX.Text = ""
         OvalRadiusY.Text = ""
-        mySettings.radius_circle = 0
-        mySettings.radiusInner_circle = 0
-        mySettings.radius_oval_x = 0
-        mySettings.radius_oval_y = 0
+        LDSettings.Editor.radius_circle = 0
+        LDSettings.Editor.radiusInner_circle = 0
+        LDSettings.Editor.radius_oval_x = 0
+        LDSettings.Editor.radius_oval_y = 0
         GBMatrix.Visible = False
         MainState.conversionEnabled = True
         PreferencesForm.NUDMoveSnap.DecimalPlaces = 3
@@ -8245,11 +8239,11 @@ newTry:
 
     Private Sub PerformanceEnabledToolStripMenuItem_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles PerformanceEnabledToolStripMenuItem.CheckedChanged
         If PerformanceEnabledToolStripMenuItem.Checked Then
-            mySettings.performanceMode = True
+            LDSettings.Editor.performanceMode = True
             UndoRedoHelper.clearHistory()
         Else
             PerformanceEnabledToolStripMenuItem.Checked = False
-            mySettings.performanceMode = False
+            LDSettings.Editor.performanceMode = False
             If UndoRedoHelper.historyVertices.Count = 0 Then
                 UndoRedoHelper.pointer = 0
                 UndoRedoHelper.addHistory()
@@ -8404,14 +8398,12 @@ newTry:
         exportDat(5)
     End Sub
 
-    Private exportAgain As Boolean = False
-    Delegate Sub exportDatD(projectMode As Byte)
     Private Sub exportDat(ByVal projectMode As Byte)
         If Not MainState.isLoading AndAlso useRecommendedProjection(projectMode) AndAlso userWantsToExportDAT(projectMode) Then
-            exportAgain = True
-            While exportAgain
-                exportAgain = False
-                Invoke(New exportDatD(AddressOf exportDatThread), projectMode)
+            LDSettings.ExportAgain = True
+            While LDSettings.ExportAgain
+                LDSettings.ExportAgain = False
+                Invoke(New LDSettings.exportDatD(AddressOf exportDatThread), projectMode)
             End While
         End If
     End Sub
@@ -8529,35 +8521,35 @@ newTry:
             MainState.isLoading = True
             Try
                 Using DateiIn As StreamReader = My.Computer.FileSystem.OpenTextFileReader(EnvironmentPaths.appPath & "Config.cfg", New System.Text.UnicodeEncoding())
-                    mySettings.myLanguage = DateiIn.ReadLine()
+                    LDSettings.Editor.myLanguage = DateiIn.ReadLine()
                     Me.ShowAllWarningsToolStripMenuItem.Checked = CType(DateiIn.ReadLine, Boolean)
-                    Me.mySettings.defaultName = DateiIn.ReadLine
-                    Me.mySettings.defaultUser = DateiIn.ReadLine
-                    Me.mySettings.defaultLicense = DateiIn.ReadLine
-                    Me.mySettings.max_undo = CType(DateiIn.ReadLine, Byte)
-                    Me.mySettings.performanceMode = CType(DateiIn.ReadLine, Boolean)
+                    LDSettings.Editor.defaultName = DateiIn.ReadLine
+                    LDSettings.Editor.defaultUser = DateiIn.ReadLine
+                    LDSettings.Editor.defaultLicense = DateiIn.ReadLine
+                    LDSettings.Editor.max_undo = CType(DateiIn.ReadLine, Byte)
+                    LDSettings.Editor.performanceMode = CType(DateiIn.ReadLine, Boolean)
 
-                    Me.mySettings.startWithFullscreen = CType(DateiIn.ReadLine, Boolean)
-                    Me.mySettings.showImageViewAtStartup = CType(DateiIn.ReadLine, Boolean)
-                    Me.mySettings.showPreferencesViewAtStartup = CType(DateiIn.ReadLine, Boolean)
+                    LDSettings.Editor.startWithFullscreen = CType(DateiIn.ReadLine, Boolean)
+                    LDSettings.Editor.showImageViewAtStartup = CType(DateiIn.ReadLine, Boolean)
+                    LDSettings.Editor.showPreferencesViewAtStartup = CType(DateiIn.ReadLine, Boolean)
 
-                    Me.mySettings.useAlternativeKeys = CType(DateiIn.ReadLine, Boolean)
+                    LDSettings.Editor.useAlternativeKeys = CType(DateiIn.ReadLine, Boolean)
 
-                    myKeys.Abort = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnAbort, myKeys.Abort)
-                    myKeys.AddTriangle = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnAddTriangle, myKeys.AddTriangle)
-                    myKeys.AddVertex = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnAddVertex, myKeys.AddVertex)
+                    LDSettings.Keys.Abort = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnAbort, LDSettings.Keys.Abort)
+                    LDSettings.Keys.AddTriangle = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnAddTriangle, LDSettings.Keys.AddTriangle)
+                    LDSettings.Keys.AddVertex = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnAddVertex, LDSettings.Keys.AddVertex)
                     BtnAddReferenceLine.ToolTipText = I18N.trl8(I18N.lk.AddReferenceLine)
 
-                    myKeys.ModeMove = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnMove, myKeys.ModeMove)
-                    myKeys.ModeRotate = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnRotate, myKeys.ModeRotate)
-                    myKeys.ModeScale = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnScale, myKeys.ModeScale)
-                    myKeys.ModeSelect = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnSelect, myKeys.ModeSelect)
+                    LDSettings.Keys.ModeMove = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnMove, LDSettings.Keys.ModeMove)
+                    LDSettings.Keys.ModeRotate = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnRotate, LDSettings.Keys.ModeRotate)
+                    LDSettings.Keys.ModeScale = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnScale, LDSettings.Keys.ModeScale)
+                    LDSettings.Keys.ModeSelect = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnSelect, LDSettings.Keys.ModeSelect)
 
-                    myKeys.Pipette = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnPipette, myKeys.Pipette)
-                    myKeys.Preview = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnPreview, myKeys.Preview)
-                    myKeys.ShowColours = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnColours, myKeys.ShowColours)
-                    myKeys.Translate = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnTranslate, myKeys.Translate)
-                    myKeys.Zoom = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnZoom, myKeys.Zoom)
+                    LDSettings.Keys.Pipette = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnPipette, LDSettings.Keys.Pipette)
+                    LDSettings.Keys.Preview = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnPreview, LDSettings.Keys.Preview)
+                    LDSettings.Keys.ShowColours = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnColours, LDSettings.Keys.ShowColours)
+                    LDSettings.Keys.Translate = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnTranslate, LDSettings.Keys.Translate)
+                    LDSettings.Keys.Zoom = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnZoom, LDSettings.Keys.Zoom)
 
                     NewPatternToolStripMenuItem.ShortcutKeys = CType(DateiIn.ReadLine, Integer)
                     NewPatternToolStripMenuItem.ShortcutKeyDisplayString = KeyToSet.keyToString(New System.Windows.Forms.KeyEventArgs(NewPatternToolStripMenuItem.ShortcutKeys))
@@ -8590,22 +8582,22 @@ newTry:
                     ToLastSelectedToolStripMenuItem.ShortcutKeys = CType(DateiIn.ReadLine, Integer)
                     ToLastSelectedToolStripMenuItem.ShortcutKeyDisplayString = KeyToSet.keyToString(New System.Windows.Forms.KeyEventArgs(ToLastSelectedToolStripMenuItem.ShortcutKeys))
 
-                    myColours.background = Color.FromArgb(CType(DateiIn.ReadLine, Integer))
-                    Me.BackColor = myColours.background
-                    myColours.linePen = New Pen(Color.FromArgb(CType(DateiIn.ReadLine, Integer)), 0.001F)
-                    myColours.inverseLinePen = New Pen(Color.FromArgb(CType(DateiIn.ReadLine, Integer)), 0.001F)
-                    myColours.selectedLinePen = New Pen(Color.FromArgb(CType(DateiIn.ReadLine, Integer)), 0.001F)
-                    myColours.selectedLinePenFat = New Pen(myColours.selectedLinePen.Color, 2.0F)
-                    myColours.selectedLineInVertexModePen = New Pen(Color.FromArgb(CType(DateiIn.ReadLine, Integer)), 0.001F)
-                    myColours.vertexBrush = New SolidBrush(Color.FromArgb(CType(DateiIn.ReadLine, Integer)))
-                    myColours.selectedVertexBrush = New SolidBrush(Color.FromArgb(CType(DateiIn.ReadLine, Integer)))
+                    LDSettings.Colours.background = Color.FromArgb(CType(DateiIn.ReadLine, Integer))
+                    Me.BackColor = LDSettings.Colours.background
+                    LDSettings.Colours.linePen = New Pen(Color.FromArgb(CType(DateiIn.ReadLine, Integer)), 0.001F)
+                    LDSettings.Colours.inverseLinePen = New Pen(Color.FromArgb(CType(DateiIn.ReadLine, Integer)), 0.001F)
+                    LDSettings.Colours.selectedLinePen = New Pen(Color.FromArgb(CType(DateiIn.ReadLine, Integer)), 0.001F)
+                    LDSettings.Colours.selectedLinePenFat = New Pen(LDSettings.Colours.selectedLinePen.Color, 2.0F)
+                    LDSettings.Colours.selectedLineInVertexModePen = New Pen(Color.FromArgb(CType(DateiIn.ReadLine, Integer)), 0.001F)
+                    LDSettings.Colours.vertexBrush = New SolidBrush(Color.FromArgb(CType(DateiIn.ReadLine, Integer)))
+                    LDSettings.Colours.selectedVertexBrush = New SolidBrush(Color.FromArgb(CType(DateiIn.ReadLine, Integer)))
 
-                    myColours.originPen = New Pen(Color.FromArgb(CType(DateiIn.ReadLine, Integer)), 0.001F)
-                    myColours.gridPen = New Pen(Color.FromArgb(CType(DateiIn.ReadLine, Integer)), 0.001F)
-                    myColours.grid10Pen = New Pen(Color.FromArgb(CType(DateiIn.ReadLine, Integer)), 0.001F)
-                    myColours.selectionRectPen = New Pen(Color.FromArgb(CType(DateiIn.ReadLine, Integer)), 0.001F)
+                    LDSettings.Colours.originPen = New Pen(Color.FromArgb(CType(DateiIn.ReadLine, Integer)), 0.001F)
+                    LDSettings.Colours.gridPen = New Pen(Color.FromArgb(CType(DateiIn.ReadLine, Integer)), 0.001F)
+                    LDSettings.Colours.grid10Pen = New Pen(Color.FromArgb(CType(DateiIn.ReadLine, Integer)), 0.001F)
+                    LDSettings.Colours.selectionRectPen = New Pen(Color.FromArgb(CType(DateiIn.ReadLine, Integer)), 0.001F)
 
-                    myColours.selectionCrossBrush = New SolidBrush(Color.FromArgb(CType(DateiIn.ReadLine, Integer)))
+                    LDSettings.Colours.selectionCrossBrush = New SolidBrush(Color.FromArgb(CType(DateiIn.ReadLine, Integer)))
                     EnvironmentPaths.ldrawPath = DateiIn.ReadLine
 
                     VerticesModeToolStripMenuItem.ShortcutKeys = CType(DateiIn.ReadLine, Integer)
@@ -8617,23 +8609,23 @@ newTry:
 
                     ' Config Entries from version 1.3.3
                     If Not DateiIn.EndOfStream Then
-                        myKeys.CSG = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnCSG, myKeys.CSG)
-                        myKeys.MergeSplit = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnMerge, myKeys.MergeSplit)
-                        myKeys.AddPrimitive = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnPrimitives, myKeys.AddPrimitive)
+                        LDSettings.Keys.CSG = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnCSG, LDSettings.Keys.CSG)
+                        LDSettings.Keys.MergeSplit = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnMerge, LDSettings.Keys.MergeSplit)
+                        LDSettings.Keys.AddPrimitive = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnPrimitives, LDSettings.Keys.AddPrimitive)
                     Else
-                        myKeys.CSG = Keys.F9 : KeyToSet.setKey(BtnCSG, myKeys.CSG)
-                        myKeys.MergeSplit = Keys.F8 : KeyToSet.setKey(BtnMerge, myKeys.MergeSplit)
-                        myKeys.AddPrimitive = Keys.F7 : KeyToSet.setKey(BtnPrimitives, myKeys.AddPrimitive)
+                        LDSettings.Keys.CSG = Keys.F9 : KeyToSet.setKey(BtnCSG, LDSettings.Keys.CSG)
+                        LDSettings.Keys.MergeSplit = Keys.F8 : KeyToSet.setKey(BtnMerge, LDSettings.Keys.MergeSplit)
+                        LDSettings.Keys.AddPrimitive = Keys.F7 : KeyToSet.setKey(BtnPrimitives, LDSettings.Keys.AddPrimitive)
                     End If
 
                     ' Config Entries from version 1.3.5
                     If Not DateiIn.EndOfStream Then
-                        mySettings.showTemplateLinesOnTop = CType(DateiIn.ReadLine, Boolean)
+                        LDSettings.Editor.showTemplateLinesOnTop = CType(DateiIn.ReadLine, Boolean)
                     End If
 
                     ' Config Entries from version 1.4.1
                     If Not DateiIn.EndOfStream Then
-                        mySettings.lockModeChange = CType(DateiIn.ReadLine, Boolean)
+                        LDSettings.Editor.lockModeChange = CType(DateiIn.ReadLine, Boolean)
                     End If
 
                     ' Config Entries from version 1.4.2
@@ -8678,18 +8670,18 @@ newTry:
 
                     If Not DateiIn.EndOfStream Then
                         ' Config Entries from version 1.4.7
-                        mySettings.mainWindow_x = CType(DateiIn.ReadLine, Integer)
-                        mySettings.mainWindow_y = CType(DateiIn.ReadLine, Integer)
-                        mySettings.mainWindow_width = CType(DateiIn.ReadLine, Integer)
-                        mySettings.mainWindow_height = CType(DateiIn.ReadLine, Integer)
-                        mySettings.backgroundWindow_x = CType(DateiIn.ReadLine, Integer)
-                        mySettings.backgroundWindow_y = CType(DateiIn.ReadLine, Integer)
-                        mySettings.colourWindow_x = CType(DateiIn.ReadLine, Integer)
-                        mySettings.colourWindow_y = CType(DateiIn.ReadLine, Integer)
-                        mySettings.prefsWindow_x = CType(DateiIn.ReadLine, Integer)
-                        mySettings.prefsWindow_y = CType(DateiIn.ReadLine, Integer)
-                        mySettings.colourWindow_width = CType(DateiIn.ReadLine, Integer)
-                        mySettings.colourWindow_height = CType(DateiIn.ReadLine, Integer)
+                        LDSettings.Editor.mainWindow_x = CType(DateiIn.ReadLine, Integer)
+                        LDSettings.Editor.mainWindow_y = CType(DateiIn.ReadLine, Integer)
+                        LDSettings.Editor.mainWindow_width = CType(DateiIn.ReadLine, Integer)
+                        LDSettings.Editor.mainWindow_height = CType(DateiIn.ReadLine, Integer)
+                        LDSettings.Editor.backgroundWindow_x = CType(DateiIn.ReadLine, Integer)
+                        LDSettings.Editor.backgroundWindow_y = CType(DateiIn.ReadLine, Integer)
+                        LDSettings.Editor.colourWindow_x = CType(DateiIn.ReadLine, Integer)
+                        LDSettings.Editor.colourWindow_y = CType(DateiIn.ReadLine, Integer)
+                        LDSettings.Editor.prefsWindow_x = CType(DateiIn.ReadLine, Integer)
+                        LDSettings.Editor.prefsWindow_y = CType(DateiIn.ReadLine, Integer)
+                        LDSettings.Editor.colourWindow_width = CType(DateiIn.ReadLine, Integer)
+                        LDSettings.Editor.colourWindow_height = CType(DateiIn.ReadLine, Integer)
                     End If
 
                     If Not DateiIn.EndOfStream Then
@@ -8703,10 +8695,10 @@ newTry:
 
                 End Using
                 BtnMode.ToolTipText = I18N.trl8(I18N.lk.TriangleMode) & " [" & KeyToSet.keyToString(New System.Windows.Forms.KeyEventArgs(TrianglesModeToolStripMenuItem.ShortcutKeys)) & "]"
-                Me.MaxUndoToolStripTextBox.Text = mySettings.max_undo
-                Me.PerformanceEnabledToolStripMenuItem.Checked = mySettings.performanceMode
-                If Not mySettings.showImageViewAtStartup AndAlso ImageToolStripMenuItem.Checked Then Me.ImageToolStripMenuItem.PerformClick()
-                If Not mySettings.showPreferencesViewAtStartup AndAlso ViewPrefsToolStripMenuItem.Checked Then ViewPrefsToolStripMenuItem.PerformClick()
+                Me.MaxUndoToolStripTextBox.Text = LDSettings.Editor.max_undo
+                Me.PerformanceEnabledToolStripMenuItem.Checked = LDSettings.Editor.performanceMode
+                If Not LDSettings.Editor.showImageViewAtStartup AndAlso ImageToolStripMenuItem.Checked Then Me.ImageToolStripMenuItem.PerformClick()
+                If Not LDSettings.Editor.showPreferencesViewAtStartup AndAlso ViewPrefsToolStripMenuItem.Checked Then ViewPrefsToolStripMenuItem.PerformClick()
             Catch
                 Try
                     My.Computer.FileSystem.DeleteFile(EnvironmentPaths.appPath & "Config.cfg")
@@ -8719,33 +8711,33 @@ newTry:
 
     Public Sub saveConfig()
         Using DateiOut As StreamWriter = My.Computer.FileSystem.OpenTextFileWriter(EnvironmentPaths.appPath & "Config.cfg", False, New System.Text.UnicodeEncoding())
-            DateiOut.WriteLine(mySettings.myLanguage)
+            DateiOut.WriteLine(LDSettings.Editor.myLanguage)
 
             DateiOut.WriteLine(ShowAllWarningsToolStripMenuItem.Checked)
-            DateiOut.WriteLine(mySettings.defaultName)
-            DateiOut.WriteLine(mySettings.defaultUser)
-            DateiOut.WriteLine(mySettings.defaultLicense)
-            DateiOut.WriteLine(mySettings.max_undo)
-            DateiOut.WriteLine(mySettings.performanceMode)
-            DateiOut.WriteLine(mySettings.startWithFullscreen)
-            DateiOut.WriteLine(mySettings.showImageViewAtStartup)
-            DateiOut.WriteLine(mySettings.showPreferencesViewAtStartup)
-            DateiOut.WriteLine(mySettings.useAlternativeKeys)
+            DateiOut.WriteLine(LDSettings.Editor.defaultName)
+            DateiOut.WriteLine(LDSettings.Editor.defaultUser)
+            DateiOut.WriteLine(LDSettings.Editor.defaultLicense)
+            DateiOut.WriteLine(LDSettings.Editor.max_undo)
+            DateiOut.WriteLine(LDSettings.Editor.performanceMode)
+            DateiOut.WriteLine(LDSettings.Editor.startWithFullscreen)
+            DateiOut.WriteLine(LDSettings.Editor.showImageViewAtStartup)
+            DateiOut.WriteLine(LDSettings.Editor.showPreferencesViewAtStartup)
+            DateiOut.WriteLine(LDSettings.Editor.useAlternativeKeys)
 
-            DateiOut.WriteLine(myKeys.Abort)
-            DateiOut.WriteLine(myKeys.AddTriangle)
-            DateiOut.WriteLine(myKeys.AddVertex)
-            DateiOut.WriteLine(myKeys.ModeMove)
+            DateiOut.WriteLine(LDSettings.Keys.Abort)
+            DateiOut.WriteLine(LDSettings.Keys.AddTriangle)
+            DateiOut.WriteLine(LDSettings.Keys.AddVertex)
+            DateiOut.WriteLine(LDSettings.Keys.ModeMove)
 
-            DateiOut.WriteLine(myKeys.ModeRotate)
-            DateiOut.WriteLine(myKeys.ModeScale)
-            DateiOut.WriteLine(myKeys.ModeSelect)
+            DateiOut.WriteLine(LDSettings.Keys.ModeRotate)
+            DateiOut.WriteLine(LDSettings.Keys.ModeScale)
+            DateiOut.WriteLine(LDSettings.Keys.ModeSelect)
 
-            DateiOut.WriteLine(myKeys.Pipette)
-            DateiOut.WriteLine(myKeys.Preview)
-            DateiOut.WriteLine(myKeys.ShowColours)
-            DateiOut.WriteLine(myKeys.Translate)
-            DateiOut.WriteLine(myKeys.Zoom)
+            DateiOut.WriteLine(LDSettings.Keys.Pipette)
+            DateiOut.WriteLine(LDSettings.Keys.Preview)
+            DateiOut.WriteLine(LDSettings.Keys.ShowColours)
+            DateiOut.WriteLine(LDSettings.Keys.Translate)
+            DateiOut.WriteLine(LDSettings.Keys.Zoom)
 
             DateiOut.WriteLine(CType(NewPatternToolStripMenuItem.ShortcutKeys, Integer))
             DateiOut.WriteLine(CType(LoadPatternToolStripMenuItem.ShortcutKeys, Integer))
@@ -8763,18 +8755,18 @@ newTry:
             DateiOut.WriteLine(CType(ToAverageToolStripMenuItem.ShortcutKeys, Integer))
             DateiOut.WriteLine(CType(ToLastSelectedToolStripMenuItem.ShortcutKeys, Integer))
 
-            DateiOut.WriteLine(myColours.background.ToArgb)
-            DateiOut.WriteLine(myColours.linePen.Color.ToArgb)
-            DateiOut.WriteLine(myColours.inverseLinePen.Color.ToArgb)
-            DateiOut.WriteLine(myColours.selectedLinePen.Color.ToArgb)
-            DateiOut.WriteLine(myColours.selectedLineInVertexModePen.Color.ToArgb)
-            DateiOut.WriteLine(myColours.vertexBrush.Color.ToArgb)
-            DateiOut.WriteLine(myColours.selectedVertexBrush.Color.ToArgb)
-            DateiOut.WriteLine(myColours.originPen.Color.ToArgb)
-            DateiOut.WriteLine(myColours.gridPen.Color.ToArgb)
-            DateiOut.WriteLine(myColours.grid10Pen.Color.ToArgb)
-            DateiOut.WriteLine(myColours.selectionRectPen.Color.ToArgb)
-            DateiOut.WriteLine(myColours.selectionCrossBrush.Color.ToArgb)
+            DateiOut.WriteLine(LDSettings.Colours.background.ToArgb)
+            DateiOut.WriteLine(LDSettings.Colours.linePen.Color.ToArgb)
+            DateiOut.WriteLine(LDSettings.Colours.inverseLinePen.Color.ToArgb)
+            DateiOut.WriteLine(LDSettings.Colours.selectedLinePen.Color.ToArgb)
+            DateiOut.WriteLine(LDSettings.Colours.selectedLineInVertexModePen.Color.ToArgb)
+            DateiOut.WriteLine(LDSettings.Colours.vertexBrush.Color.ToArgb)
+            DateiOut.WriteLine(LDSettings.Colours.selectedVertexBrush.Color.ToArgb)
+            DateiOut.WriteLine(LDSettings.Colours.originPen.Color.ToArgb)
+            DateiOut.WriteLine(LDSettings.Colours.gridPen.Color.ToArgb)
+            DateiOut.WriteLine(LDSettings.Colours.grid10Pen.Color.ToArgb)
+            DateiOut.WriteLine(LDSettings.Colours.selectionRectPen.Color.ToArgb)
+            DateiOut.WriteLine(LDSettings.Colours.selectionCrossBrush.Color.ToArgb)
 
             DateiOut.WriteLine(EnvironmentPaths.ldrawPath)
 
@@ -8783,15 +8775,15 @@ newTry:
             DateiOut.WriteLine(CType(PrimitiveModeToolStripMenuItem.ShortcutKeys, Integer))
 
             ' Config Entries from version 1.3.3
-            DateiOut.WriteLine(myKeys.CSG)
-            DateiOut.WriteLine(myKeys.MergeSplit)
-            DateiOut.WriteLine(myKeys.AddPrimitive)
+            DateiOut.WriteLine(LDSettings.Keys.CSG)
+            DateiOut.WriteLine(LDSettings.Keys.MergeSplit)
+            DateiOut.WriteLine(LDSettings.Keys.AddPrimitive)
 
             ' Config Entries from version 1.3.5
-            DateiOut.WriteLine(mySettings.showTemplateLinesOnTop)
+            DateiOut.WriteLine(LDSettings.Editor.showTemplateLinesOnTop)
 
             ' Config Entries from version 1.4.1
-            DateiOut.WriteLine(mySettings.lockModeChange)
+            DateiOut.WriteLine(LDSettings.Editor.lockModeChange)
 
             ' Config Entries from version 1.4.2
             DateiOut.WriteLine(CType(ShowGridToolStripMenuItem.ShortcutKeys, Integer))
@@ -8808,18 +8800,18 @@ newTry:
             DateiOut.WriteLine(CType(CSGSplitToolStripMenuItem.ShortcutKeys, Integer))
 
             ' Config Entries from version 1.4.7
-            DateiOut.WriteLine(mySettings.mainWindow_x)
-            DateiOut.WriteLine(mySettings.mainWindow_y)
-            DateiOut.WriteLine(mySettings.mainWindow_width)
-            DateiOut.WriteLine(mySettings.mainWindow_height)
-            DateiOut.WriteLine(mySettings.backgroundWindow_x)
-            DateiOut.WriteLine(mySettings.backgroundWindow_y)
-            DateiOut.WriteLine(mySettings.colourWindow_x)
-            DateiOut.WriteLine(mySettings.colourWindow_y)
-            DateiOut.WriteLine(mySettings.prefsWindow_x)
-            DateiOut.WriteLine(mySettings.prefsWindow_y)
-            DateiOut.WriteLine(mySettings.colourWindow_width)
-            DateiOut.WriteLine(mySettings.colourWindow_height)
+            DateiOut.WriteLine(LDSettings.Editor.mainWindow_x)
+            DateiOut.WriteLine(LDSettings.Editor.mainWindow_y)
+            DateiOut.WriteLine(LDSettings.Editor.mainWindow_width)
+            DateiOut.WriteLine(LDSettings.Editor.mainWindow_height)
+            DateiOut.WriteLine(LDSettings.Editor.backgroundWindow_x)
+            DateiOut.WriteLine(LDSettings.Editor.backgroundWindow_y)
+            DateiOut.WriteLine(LDSettings.Editor.colourWindow_x)
+            DateiOut.WriteLine(LDSettings.Editor.colourWindow_y)
+            DateiOut.WriteLine(LDSettings.Editor.prefsWindow_x)
+            DateiOut.WriteLine(LDSettings.Editor.prefsWindow_y)
+            DateiOut.WriteLine(LDSettings.Editor.colourWindow_width)
+            DateiOut.WriteLine(LDSettings.Editor.colourWindow_height)
 
             ' Config Entries from version 1.6.6
             DateiOut.WriteLine(View.showGrid)
@@ -8875,14 +8867,14 @@ newTry:
 
     Private Sub MaxUndoToolStripTextBox_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles MaxUndoToolStripTextBox.TextChanged
         Try
-            If mySettings.max_undo <> CType(MaxUndoToolStripTextBox.Text, Byte) Then
-                mySettings.max_undo = CType(MaxUndoToolStripTextBox.Text, Byte)
-                If mySettings.max_undo < 3 Then mySettings.max_undo = 3
-                MaxUndoToolStripTextBox.Text = mySettings.max_undo
+            If LDSettings.Editor.max_undo <> CType(MaxUndoToolStripTextBox.Text, Byte) Then
+                LDSettings.Editor.max_undo = CType(MaxUndoToolStripTextBox.Text, Byte)
+                If LDSettings.Editor.max_undo < 3 Then LDSettings.Editor.max_undo = 3
+                MaxUndoToolStripTextBox.Text = LDSettings.Editor.max_undo
                 saveConfig()
             End If
         Catch ex As Exception
-            MaxUndoToolStripTextBox.Text = mySettings.max_undo
+            MaxUndoToolStripTextBox.Text = LDSettings.Editor.max_undo
         End Try
     End Sub
 
@@ -9308,15 +9300,15 @@ newDelete:
                     If CSG.isVertexInTriangle(vert1, tri1) Then
                         View.CollisionVertices.Add(vert1)
                     Else
-                        If vert1.vertexID <> tri1.vertexA.vertexID AndAlso _
-                           vert1.vertexID <> tri1.vertexB.vertexID AndAlso _
+                        If vert1.vertexID <> tri1.vertexA.vertexID AndAlso
+                           vert1.vertexID <> tri1.vertexB.vertexID AndAlso
                            vert1.vertexID <> tri1.vertexC.vertexID Then
-                            If vert1.X <= Math.Max(Math.Max(tri1.vertexA.X, tri1.vertexB.X), tri1.vertexC.X) AndAlso _
-                               vert1.Y <= Math.Max(Math.Max(tri1.vertexA.Y, tri1.vertexB.Y), tri1.vertexC.Y) AndAlso _
-                               vert1.X >= Math.Min(Math.Min(tri1.vertexA.X, tri1.vertexB.X), tri1.vertexC.X) AndAlso _
+                            If vert1.X <= Math.Max(Math.Max(tri1.vertexA.X, tri1.vertexB.X), tri1.vertexC.X) AndAlso
+                               vert1.Y <= Math.Max(Math.Max(tri1.vertexA.Y, tri1.vertexB.Y), tri1.vertexC.Y) AndAlso
+                               vert1.X >= Math.Min(Math.Min(tri1.vertexA.X, tri1.vertexB.X), tri1.vertexC.X) AndAlso
                                vert1.Y >= Math.Min(Math.Min(tri1.vertexA.Y, tri1.vertexB.Y), tri1.vertexC.Y) Then
-                                If CSG.distanceSquareFromVertexToLine(vert1, tri1.vertexA, tri1.vertexB) < 10.0 OrElse _
-                                   CSG.distanceSquareFromVertexToLine(vert1, tri1.vertexA, tri1.vertexC) < 10.0 OrElse _
+                                If CSG.distanceSquareFromVertexToLine(vert1, tri1.vertexA, tri1.vertexB) < 10.0 OrElse
+                                   CSG.distanceSquareFromVertexToLine(vert1, tri1.vertexA, tri1.vertexC) < 10.0 OrElse
                                    CSG.distanceSquareFromVertexToLine(vert1, tri1.vertexB, tri1.vertexC) < 10.0 Then
                                     View.CollisionVertices.Add(vert1)
                                 End If
@@ -9368,9 +9360,9 @@ newDelete:
     End Sub
 
     Private Sub loadLanguage(ByVal sender As ToolStripMenuItem, ByVal e As EventArgs)
-        mySettings.myLanguage = sender.ToolTipText
+        LDSettings.Editor.myLanguage = sender.ToolTipText
         saveConfig()
-        loadLanguage(mySettings.myLanguage)
+        loadLanguage(LDSettings.Editor.myLanguage)
         loadConfig()
         Me.Refresh()
     End Sub
@@ -9904,7 +9896,7 @@ newDelete:
             Me.SaveAs.Filter = "Pattern Creator 1.3 (Unicode,*.lpc)|*.lpc|Pattern Creator 1.0 (ASCII,*.txt)|*.txt|" & I18N.trl8(I18N.lk.AllFiles) & " (*.*)|*.*"
             Me.OpenDAT.Filter = I18N.trl8(I18N.lk.DATFiles) & "|*.dat"
             Me.BtnAbort.Font = bf
-            Me.BtnAbort.Text = I18N.trl8(I18N.lk.ABORT) & " []" : KeyToSet.setKey(BtnAbort, myKeys.Abort)
+            Me.BtnAbort.Text = I18N.trl8(I18N.lk.ABORT) & " []" : KeyToSet.setKey(BtnAbort, LDSettings.Keys.Abort)
             With CenterDialog
                 .Text = I18N.trl8(I18N.lk.Center)
                 .Font = f
@@ -10041,8 +10033,8 @@ newDelete:
         Catch
             If Not alreadyFailedToLoad Then
                 loadConfig()
-                mySettings.myLanguage = EnvironmentPaths.appPath & "lang\lang_en_GB.csv"
-                loadLanguage(mySettings.myLanguage, True)
+                LDSettings.Editor.myLanguage = EnvironmentPaths.appPath & "lang\lang_en_GB.csv"
+                loadLanguage(LDSettings.Editor.myLanguage, True)
                 saveConfig()
             End If
         End Try
@@ -10399,39 +10391,39 @@ newDelete:
         Dim p As Primitive = LPCFile.Primitives(CType(LPCFile.PrimitivesHMap(View.SelectedVertices(0).groupindex), Integer))
         Select Case CBProject.SelectedItem
             Case I18N.trl8(I18N.lk.Right) ' YZ mit -X (Right) [OK]
-                Dim cmatrix(,) As Double = {{0.0, 0.0, -1.0, 0.0}, _
-                                            {0.0, 1.0, 0.0, 0.0}, _
-                                            {1.0, 0.0, 0.0, 0.0}, _
+                Dim cmatrix(,) As Double = {{0.0, 0.0, -1.0, 0.0},
+                                            {0.0, 1.0, 0.0, 0.0},
+                                            {1.0, 0.0, 0.0, 0.0},
                                             {0.0, 0.0, 0.0, 1.0}}
                 p.matrixR = cmatrix.Clone
             Case I18N.trl8(I18N.lk.Top) ' XZ mit -Y (Top) [OK]
-                Dim cmatrix(,) As Double = {{1.0, 0.0, 0.0, 0.0}, _
-                                            {0.0, 0.0, -1.0, 0.0}, _
-                                            {0.0, 1.0, 0.0, 0.0}, _
+                Dim cmatrix(,) As Double = {{1.0, 0.0, 0.0, 0.0},
+                                            {0.0, 0.0, -1.0, 0.0},
+                                            {0.0, 1.0, 0.0, 0.0},
                                             {0.0, 0.0, 0.0, 1.0}}
                 p.matrixR = cmatrix.Clone
             Case I18N.trl8(I18N.lk.Front) ' XY mit -Z (Front) [OK] 
-                Dim cmatrix(,) As Double = {{1.0, 0.0, 0.0, 0.0}, _
-                                            {0.0, 1.0, 0.0, 0.0}, _
-                                            {0.0, 0.0, 1.0, 0.0}, _
+                Dim cmatrix(,) As Double = {{1.0, 0.0, 0.0, 0.0},
+                                            {0.0, 1.0, 0.0, 0.0},
+                                            {0.0, 0.0, 1.0, 0.0},
                                             {0.0, 0.0, 0.0, 1.0}}
                 p.matrixR = cmatrix.Clone
             Case I18N.trl8(I18N.lk.Left) ' YZ mit +X (Left) [OK]
-                Dim cmatrix(,) As Double = {{0.0, 0.0, 1.0, 0.0}, _
-                                            {0.0, 1.0, 0.0, 0.0}, _
-                                            {-1.0, 0.0, 0.0, 0.0}, _
+                Dim cmatrix(,) As Double = {{0.0, 0.0, 1.0, 0.0},
+                                            {0.0, 1.0, 0.0, 0.0},
+                                            {-1.0, 0.0, 0.0, 0.0},
                                             {0.0, 0.0, 0.0, 1.0}}
                 p.matrixR = cmatrix.Clone
             Case I18N.trl8(I18N.lk.Bottom) ' XZ mit -Y (Bottom) [OK]
-                Dim cmatrix(,) As Double = {{1.0, 0.0, 0.0, 0.0}, _
-                                            {0.0, 0.0, 1.0, 0.0}, _
-                                            {0.0, -1.0, 0.0, 0.0}, _
+                Dim cmatrix(,) As Double = {{1.0, 0.0, 0.0, 0.0},
+                                            {0.0, 0.0, 1.0, 0.0},
+                                            {0.0, -1.0, 0.0, 0.0},
                                             {0.0, 0.0, 0.0, 1.0}}
                 p.matrixR = cmatrix.Clone
             Case I18N.trl8(I18N.lk.Back) ' XY mit +Z (Back) [OK]
-                Dim cmatrix(,) As Double = {{-1.0, 0.0, 0.0, 0.0}, _
-                                            {0.0, 1.0, 0.0, 0.0}, _
-                                            {0.0, 0.0, -1.0, 0.0}, _
+                Dim cmatrix(,) As Double = {{-1.0, 0.0, 0.0, 0.0},
+                                            {0.0, 1.0, 0.0, 0.0},
+                                            {0.0, 0.0, -1.0, 0.0},
                                             {0.0, 0.0, 0.0, 1.0}}
                 p.matrixR = cmatrix.Clone
         End Select
@@ -10552,7 +10544,7 @@ newDelete:
         LPCFile.myMetadata.recommendedMode = 6
         LPCFile.templateProjectionQuads.Clear()
         LPCFile.templateTexts.Clear()
-        LPCFile.templateShape.Clear()        
+        LPCFile.templateShape.Clear()
         For Each v As Vertex In LPCFile.Vertices
             If v.groupindex = Primitive.TEMPLATE_INDEX Then
                 v.groupindex = Primitive.NO_INDEX

@@ -24,7 +24,7 @@ Public Class ReplacerDialog
         For i As Integer = 0 To LPCFile.newColours.Count - 1
             If Not LPCFile.colourReplacementMapBrush.ContainsKey(LPCFile.oldColours(i).rgbValue.ToArgb) Then
                 If LPCFile.newColours(i).ldrawIndex = 16 Then
-                    LPCFile.colourReplacementMapBrush.Add(LPCFile.oldColours(i).rgbValue.ToArgb, CType(New HatchBrush(HatchStyle.Percent05, MainForm.myColours.linePen.Color, Color.Transparent), Brush))
+                    LPCFile.colourReplacementMapBrush.Add(LPCFile.oldColours(i).rgbValue.ToArgb, CType(New HatchBrush(HatchStyle.Percent05, LDSettings.Colours.linePen.Color, Color.Transparent), Brush))
                 Else
                     LPCFile.colourReplacementMapBrush.Add(LPCFile.oldColours(i).rgbValue.ToArgb, CType(New SolidBrush(LPCFile.newColours(i).rgbValue), Brush))
                 End If

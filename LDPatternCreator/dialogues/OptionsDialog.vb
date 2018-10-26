@@ -47,23 +47,23 @@ Public Class OptionsDialog
     Private Sub loadColours()
         LColours.Items.Clear()
         LTags.Items.Clear()
-        addColour(I18N.trl8(I18N.lk.C00), MainForm.myColours.background)
-        PBack.BackColor = MainForm.myColours.background
-        addColour(I18N.trl8(I18N.lk.C01), MainForm.myColours.linePen)
-        addColour(I18N.trl8(I18N.lk.C02), MainForm.myColours.inverseLinePen)
-        addColour(I18N.trl8(I18N.lk.C03), MainForm.myColours.selectedLinePen)
-        addColour(I18N.trl8(I18N.lk.C04), MainForm.myColours.selectedLineInVertexModePen)
-        addColour(I18N.trl8(I18N.lk.C05), MainForm.myColours.vertexBrush)
-        addColour(I18N.trl8(I18N.lk.C06), MainForm.myColours.selectedVertexBrush)
-        addColour(I18N.trl8(I18N.lk.C07), MainForm.myColours.originPen)
-        addColour(I18N.trl8(I18N.lk.C08), MainForm.myColours.gridPen)
-        addColour(I18N.trl8(I18N.lk.C09), MainForm.myColours.grid10Pen)
-        addColour(I18N.trl8(I18N.lk.C10), MainForm.myColours.selectionRectPen)
-        addColour(I18N.trl8(I18N.lk.C11), MainForm.myColours.selectionCrossBrush)
+        addColour(I18N.trl8(I18N.lk.C00), LDSettings.Colours.background)
+        PBack.BackColor = LDSettings.Colours.background
+        addColour(I18N.trl8(I18N.lk.C01), LDSettings.Colours.linePen)
+        addColour(I18N.trl8(I18N.lk.C02), LDSettings.Colours.inverseLinePen)
+        addColour(I18N.trl8(I18N.lk.C03), LDSettings.Colours.selectedLinePen)
+        addColour(I18N.trl8(I18N.lk.C04), LDSettings.Colours.selectedLineInVertexModePen)
+        addColour(I18N.trl8(I18N.lk.C05), LDSettings.Colours.vertexBrush)
+        addColour(I18N.trl8(I18N.lk.C06), LDSettings.Colours.selectedVertexBrush)
+        addColour(I18N.trl8(I18N.lk.C07), LDSettings.Colours.originPen)
+        addColour(I18N.trl8(I18N.lk.C08), LDSettings.Colours.gridPen)
+        addColour(I18N.trl8(I18N.lk.C09), LDSettings.Colours.grid10Pen)
+        addColour(I18N.trl8(I18N.lk.C10), LDSettings.Colours.selectionRectPen)
+        addColour(I18N.trl8(I18N.lk.C11), LDSettings.Colours.selectionCrossBrush)
     End Sub
 
     Private Sub saveColours()
-        MainForm.myColours.background = LTags.Items(0)
+        LDSettings.Colours.background = LTags.Items(0)
         Try
             MainForm.BackColor = CType(LTags.Items(0), Color)
             MainForm.Opacity = 1D
@@ -71,31 +71,31 @@ Public Class OptionsDialog
             MainForm.BackColor = Color.FromArgb(CType(LTags.Items(0), Color).R, CType(LTags.Items(0), Color).G, CType(LTags.Items(0), Color).B)
             MainForm.Opacity = CType(LTags.Items(0), Color).A / 255
         End Try
-        MainForm.myColours.linePen = LTags.Items(1)
-        MainForm.myColours.inverseLinePen = LTags.Items(2)
-        MainForm.myColours.selectedLinePen = LTags.Items(3)
-        MainForm.myColours.selectedLineInVertexModePen = LTags.Items(4)
-        MainForm.myColours.vertexBrush = LTags.Items(5)
-        MainForm.myColours.selectedVertexBrush = LTags.Items(6)
-        MainForm.myColours.originPen = LTags.Items(7)
-        MainForm.myColours.gridPen = LTags.Items(8)
-        MainForm.myColours.grid10Pen = LTags.Items(9)
-        MainForm.myColours.selectionRectPen = LTags.Items(10)
-        MainForm.myColours.selectionCrossBrush = LTags.Items(11)
+        LDSettings.Colours.linePen = LTags.Items(1)
+        LDSettings.Colours.inverseLinePen = LTags.Items(2)
+        LDSettings.Colours.selectedLinePen = LTags.Items(3)
+        LDSettings.Colours.selectedLineInVertexModePen = LTags.Items(4)
+        LDSettings.Colours.vertexBrush = LTags.Items(5)
+        LDSettings.Colours.selectedVertexBrush = LTags.Items(6)
+        LDSettings.Colours.originPen = LTags.Items(7)
+        LDSettings.Colours.gridPen = LTags.Items(8)
+        LDSettings.Colours.grid10Pen = LTags.Items(9)
+        LDSettings.Colours.selectionRectPen = LTags.Items(10)
+        LDSettings.Colours.selectionCrossBrush = LTags.Items(11)
     End Sub
 
     Private Sub loadSettings()
-        CBLicense.Text = MainForm.mySettings.defaultLicense
-        TBRealName.Text = MainForm.mySettings.defaultName
-        TBUserName.Text = MainForm.mySettings.defaultUser
-        NUDMaxUndo.Value = MainForm.mySettings.max_undo
-        CBPerformaceMode.Checked = MainForm.mySettings.performanceMode
-        CBViewImage.Checked = MainForm.mySettings.showImageViewAtStartup
-        CBViewPreferences.Checked = MainForm.mySettings.showPreferencesViewAtStartup
-        CBFullscreen.Checked = MainForm.mySettings.startWithFullscreen
-        CBAlternativeZoomAndTrans.Checked = MainForm.mySettings.useAlternativeKeys
-        CBTemplateLinesTop.Checked = MainForm.mySettings.showTemplateLinesOnTop
-        CBAddModeLock.Checked = MainForm.mySettings.lockModeChange
+        CBLicense.Text = LDSettings.Editor.defaultLicense
+        TBRealName.Text = LDSettings.Editor.defaultName
+        TBUserName.Text = LDSettings.Editor.defaultUser
+        NUDMaxUndo.Value = LDSettings.Editor.max_undo
+        CBPerformaceMode.Checked = LDSettings.Editor.performanceMode
+        CBViewImage.Checked = LDSettings.Editor.showImageViewAtStartup
+        CBViewPreferences.Checked = LDSettings.Editor.showPreferencesViewAtStartup
+        CBFullscreen.Checked = LDSettings.Editor.startWithFullscreen
+        CBAlternativeZoomAndTrans.Checked = LDSettings.Editor.useAlternativeKeys
+        CBTemplateLinesTop.Checked = LDSettings.Editor.showTemplateLinesOnTop
+        CBAddModeLock.Checked = LDSettings.Editor.lockModeChange
     End Sub
 
     Private Sub loadKeys()
@@ -190,21 +190,21 @@ Public Class OptionsDialog
     End Sub
 
     Private Sub saveSettings()
-        MainForm.mySettings.defaultLicense = CBLicense.Text
-        MainForm.mySettings.defaultName = TBRealName.Text
-        MainForm.mySettings.defaultUser = TBUserName.Text
+        LDSettings.Editor.defaultLicense = CBLicense.Text
+        LDSettings.Editor.defaultName = TBRealName.Text
+        LDSettings.Editor.defaultUser = TBUserName.Text
         Dim mu As Byte = Fix(NUDMaxUndo.Value)
-        If MainForm.mySettings.max_undo <> mu Then
+        If LDSettings.Editor.max_undo <> mu Then
             UndoRedoHelper.clearHistory()
         End If
-        MainForm.mySettings.max_undo = mu
-        MainForm.mySettings.performanceMode = CBPerformaceMode.Checked
-        MainForm.mySettings.showImageViewAtStartup = CBViewImage.Checked
-        MainForm.mySettings.showPreferencesViewAtStartup = CBViewPreferences.Checked
-        MainForm.mySettings.startWithFullscreen = CBFullscreen.Checked
-        MainForm.mySettings.useAlternativeKeys = CBAlternativeZoomAndTrans.Checked
-        MainForm.mySettings.showTemplateLinesOnTop = CBTemplateLinesTop.Checked
-        MainForm.mySettings.lockModeChange = CBAddModeLock.Checked
+        LDSettings.Editor.max_undo = mu
+        LDSettings.Editor.performanceMode = CBPerformaceMode.Checked
+        LDSettings.Editor.showImageViewAtStartup = CBViewImage.Checked
+        LDSettings.Editor.showPreferencesViewAtStartup = CBViewPreferences.Checked
+        LDSettings.Editor.startWithFullscreen = CBFullscreen.Checked
+        LDSettings.Editor.useAlternativeKeys = CBAlternativeZoomAndTrans.Checked
+        LDSettings.Editor.showTemplateLinesOnTop = CBTemplateLinesTop.Checked
+        LDSettings.Editor.lockModeChange = CBAddModeLock.Checked
         If MainForm.PerformanceEnabledToolStripMenuItem.Checked <> CBPerformaceMode.Checked Then MainForm.PerformanceEnabledToolStripMenuItem.PerformClick()
     End Sub
 
@@ -234,50 +234,50 @@ Public Class OptionsDialog
                 Select Case CType(Shortkeys.Rows(i).Tag, ToolStripButton).Name
                     Case "BtnSelect"
                         MainForm.CMSSelect.ShortcutKeyDisplayString = Shortkeys.Rows(i).Cells(1).Value
-                        MainForm.myKeys.ModeSelect = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
+                        LDSettings.Keys.ModeSelect = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
                     Case "BtnMove"
                         MainForm.CMSMove.ShortcutKeyDisplayString = Shortkeys.Rows(i).Cells(1).Value
-                        MainForm.myKeys.ModeMove = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
+                        LDSettings.Keys.ModeMove = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
                     Case "BtnRotate"
                         MainForm.CMSRotate.ShortcutKeyDisplayString = Shortkeys.Rows(i).Cells(1).Value
-                        MainForm.myKeys.ModeRotate = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
+                        LDSettings.Keys.ModeRotate = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
                     Case "BtnScale"
                         MainForm.CMSScale.ShortcutKeyDisplayString = Shortkeys.Rows(i).Cells(1).Value
-                        MainForm.myKeys.ModeScale = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
+                        LDSettings.Keys.ModeScale = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
                     Case "BtnAddVertex"
                         MainForm.CMSAddVertex.ShortcutKeyDisplayString = Shortkeys.Rows(i).Cells(1).Value
-                        MainForm.myKeys.AddVertex = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
+                        LDSettings.Keys.AddVertex = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
                     Case "BtnAddTriangle"
                         MainForm.CMSAddTriangle.ShortcutKeyDisplayString = Shortkeys.Rows(i).Cells(1).Value
-                        MainForm.myKeys.AddTriangle = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
+                        LDSettings.Keys.AddTriangle = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
                     Case "BtnPreview"
-                        MainForm.myKeys.Preview = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
+                        LDSettings.Keys.Preview = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
                     Case "BtnColours"
-                        MainForm.myKeys.ShowColours = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
+                        LDSettings.Keys.ShowColours = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
                     Case "BtnPipette"
-                        MainForm.myKeys.Pipette = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
+                        LDSettings.Keys.Pipette = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
                 End Select
             ElseIf TypeOf Shortkeys.Rows(i).Tag Is Button Then
                 CType(Shortkeys.Rows(i).Tag, Button).Text = Mid(Shortkeys.Rows(i).Tag.Text, 1, Shortkeys.Rows(i).Tag.Text.IndexOf("[") - 1) & " [" & Shortkeys.Rows(i).Cells(1).Value & "]"
                 Select Case CType(Shortkeys.Rows(i).Tag, Button).Name
                     Case "BtnAbort"
-                        MainForm.myKeys.Abort = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
-                        ColourForm.LblTip.Text = String.Format(I18N.trl8(I18N.lk.ColourTip), KeyToSet.keyToString(New KeyEventArgs(MainForm.myKeys.Abort)))
+                        LDSettings.Keys.Abort = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
+                        ColourForm.LblTip.Text = String.Format(I18N.trl8(I18N.lk.ColourTip), KeyToSet.keyToString(New KeyEventArgs(LDSettings.Keys.Abort)))
                         ColourForm.Refresh()
                     Case "BtnZoom"
-                        MainForm.myKeys.Zoom = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
+                        LDSettings.Keys.Zoom = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
                     Case "BtnTranslate"
-                        MainForm.myKeys.Translate = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
+                        LDSettings.Keys.Translate = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
                 End Select
             ElseIf TypeOf Shortkeys.Rows(i).Tag Is ToolStripDropDownButton Then
                 CType(Shortkeys.Rows(i).Tag, ToolStripDropDownButton).ToolTipText = Mid(Shortkeys.Rows(i).Tag.ToolTipText, 1, Shortkeys.Rows(i).Tag.ToolTipText.IndexOf("[") - 1) & " [" & Shortkeys.Rows(i).Cells(1).Value & "]"
                 Select Case CType(Shortkeys.Rows(i).Tag, ToolStripDropDownButton).Name
                     Case "BtnCSG"
-                        MainForm.myKeys.CSG = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
+                        LDSettings.Keys.CSG = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
                     Case "BtnMerge"
-                        MainForm.myKeys.MergeSplit = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
+                        LDSettings.Keys.MergeSplit = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
                     Case "BtnPrimitives"
-                        MainForm.myKeys.AddPrimitive = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
+                        LDSettings.Keys.AddPrimitive = CType(Shortkeys.Rows(i).Cells(3).Value, Integer)
                 End Select
             End If
         Next
@@ -306,23 +306,23 @@ Public Class OptionsDialog
             Dim keystring As String = Replace(Replace(target.ToolTipText, target.Text & " [", ""), "]", "")
             Select Case CType(target, ToolStripButton).Name
                 Case "BtnSelect"
-                    keyindex = MainForm.myKeys.ModeSelect
+                    keyindex = LDSettings.Keys.ModeSelect
                 Case "BtnMove"
-                    keyindex = MainForm.myKeys.ModeMove
+                    keyindex = LDSettings.Keys.ModeMove
                 Case "BtnRotate"
-                    keyindex = MainForm.myKeys.ModeRotate
+                    keyindex = LDSettings.Keys.ModeRotate
                 Case "BtnScale"
-                    keyindex = MainForm.myKeys.ModeScale
+                    keyindex = LDSettings.Keys.ModeScale
                 Case "BtnAddVertex"
-                    keyindex = MainForm.myKeys.AddVertex
+                    keyindex = LDSettings.Keys.AddVertex
                 Case "BtnAddTriangle"
-                    keyindex = MainForm.myKeys.AddTriangle
+                    keyindex = LDSettings.Keys.AddTriangle
                 Case "BtnPreview"
-                    keyindex = MainForm.myKeys.Preview
+                    keyindex = LDSettings.Keys.Preview
                 Case "BtnColours"
-                    keyindex = MainForm.myKeys.ShowColours
+                    keyindex = LDSettings.Keys.ShowColours
                 Case "BtnPipette"
-                    keyindex = MainForm.myKeys.Pipette
+                    keyindex = LDSettings.Keys.Pipette
             End Select
             If keyDict.ContainsKey(keystring) Then
                 Dim temp As String = keystring
@@ -340,11 +340,11 @@ Public Class OptionsDialog
             Dim keystring As String = Replace(Replace(Mid(target.Text, target.Text.lastIndexOf("[") + 1), "[", ""), "]", "")
             Select Case CType(target, Button).Name
                 Case "BtnAbort"
-                    keyindex = MainForm.myKeys.Abort
+                    keyindex = LDSettings.Keys.Abort
                 Case "BtnZoom"
-                    keyindex = MainForm.myKeys.Zoom
+                    keyindex = LDSettings.Keys.Zoom
                 Case "BtnTranslate"
-                    keyindex = MainForm.myKeys.Translate
+                    keyindex = LDSettings.Keys.Translate
             End Select
             If keyDict.ContainsKey(keystring) Then
                 Dim temp As String = keystring
@@ -362,11 +362,11 @@ Public Class OptionsDialog
             Dim keystring As String = Replace(Replace(Mid(target.ToolTipText, target.ToolTipText.lastIndexOf("[") + 1), "[", ""), "]", "")
             Select Case CType(target, ToolStripDropDownButton).Name
                 Case "BtnCSG"
-                    keyindex = MainForm.myKeys.CSG
+                    keyindex = LDSettings.Keys.CSG
                 Case "BtnMerge"
-                    keyindex = MainForm.myKeys.MergeSplit
+                    keyindex = LDSettings.Keys.MergeSplit
                 Case "BtnPrimitives"
-                    keyindex = MainForm.myKeys.AddPrimitive
+                    keyindex = LDSettings.Keys.AddPrimitive
             End Select
             If keyDict.ContainsKey(keystring) Then
                 Dim temp As String = keystring
@@ -377,7 +377,7 @@ Public Class OptionsDialog
                 keystring = temp & " (" & i & ")"
             End If
             Shortkeys.Rows.Add(description, keystring, I18N.trl8(I18N.lk.SetKey), keyindex)
-            keyDict.Add(keystring, Shortkeys.Rows.Count - 1)            
+            keyDict.Add(keystring, Shortkeys.Rows.Count - 1)
             Shortkeys.Rows(Shortkeys.Rows.Count - 1).Tag = target
         End If
     End Sub

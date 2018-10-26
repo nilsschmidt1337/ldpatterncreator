@@ -120,9 +120,9 @@ Public Class MetadataDialog
     End Sub
 
     Private Sub BtnDefault_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnDefault.Click
-        MainForm.mySettings.defaultLicense = CBLicense.Text
-        MainForm.mySettings.defaultName = TBRealName.Text
-        MainForm.mySettings.defaultUser = TBUserName.Text
+        LDSettings.Editor.defaultLicense = CBLicense.Text
+        LDSettings.Editor.defaultName = TBRealName.Text
+        LDSettings.Editor.defaultUser = TBUserName.Text
         MainForm.saveConfig()
     End Sub
 

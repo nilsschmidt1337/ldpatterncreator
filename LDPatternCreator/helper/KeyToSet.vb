@@ -87,51 +87,51 @@ Public Class KeyToSet
             Select Case CType(target, ToolStripButton).Name
                 Case "BtnSelect"
                     MainForm.CMSSelect.ShortcutKeyDisplayString = keystring
-                    MainForm.myKeys.ModeSelect = keyindex
+                    LDSettings.Keys.ModeSelect = keyindex
                 Case "BtnMove"
                     MainForm.CMSMove.ShortcutKeyDisplayString = keystring
-                    MainForm.myKeys.ModeMove = keyindex
+                    LDSettings.Keys.ModeMove = keyindex
                 Case "BtnRotate"
                     MainForm.CMSRotate.ShortcutKeyDisplayString = keystring
-                    MainForm.myKeys.ModeRotate = keyindex
+                    LDSettings.Keys.ModeRotate = keyindex
                 Case "BtnScale"
                     MainForm.CMSScale.ShortcutKeyDisplayString = keystring
-                    MainForm.myKeys.ModeScale = keyindex
+                    LDSettings.Keys.ModeScale = keyindex
                 Case "BtnAddVertex"
                     MainForm.CMSAddVertex.ShortcutKeyDisplayString = keystring
-                    MainForm.myKeys.AddVertex = keyindex
+                    LDSettings.Keys.AddVertex = keyindex
                 Case "BtnAddTriangle"
                     MainForm.CMSAddTriangle.ShortcutKeyDisplayString = keystring
-                    MainForm.myKeys.AddTriangle = keyindex
+                    LDSettings.Keys.AddTriangle = keyindex
                 Case "BtnPreview"
-                    MainForm.myKeys.Preview = keyindex
+                    LDSettings.Keys.Preview = keyindex
                 Case "BtnColours"
-                    MainForm.myKeys.ShowColours = keyindex
+                    LDSettings.Keys.ShowColours = keyindex
                 Case "BtnPipette"
-                    MainForm.myKeys.Pipette = keyindex
+                    LDSettings.Keys.Pipette = keyindex
             End Select
         ElseIf TypeOf target Is Button Then
             CType(target, Button).Text = Mid(target.Text, 1, target.Text.IndexOf("[") - 1) & " [" & keystring & "]"
             Select Case CType(target, Button).Name
                 Case "BtnAbort"
-                    MainForm.myKeys.Abort = keyindex
-                    ColourForm.LblTip.Text = String.Format(I18N.trl8(I18N.lk.ColourTip), keyToString(New KeyEventArgs(MainForm.myKeys.Abort)))
+                    LDSettings.Keys.Abort = keyindex
+                    ColourForm.LblTip.Text = String.Format(I18N.trl8(I18N.lk.ColourTip), keyToString(New KeyEventArgs(LDSettings.Keys.Abort)))
                     ColourForm.Refresh()
                 Case "BtnZoom"
-                    MainForm.myKeys.Zoom = keyindex
+                    LDSettings.Keys.Zoom = keyindex
                 Case "BtnTranslate"
-                    MainForm.myKeys.Translate = keyindex
+                    LDSettings.Keys.Translate = keyindex
             End Select
         ElseIf TypeOf target Is ToolStripDropDownButton Then
             If Not CType(target.ToolTipText, String).Contains("[") Then target.ToolTipText = target.ToolTipText & " []"
             CType(target, ToolStripDropDownButton).ToolTipText = Mid(target.ToolTipText, 1, target.ToolTipText.IndexOf("[") - 1) & " [" & keystring & "]"
             Select Case CType(target, ToolStripDropDownButton).Name
                 Case "BtnCSG"
-                    MainForm.myKeys.CSG = keyindex
+                    LDSettings.Keys.CSG = keyindex
                 Case "BtnPrimitives"
-                    MainForm.myKeys.AddPrimitive = keyindex
+                    LDSettings.Keys.AddPrimitive = keyindex
                 Case "BtnMerge"
-                    MainForm.myKeys.MergeSplit = keyindex
+                    LDSettings.Keys.MergeSplit = keyindex
             End Select
         End If
     End Sub

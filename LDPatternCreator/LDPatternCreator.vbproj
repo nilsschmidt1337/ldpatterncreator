@@ -255,15 +255,16 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="misc_settings\EnvironmentPaths.vb" />
-    <Compile Include="misc_settings\GeneralSetting.vb" />
+    <Compile Include="misc_settings\EditorSetting.vb" />
     <Compile Include="misc_settings\KeySetting.vb" />
     <Compile Include="misc_settings\LDConfig.vb" />
-    <Compile Include="misc_settings\SystemColours.vb" />
-    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="misc_settings\ColourSetting.vb" />
+    <Compile Include="misc_settings\Settings.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
     </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

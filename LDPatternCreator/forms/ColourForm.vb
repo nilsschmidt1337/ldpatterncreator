@@ -21,10 +21,10 @@ Public Class ColourForm
     Public isDialog As Boolean
 
     Private Sub ColourForm_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
-        MainForm.mySettings.colourWindow_x = Me.Location.X
-        MainForm.mySettings.colourWindow_y = Me.Location.Y
-        MainForm.mySettings.colourWindow_width = Me.Size.Width
-        MainForm.mySettings.colourWindow_height = Me.Size.Height
+        LDSettings.Editor.colourWindow_x = Me.Location.X
+        LDSettings.Editor.colourWindow_y = Me.Location.Y
+        LDSettings.Editor.colourWindow_width = Me.Size.Width
+        LDSettings.Editor.colourWindow_height = Me.Size.Height
     End Sub
 
     Private Sub ColourForm_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
@@ -81,7 +81,7 @@ Public Class ColourForm
                 AddHandler btn.Click, AddressOf btn_click
             End If
         Next
-        Me.LblTip.Text = String.Format(I18N.trl8(I18N.lk.ColourTip), KeyToSet.keyToString(New KeyEventArgs(MainForm.myKeys.Abort)))
+        Me.LblTip.Text = String.Format(I18N.trl8(I18N.lk.ColourTip), KeyToSet.keyToString(New KeyEventArgs(LDSettings.Keys.Abort)))
         Me.BtnDirectColour.Focus()
     End Sub
 
@@ -124,8 +124,8 @@ Public Class ColourForm
 
     Private Sub ColourForm_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         Me.BtnDirectColour.Focus()
-        Me.Location = New Point(MainForm.mySettings.colourWindow_x, MainForm.mySettings.colourWindow_y)
-        Me.Size = New Point(MainForm.mySettings.colourWindow_width, MainForm.mySettings.colourWindow_height)
+        Me.Location = New Point(LDSettings.Editor.colourWindow_x, LDSettings.Editor.colourWindow_y)
+        Me.Size = New Point(LDSettings.Editor.colourWindow_width, LDSettings.Editor.colourWindow_height)
         Me.TopMost = False
     End Sub
 End Class

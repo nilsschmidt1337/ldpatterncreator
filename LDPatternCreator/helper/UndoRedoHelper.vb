@@ -62,7 +62,7 @@ Public Class UndoRedoHelper
             historyProjectionQuads.Add(CloneHelper.DeepCloneProjectionQuads(LPCFile.templateProjectionQuads))
             historyTemplateText.Add(CloneHelper.DeepCloneTemplateTexts(LPCFile.templateTexts))
 
-            If pointer < MainForm.mySettings.max_undo Then
+            If pointer < LDSettings.Editor.max_undo Then
                 pointer += 1
             Else
                 UndoRedoHelper.historyVertices.RemoveAt(0)

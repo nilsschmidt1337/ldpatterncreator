@@ -59,10 +59,10 @@ Public Class Metadata
         MetadataDialog.TBDescription.Text = mData(0)
         MetadataDialog.TBFilename.Text = mData(1)
         If mData(2) = "" Then
-            mData(2) = MainForm.mySettings.defaultName
+            mData(2) = LDSettings.Editor.defaultName
         End If
         If mData(3) = "" Then
-            mData(3) = MainForm.mySettings.defaultUser
+            mData(3) = LDSettings.Editor.defaultUser
         End If
         MetadataDialog.TBRealName.Text = mData(2)
         MetadataDialog.TBUserName.Text = mData(3)
@@ -83,7 +83,7 @@ Public Class Metadata
             mData(7) = LPCFile.myMetadata.mData(7)
         Else
             If mData(5) = "" Then
-                mData(5) = MainForm.mySettings.defaultLicense
+                mData(5) = LDSettings.Editor.defaultLicense
             End If
         End If
         MetadataDialog.CBPartType.Text = mData(4)
