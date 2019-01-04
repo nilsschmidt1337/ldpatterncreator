@@ -64,7 +64,7 @@ Partial Class ImageForm
         Me.NUDScale.Name = "NUDScale"
         Me.NUDScale.Size = New System.Drawing.Size(70, 20)
         Me.NUDScale.TabIndex = 28
-        Me.NUDScale.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NUDScale.Value = New Decimal(New Integer() {100, 0, 0, 0})
         '
         'LblImageScale
         '

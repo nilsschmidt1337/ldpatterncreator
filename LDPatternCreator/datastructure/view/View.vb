@@ -40,7 +40,7 @@ Public Class View
     Public Shared imgPath As String
     Public Shared imgOffsetX As Integer = 0
     Public Shared imgOffsetY As Integer = 0
-    Public Shared imgScale As Double = 1
+    Public Shared imgScale As Double = 100
 
     Public Shared backgroundPicture As Bitmap = My.Resources.temp
     Public Shared backgroundPictureBrush As New TextureBrush(My.Resources.temp)

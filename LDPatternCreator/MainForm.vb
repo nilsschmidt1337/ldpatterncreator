@@ -4812,7 +4812,7 @@ skipSlicing:
         View.moveSnap = 100 * View.unitFactor
         View.scaleSnap = 0.01
         View.rotateSnap = 15
-        View.imgScale = 1
+        View.imgScale = 100
         View.imgOffsetX = 0
         View.imgOffsetY = 0
         View.rasterSnap = 1 * View.unitFactor
