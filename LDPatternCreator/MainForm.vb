@@ -814,7 +814,7 @@ Public Class MainForm
         If curX + View.correctionOffsetX < Cursor.Position.X Then View.correctionOffsetX = Cursor.Position.X - curX
         If curY + View.correctionOffsetY > Cursor.Position.Y Then View.correctionOffsetY = Cursor.Position.Y - curY
         If curY + View.correctionOffsetY < Cursor.Position.Y Then View.correctionOffsetY = Cursor.Position.Y - curY
-        If MainState.doSelection OrElse MainState.doCameraMove OrElse MainState.movemode OrElse MainState.trianglemode > 0 OrElse MainState.referenceLineMode > 0 OrElse MainState.rotatemode OrElse MainState.scalemode OrElse MainState.adjustmode OrElse MainState.primitiveMode > 0 OrElse BtnAddVertex.Checked Then Me.Refresh()
+        If MainState.doSelection OrElse MainState.doCameraMove OrElse MainState.movemode OrElse MainState.trianglemode > 0 OrElse MainState.referenceLineMode > 0 OrElse MainState.rotatemode OrElse MainState.scalemode OrElse MainState.adjustmode OrElse MainState.primitiveMode > 0 OrElse BtnAddVertex.Checked OrElse BtnAddTriangle.Checked Then Me.Refresh()
         If MainState.adjustmode Then
             Dim tx As Integer = MouseHelper.getCursorpositionX()
             Dim ty As Integer = MouseHelper.getCursorpositionY()
@@ -5262,6 +5262,7 @@ skipSlicing:
             View.offsetY = View.oldOffsetY + (MouseHelper.getCursorpositionY() - MainState.klickY) / View.zoomfactor
         End If
         If MainState.isLoading Then Exit Sub
+
         Dim absOffsetX As Integer = View.offsetX * View.zoomfactor + CType(Me.ClientSize.Width / 2, Integer)
         Dim absOffsetY As Integer = View.offsetY * View.zoomfactor + CType(Me.ClientSize.Height / 2, Integer)
 
@@ -6568,6 +6569,9 @@ label_zechnen:
                 e.Graphics.DrawString(Math.Round(getYcoordinateD(y) / View.moveSnap * View.unitFactor * 10.0) * View.moveSnap / 10000.0, New Font("Arial", 12, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, 4, y)
             Next
         End If
+
+        ' Detect Nearest Edge while adding new triangles
+        selectNearestTriangleEdgeForNewObjects()
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem.Click
@@ -7941,11 +7945,9 @@ doMatrix:
         Me.Close()
     End Sub
 
-    Private Sub Timer3_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer3.Tick
-        Timer3.Interval = 300
+    Private Sub selectNearestTriangleEdgeForNewObjects()
         If Not MainState.isLoading AndAlso (BtnAddVertex.Checked OrElse BtnAddTriangle.Checked) Then
-            Timer3.Interval = 200
-            If (MainState.doIntelligentSelection AndAlso Not Control.ModifierKeys = Keys.Control) AndAlso Not MainState.doSelection Then
+            If FastTriangulationToolStripMenuItem.Checked AndAlso Not MainState.intelligentFocusTriangle Is Nothing AndAlso Not Control.ModifierKeys = Keys.Control AndAlso Not MainState.doSelection Then
                 Dim failure As Integer = 0
                 MainState.trianglemode = 2
                 Dim cx As Double = getXcoordinate(MouseHelper.getCursorpositionX)
@@ -8012,20 +8014,19 @@ newTry:
                         If failure < 5 Then
                             GoTo newTry
                         Else
-                            MainState.intelligentFocusTriangle = tri : Timer3.Interval = 1 : MainState.trianglemode = 0
+                            MainState.intelligentFocusTriangle = tri
                         End If
                     End If
                 Next
                 If CSG.isVertexInTriangle(cVert, MainState.intelligentFocusTriangle) Then
-                    Timer3.Interval = 300
                     MainState.trianglemode = 0
                 End If
                 MainState.lastPointX = MainState.temp_vertices(1).X
                 MainState.lastPointY = MainState.temp_vertices(1).Y
             End If
-            Me.Refresh()
         End If
     End Sub
+
 
     Private Sub MainForm_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         ImageToolStripMenuItem.Checked = False
