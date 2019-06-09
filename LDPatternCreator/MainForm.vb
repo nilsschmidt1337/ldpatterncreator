@@ -3648,14 +3648,19 @@ newDelete:
                 ' Validate primitive center vertex
                 If Not duplicatePrimitiveIDs Then
                     If Not VIDtoVI.ContainsKey(centerVertexID) Then
-                        duplicatePrimitiveIDs = True
-                        'Dim ov As New Vertex(ox, oy, False, False)
-                        'For Each v As Vertex In LPCFile.Vertices
-                        '    If v.dist(ov) < 0.1 Then
-                        '        p.centerVertexID = v.vertexID
-                        '        Exit For
-                        '    End If
-                        'Next
+                        Dim foundOldCenter As Boolean = False
+                        Dim ov As New Vertex(matrix(0, 3), matrix(1, 3), False, False)
+                        For Each v As Vertex In LPCFile.Vertices
+                            If v.dist(ov) < 0.1 AndAlso p.primitiveID = v.groupindex Then
+                                p.centerVertexID = v.vertexID
+                                foundOldCenter = True
+                                Exit For
+                            End If
+                        Next
+
+                        If Not foundOldCenter Then
+                            duplicatePrimitiveIDs = True
+                        End If
                     End If
                 End If
             Next
