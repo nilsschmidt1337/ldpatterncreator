@@ -7956,7 +7956,6 @@ doMatrix:
     Private Sub selectNearestTriangleEdgeForNewObjects()
         If Not MainState.isLoading AndAlso (BtnAddVertex.Checked OrElse BtnAddTriangle.Checked) Then
             If FastTriangulationToolStripMenuItem.Checked AndAlso Not MainState.intelligentFocusTriangle Is Nothing AndAlso Not Control.ModifierKeys = Keys.Control AndAlso Not MainState.doSelection Then
-                Dim failure As Integer = 0
                 MainState.trianglemode = 2
                 Dim cx As Double = getXcoordinate(MouseHelper.getCursorpositionX)
                 Dim cy As Double = getYcoordinate(MouseHelper.getCursorpositionY)
@@ -7966,27 +7965,34 @@ doMatrix:
                 Dim distB As Double = cVert.dist(MainState.intelligentFocusTriangle.vertexB)
                 Dim distC As Double = cVert.dist(MainState.intelligentFocusTriangle.vertexC)
 
-                If distA < distB Then
-                    If distB < distC Then
-                        MainState.temp_vertices(0) = MainState.intelligentFocusTriangle.vertexA
-                        MainState.temp_vertices(1) = MainState.intelligentFocusTriangle.vertexB
-                        MainState.temp_corner_vertex = MainState.intelligentFocusTriangle.vertexC
-                    Else
-                        MainState.temp_vertices(0) = MainState.intelligentFocusTriangle.vertexA
-                        MainState.temp_vertices(1) = MainState.intelligentFocusTriangle.vertexC
-                        MainState.temp_corner_vertex = MainState.intelligentFocusTriangle.vertexB
-                    End If
-                Else
-                    If distC < distA Then
-                        MainState.temp_vertices(0) = MainState.intelligentFocusTriangle.vertexB
-                        MainState.temp_vertices(1) = MainState.intelligentFocusTriangle.vertexC
-                        MainState.temp_corner_vertex = MainState.intelligentFocusTriangle.vertexA
-                    Else
-                        MainState.temp_vertices(0) = MainState.intelligentFocusTriangle.vertexA
-                        MainState.temp_vertices(1) = MainState.intelligentFocusTriangle.vertexB
-                        MainState.temp_corner_vertex = MainState.intelligentFocusTriangle.vertexC
-                    End If
+                If distA < distB AndAlso distB < distC Then
+                    MainState.temp_vertices(0) = MainState.intelligentFocusTriangle.vertexA
+                    MainState.temp_vertices(1) = MainState.intelligentFocusTriangle.vertexB
+                    MainState.temp_corner_vertex = MainState.intelligentFocusTriangle.vertexC
+                ElseIf distA < distC AndAlso distC < distB Then
+                    MainState.temp_vertices(0) = MainState.intelligentFocusTriangle.vertexA
+                    MainState.temp_vertices(1) = MainState.intelligentFocusTriangle.vertexC
+                    MainState.temp_corner_vertex = MainState.intelligentFocusTriangle.vertexB
+                ElseIf distB < distA AndAlso distA < distC Then
+                    MainState.temp_vertices(0) = MainState.intelligentFocusTriangle.vertexB
+                    MainState.temp_vertices(1) = MainState.intelligentFocusTriangle.vertexA
+                    MainState.temp_corner_vertex = MainState.intelligentFocusTriangle.vertexC
+                ElseIf distB < distC AndAlso distC < distA Then
+                    MainState.temp_vertices(0) = MainState.intelligentFocusTriangle.vertexB
+                    MainState.temp_vertices(1) = MainState.intelligentFocusTriangle.vertexC
+                    MainState.temp_corner_vertex = MainState.intelligentFocusTriangle.vertexA
+                ElseIf distC < distA AndAlso distA < distB Then
+                    MainState.temp_vertices(0) = MainState.intelligentFocusTriangle.vertexC
+                    MainState.temp_vertices(1) = MainState.intelligentFocusTriangle.vertexA
+                    MainState.temp_corner_vertex = MainState.intelligentFocusTriangle.vertexB
+                ElseIf distC < distB AndAlso distB < distA Then
+                    MainState.temp_vertices(0) = MainState.intelligentFocusTriangle.vertexC
+                    MainState.temp_vertices(1) = MainState.intelligentFocusTriangle.vertexB
+                    MainState.temp_corner_vertex = MainState.intelligentFocusTriangle.vertexA
                 End If
+
+                checkIntersection(cVert)
+
                 Dim newTri As Triangle = New Triangle(MainState.temp_vertices(0), MainState.temp_vertices(1), cVert, False)
                 Dim linkedTris As New List(Of Triangle)
                 linkedTris.Add(MainState.intelligentFocusTriangle)
@@ -8017,6 +8023,19 @@ doMatrix:
                 MainState.lastPointX = MainState.temp_vertices(1).X
                 MainState.lastPointY = MainState.temp_vertices(1).Y
             End If
+        End If
+    End Sub
+
+    Private Sub checkIntersection(ByVal cVert As Vertex)
+        Dim smallestDistance As Vertex = MainState.temp_vertices(0)
+        Dim mediumDistance As Vertex = MainState.temp_vertices(1)
+        Dim longestDistance As Vertex = MainState.temp_corner_vertex
+
+        Dim intersection As Vertex = CSG.intersectionBetweenTwoLines(smallestDistance, mediumDistance, cVert, longestDistance)
+
+        If intersection Is Nothing Then
+            MainState.temp_vertices(1) = longestDistance
+            MainState.temp_corner_vertex = mediumDistance
         End If
     End Sub
 
