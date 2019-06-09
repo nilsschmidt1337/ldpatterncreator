@@ -73,6 +73,7 @@ Public Class MainState
 
     Public Shared temp_center As Vertex
     Public Shared temp_vertices(1) As Vertex
+    Public Shared temp_corner_vertex As Vertex
 
     Public Shared tempvertex As New Vertex(0, 0, False, False)
     Public Shared tempcolour As Color

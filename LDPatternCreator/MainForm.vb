@@ -3643,11 +3643,19 @@ newDelete:
                         matrix(z, s) = CType(Replace(DateiIn.ReadLine, ".", MathHelper.comma), Double)
                     Next
                 Next
-                LPCFile.Primitives.Add(New Primitive(0, 0, ox, oy, primitiveNameRead, centerVertexID, False) With {.matrix = matrix.Clone, .primitiveID = primitiveID, .myColourNumber = myColourNumber, .myColour = Color.FromArgb(myColour)})
+                Dim p As New Primitive(0, 0, ox, oy, primitiveNameRead, centerVertexID, False) With {.matrix = matrix.Clone, .primitiveID = primitiveID, .myColourNumber = myColourNumber, .myColour = Color.FromArgb(myColour)}
+                LPCFile.Primitives.Add(p)
                 ' Validate primitive center vertex
                 If Not duplicatePrimitiveIDs Then
                     If Not VIDtoVI.ContainsKey(centerVertexID) Then
                         duplicatePrimitiveIDs = True
+                        'Dim ov As New Vertex(ox, oy, False, False)
+                        'For Each v As Vertex In LPCFile.Vertices
+                        '    If v.dist(ov) < 0.1 Then
+                        '        p.centerVertexID = v.vertexID
+                        '        Exit For
+                        '    End If
+                        'Next
                     End If
                 End If
             Next
@@ -7958,25 +7966,25 @@ doMatrix:
                 Dim distB As Double = cVert.dist(MainState.intelligentFocusTriangle.vertexB)
                 Dim distC As Double = cVert.dist(MainState.intelligentFocusTriangle.vertexC)
 
-                Dim distAold As Double = distA
-                Dim distBold As Double = distB
-                Dim distCold As Double = distC
-newTry:
                 If distA < distB Then
                     If distB < distC Then
                         MainState.temp_vertices(0) = MainState.intelligentFocusTriangle.vertexA
                         MainState.temp_vertices(1) = MainState.intelligentFocusTriangle.vertexB
+                        MainState.temp_corner_vertex = MainState.intelligentFocusTriangle.vertexC
                     Else
                         MainState.temp_vertices(0) = MainState.intelligentFocusTriangle.vertexA
                         MainState.temp_vertices(1) = MainState.intelligentFocusTriangle.vertexC
+                        MainState.temp_corner_vertex = MainState.intelligentFocusTriangle.vertexB
                     End If
                 Else
                     If distC < distA Then
                         MainState.temp_vertices(0) = MainState.intelligentFocusTriangle.vertexB
                         MainState.temp_vertices(1) = MainState.intelligentFocusTriangle.vertexC
+                        MainState.temp_corner_vertex = MainState.intelligentFocusTriangle.vertexA
                     Else
                         MainState.temp_vertices(0) = MainState.intelligentFocusTriangle.vertexA
                         MainState.temp_vertices(1) = MainState.intelligentFocusTriangle.vertexB
+                        MainState.temp_corner_vertex = MainState.intelligentFocusTriangle.vertexC
                     End If
                 End If
                 Dim newTri As Triangle = New Triangle(MainState.temp_vertices(0), MainState.temp_vertices(1), cVert, False)
@@ -7993,29 +8001,14 @@ newTry:
                     CSG.isVertexInTriangle(MainState.intelligentFocusTriangle.vertexB, newTri) OrElse
                     CSG.isVertexInTriangle(MainState.intelligentFocusTriangle.vertexC, newTri)
                 End If
+
+                If CSG.isVertexInTriangle(MainState.temp_corner_vertex, MainState.intelligentFocusTriangle) Then
+                    MainState.trianglemode = 0
+                End If
+
                 For Each tri As Triangle In linkedTris
                     If CSG.trianglesIntersectionsOnly(newTri, tri, False) OrElse isClosed Then
-                        Dim zf As Integer = Fix(Rnd() * 4)
-                        Select Case zf
-                            Case 0
-                                distA = Double.MaxValue
-                                distB = distBold
-                                distC = distCold
-                            Case 1
-                                distB = Double.MaxValue
-                                distA = distAold
-                                distC = distCold
-                            Case 2
-                                distC = Double.MaxValue
-                                distB = distBold
-                                distA = distAold
-                        End Select
-                        If tri.triangleID <> MainState.intelligentFocusTriangle.triangleID OrElse isClosed Then failure += 1
-                        If failure < 5 Then
-                            GoTo newTry
-                        Else
-                            MainState.intelligentFocusTriangle = tri
-                        End If
+                        MainState.intelligentFocusTriangle = tri
                     End If
                 Next
                 If CSG.isVertexInTriangle(cVert, MainState.intelligentFocusTriangle) Then
