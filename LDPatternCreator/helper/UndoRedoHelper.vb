@@ -167,10 +167,17 @@ Public Class UndoRedoHelper
 
         Dim vcount As Integer = LPCFile.Vertices.Count - 1
         For i As Integer = 0 To vcount
-            If VIDtoVI.ContainsKey(LPCFile.Vertices(i).vertexID) Then
+            Dim oldVertexId As Integer = LPCFile.Vertices(i).vertexID
+            If VIDtoVI.ContainsKey(oldVertexId) Then
                 GlobalIdSet.vertexIDglobal += 1
                 LPCFile.Vertices(i).vertexID = GlobalIdSet.vertexIDglobal
                 VIDtoVI.Add(LPCFile.Vertices(i).vertexID, i)
+                If LPCFile.PrimitivesHMap.ContainsKey(LPCFile.Vertices(i).groupindex) Then
+                    Dim p As Primitive = LPCFile.Primitives(LPCFile.PrimitivesHMap(LPCFile.Vertices(i).groupindex))
+                    If p.centerVertexID = oldVertexId Then
+                        p.centerVertexID = LPCFile.Vertices(i).vertexID
+                    End If
+                End If
             Else
                 VIDtoVI.Add(LPCFile.Vertices(i).vertexID, i)
             End If

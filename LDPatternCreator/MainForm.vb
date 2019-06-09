@@ -3037,9 +3037,9 @@ skipPrimitiveMode:
                 vID1 = CType(DateiIn.ReadLine(), Integer)
                 vID2 = CType(DateiIn.ReadLine(), Integer)
                 vID3 = CType(DateiIn.ReadLine(), Integer)
-                LPCFile.Triangles.Add(New Triangle(New Vertex(0, 0, False, False) With {.vertexID = vID1} _
-                                         , New Vertex(0, 0, False, False) With {.vertexID = vID2} _
-                                         , New Vertex(0, 0, False, False) With {.vertexID = vID3}, False) _
+                LPCFile.Triangles.Add(New Triangle(New Vertex(0, 0, False, vID1) _
+                                         , New Vertex(0, 0, False, vID2) _
+                                         , New Vertex(0, 0, False, vID3), False) _
                                          With {.myColour = Color.FromArgb(myColour), .myColourNumber = myColourNumber, .triangleID = triangleID})
             Next
             ' Load Vertices:
@@ -3051,7 +3051,7 @@ skipPrimitiveMode:
                 If vertexID > maxVertexID Then maxVertexID = vertexID
                 X = CType(Replace(DateiIn.ReadLine, ".", MathHelper.comma), Double)
                 Y = CType(Replace(DateiIn.ReadLine, ".", MathHelper.comma), Double)
-                LPCFile.Vertices.Add(New Vertex(-X, -Y, False, False) With {.vertexID = vertexID})
+                LPCFile.Vertices.Add(New Vertex(-X, -Y, False, vertexID))
                 Dim linkedtrianz As Integer = CType(DateiIn.ReadLine(), Integer)
                 For tri As Integer = 1 To linkedtrianz
                     triangleID2 = CType(DateiIn.ReadLine(), Integer)
@@ -3114,9 +3114,9 @@ skipPrimitiveMode:
                 vID2 = CType(DateiIn.ReadLine(), Integer)
                 vID3 = CType(DateiIn.ReadLine(), Integer)
                 groupindex = CType(DateiIn.ReadLine(), Integer)
-                LPCFile.Triangles.Add(New Triangle(New Vertex(0, 0, False, False) With {.vertexID = vID1} _
-                                         , New Vertex(0, 0, False, False) With {.vertexID = vID2} _
-                                         , New Vertex(0, 0, False, False) With {.vertexID = vID3}, False) _
+                LPCFile.Triangles.Add(New Triangle(New Vertex(0, 0, False, vID1) _
+                                         , New Vertex(0, 0, False, vID2) _
+                                         , New Vertex(0, 0, False, vID3), False) _
                                          With {.myColour = Color.FromArgb(myColour), .myColourNumber = myColourNumber, .triangleID = triangleID, .groupindex = groupindex})
             Next
             ' Load Vertices:
@@ -3133,7 +3133,7 @@ skipPrimitiveMode:
                 X = CType(Replace(DateiIn.ReadLine, ".", MathHelper.comma), Double)
                 Y = CType(Replace(DateiIn.ReadLine, ".", MathHelper.comma), Double)
                 groupindex = CType(DateiIn.ReadLine(), Integer)
-                LPCFile.Vertices.Add(New Vertex(X, Y, False, False) With {.vertexID = vertexID, .groupindex = groupindex})
+                LPCFile.Vertices.Add(New Vertex(X, Y, False, vertexID) With {.groupindex = groupindex})
                 Dim linkedtrianz As Integer = CType(DateiIn.ReadLine(), Integer)
                 For tri As Integer = 1 To linkedtrianz
                     triangleID2 = CType(DateiIn.ReadLine(), Integer)
@@ -3340,9 +3340,9 @@ newDelete:
                 vID2 = CType(DateiIn.ReadLine(), Integer)
                 vID3 = CType(DateiIn.ReadLine(), Integer)
                 groupindex = CType(DateiIn.ReadLine(), Integer)
-                LPCFile.Triangles.Add(New Triangle(New Vertex(0, 0, False, False) With {.vertexID = vID1} _
-                                         , New Vertex(0, 0, False, False) With {.vertexID = vID2} _
-                                         , New Vertex(0, 0, False, False) With {.vertexID = vID3}, False) _
+                LPCFile.Triangles.Add(New Triangle(New Vertex(0, 0, False, vID1) _
+                                         , New Vertex(0, 0, False, vID2) _
+                                         , New Vertex(0, 0, False, vID3), False) _
                                          With {.myColour = Color.FromArgb(myColour), .myColourNumber = myColourNumber, .triangleID = triangleID, .groupindex = groupindex})
             Next
             ' Load Vertices:
@@ -3359,7 +3359,7 @@ newDelete:
                 X = CType(Replace(DateiIn.ReadLine, ".", MathHelper.comma), Double)
                 Y = CType(Replace(DateiIn.ReadLine, ".", MathHelper.comma), Double)
                 groupindex = CType(DateiIn.ReadLine(), Integer)
-                LPCFile.Vertices.Add(New Vertex(X, Y, False, False) With {.vertexID = vertexID, .groupindex = groupindex})
+                LPCFile.Vertices.Add(New Vertex(X, Y, False, vertexID) With {.groupindex = groupindex})
                 Dim linkedtrianz As Integer = CType(DateiIn.ReadLine(), Integer)
                 For tri As Integer = 1 To linkedtrianz
                     triangleID2 = CType(DateiIn.ReadLine(), Integer)
@@ -3594,9 +3594,9 @@ newDelete:
                 vID2 = CType(DateiIn.ReadLine(), Integer)
                 vID3 = CType(DateiIn.ReadLine(), Integer)
                 groupindex = CType(DateiIn.ReadLine(), Integer)
-                LPCFile.Triangles.Add(New Triangle(New Vertex(0, 0, False, False) With {.vertexID = vID1} _
-                                         , New Vertex(0, 0, False, False) With {.vertexID = vID2} _
-                                         , New Vertex(0, 0, False, False) With {.vertexID = vID3}, False) _
+                LPCFile.Triangles.Add(New Triangle(New Vertex(0, 0, False, vID1) _
+                                         , New Vertex(0, 0, False, vID2) _
+                                         , New Vertex(0, 0, False, vID3), False) _
                                          With {.myColour = Color.FromArgb(myColour), .myColourNumber = myColourNumber, .triangleID = triangleID, .groupindex = groupindex})
             Next
             ' Load Vertices:
@@ -3613,7 +3613,7 @@ newDelete:
                 X = CType(Replace(DateiIn.ReadLine, ".", MathHelper.comma), Double)
                 Y = CType(Replace(DateiIn.ReadLine, ".", MathHelper.comma), Double)
                 groupindex = CType(DateiIn.ReadLine(), Integer)
-                LPCFile.Vertices.Add(New Vertex(X, Y, False, False) With {.vertexID = vertexID, .groupindex = groupindex})
+                LPCFile.Vertices.Add(New Vertex(X, Y, False, vertexID) With {.groupindex = groupindex})
                 Dim linkedtrianz As Integer = CType(DateiIn.ReadLine(), Integer)
                 For tri As Integer = 1 To linkedtrianz
                     triangleID2 = CType(DateiIn.ReadLine(), Integer)

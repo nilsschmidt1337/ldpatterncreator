@@ -43,6 +43,14 @@ Public Class Vertex
 
     End Sub
 
+    Sub New(ByVal vx As Double, ByVal vy As Double, ByVal sel As Boolean, ByVal id As Integer)
+        Me.X = vx
+        Me.Y = vy
+        Me.selected = sel
+        Me.groupindex = Primitive.NO_INDEX
+        Me.vertexID = id
+    End Sub
+
     Sub New(ByVal vx As Double, ByVal vy As Double, ByVal sel As Boolean, Optional ByVal needID As Boolean = True)
         Me.X = vx
         Me.Y = vy

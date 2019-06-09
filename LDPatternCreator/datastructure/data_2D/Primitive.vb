@@ -60,7 +60,6 @@ Public Class Primitive
     End Sub
 
     Public Sub mirror(ByVal on_x As Boolean, ByVal on_Y As Boolean)
-        Dim vert As Vertex = New Vertex(ox, oy, False, False)
         Dim fx As Double = 1
         Dim fy As Double = 1
         Dim tox, toy As Double
@@ -72,9 +71,9 @@ Public Class Primitive
         translate(-ox, oy)
 
         ' Spiegeln..
-        Dim matrix2(,) As Double = {{fx, 0, 0, 0}, _
-                                    {0, fy, 0, 0}, _
-                                    {0, 0, 1, 0}, _
+        Dim matrix2(,) As Double = {{fx, 0, 0, 0},
+                                    {0, fy, 0, 0},
+                                    {0, 0, 1, 0},
                                     {0, 0, 0, 1}}
         Dim matrix3(3, 3) As Double
 
