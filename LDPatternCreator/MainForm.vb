@@ -8013,10 +8013,6 @@ doMatrix:
                     CSG.isVertexInTriangle(MainState.intelligentFocusTriangle.vertexC, newTri)
                 End If
 
-                If CSG.isVertexInTriangle(MainState.temp_corner_vertex, MainState.intelligentFocusTriangle) Then
-                    MainState.trianglemode = 0
-                End If
-
                 For Each tri As Triangle In linkedTris
                     If CSG.trianglesIntersectionsOnly(newTri, tri, False) OrElse isClosed Then
                         MainState.intelligentFocusTriangle = tri
@@ -8036,11 +8032,30 @@ doMatrix:
         Dim mediumDistance As Vertex = MainState.temp_vertices(1)
         Dim longestDistance As Vertex = MainState.temp_corner_vertex
 
-        Dim intersection As Vertex = CSG.intersectionBetweenTwoLines(smallestDistance, mediumDistance, cVert, longestDistance)
+        Dim intersectionA As Vertex = CSG.intersectionBetweenTwoLines(cVert, mediumDistance, smallestDistance, longestDistance)
 
-        If intersection Is Nothing Then
+        If Not intersectionA Is Nothing Then
             MainState.temp_vertices(1) = longestDistance
             MainState.temp_corner_vertex = mediumDistance
+            mediumDistance = MainState.temp_vertices(1)
+            longestDistance = MainState.temp_corner_vertex
+        End If
+
+        Dim intersectionB As Vertex = CSG.intersectionBetweenTwoLines(smallestDistance, cVert, mediumDistance, longestDistance)
+
+        If Not intersectionB Is Nothing Then
+            MainState.temp_vertices(0) = mediumDistance
+            MainState.temp_vertices(1) = longestDistance
+            MainState.temp_corner_vertex = smallestDistance
+        End If
+
+        Dim newTri As Triangle = New Triangle(MainState.temp_vertices(0), MainState.temp_vertices(1), cVert, False)
+
+        If CSG.isVertexInTriangle(MainState.temp_corner_vertex, newTri) Then
+            MainState.temp_vertices(1) = longestDistance
+            MainState.temp_corner_vertex = mediumDistance
+            mediumDistance = MainState.temp_vertices(1)
+            longestDistance = MainState.temp_corner_vertex
         End If
     End Sub
 
