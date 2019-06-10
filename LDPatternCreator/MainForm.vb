@@ -182,12 +182,17 @@ Public Class MainForm
                                     End If
                                 Next
                             Else
+                                Dim cursorPos As New Vertex(getXcoordinate(MouseHelper.getCursorpositionX()), getYcoordinate(MouseHelper.getCursorpositionY()), False, False)
+                                Dim minDist As Double = Double.MaxValue
                                 MainState.temp_center = New Vertex(0, 0, False, False)
                                 For Each vert As Vertex In View.SelectedVertices
-                                    MainState.temp_center += vert
+                                    Dim dist As Double = vert.dist(cursorPos)
+                                    If dist < minDist Then
+                                        minDist = dist
+                                        MainState.temp_center.X = vert.X
+                                        MainState.temp_center.Y = vert.Y
+                                    End If
                                 Next
-                                MainState.temp_center.X /= View.SelectedVertices.Count
-                                MainState.temp_center.Y /= View.SelectedVertices.Count
                             End If
                             For Each vert As Vertex In View.SelectedVertices
                                 vert.angleFrom = vert.angle(MainState.temp_center) + Math.PI
@@ -733,12 +738,17 @@ Public Class MainForm
                                     End If
                                 Next
                             Else
+                                Dim cursorPos As New Vertex(getXcoordinate(MainState.klickX), getYcoordinate(MainState.klickY), False, False)
+                                Dim minDist As Double = Double.MaxValue
                                 MainState.temp_center = New Vertex(0, 0, False, False)
                                 For Each vert As Vertex In View.SelectedVertices
-                                    MainState.temp_center += vert
+                                    Dim dist As Double = vert.dist(cursorPos)
+                                    If dist < minDist Then
+                                        minDist = dist
+                                        MainState.temp_center.X = vert.X
+                                        MainState.temp_center.Y = vert.Y
+                                    End If
                                 Next
-                                MainState.temp_center.X /= View.SelectedVertices.Count
-                                MainState.temp_center.Y /= View.SelectedVertices.Count
                             End If
                             For Each vert As Vertex In View.SelectedVertices
                                 vert.angleFrom = vert.angle(MainState.temp_center) + Math.PI
@@ -6176,6 +6186,8 @@ raster_zechnen:
                     Next x
                     e.Graphics.DrawString(Fix(factorToScale * 100) & "%", New Font("Arial", 10, FontStyle.Bold, GraphicsUnit.Pixel), Brushes.Red, MainState.klickX + 5, MainState.klickY - 7)
                     e.Graphics.DrawLine(Pens.Black, MainState.klickX, MainState.klickY - 5, MainState.klickX, MainState.klickY + 5)
+                Else
+                    e.Graphics.FillRectangle(LDSettings.Colours.vertexBrush, New RectangleF(absOffsetX - MainState.temp_center.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + MainState.temp_center.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
                 End If
                 For Each vert As Vertex In View.SelectedVertices
                     vert.X = vert.oldX
