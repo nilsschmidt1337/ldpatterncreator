@@ -929,6 +929,7 @@ Public Class MainForm
     End Sub
 
     Private Sub MainForm_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseUp
+        MainState.doSelection = False
         MainState.readOnlyVertex = Nothing
         If Not MainState.isLoading Then
             If e.Button = Windows.Forms.MouseButtons.Left Then
@@ -2207,7 +2208,6 @@ skipPrimitiveMode:
             End If
             UndoRedoHelper.addHistory()
         End If
-        MainState.doSelection = False
         Me.Refresh()
     End Sub
 
