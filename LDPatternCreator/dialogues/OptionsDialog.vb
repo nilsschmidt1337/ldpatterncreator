@@ -89,7 +89,6 @@ Public Class OptionsDialog
         TBRealName.Text = LDSettings.Editor.defaultName
         TBUserName.Text = LDSettings.Editor.defaultUser
         NUDMaxUndo.Value = LDSettings.Editor.max_undo
-        CBPerformaceMode.Checked = LDSettings.Editor.performanceMode
         CBViewImage.Checked = LDSettings.Editor.showImageViewAtStartup
         CBViewPreferences.Checked = LDSettings.Editor.showPreferencesViewAtStartup
         CBFullscreen.Checked = LDSettings.Editor.startWithFullscreen
@@ -198,14 +197,12 @@ Public Class OptionsDialog
             UndoRedoHelper.clearHistory()
         End If
         LDSettings.Editor.max_undo = mu
-        LDSettings.Editor.performanceMode = CBPerformaceMode.Checked
         LDSettings.Editor.showImageViewAtStartup = CBViewImage.Checked
         LDSettings.Editor.showPreferencesViewAtStartup = CBViewPreferences.Checked
         LDSettings.Editor.startWithFullscreen = CBFullscreen.Checked
         LDSettings.Editor.useAlternativeKeys = CBAlternativeZoomAndTrans.Checked
         LDSettings.Editor.showTemplateLinesOnTop = CBTemplateLinesTop.Checked
         LDSettings.Editor.lockModeChange = CBAddModeLock.Checked
-        If MainForm.PerformanceEnabledToolStripMenuItem.Checked <> CBPerformaceMode.Checked Then MainForm.PerformanceEnabledToolStripMenuItem.PerformClick()
     End Sub
 
     Private Sub saveKeys()
@@ -465,7 +462,6 @@ newTry:
                 CBLicense.Text = ""
                 NUDMaxUndo.Value = 30
                 CBFullscreen.Checked = True
-                CBPerformaceMode.Checked = False
                 CBViewImage.Checked = True
                 CBViewPreferences.Checked = True
                 CBAlternativeZoomAndTrans.Checked = False

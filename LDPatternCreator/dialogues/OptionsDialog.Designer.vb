@@ -36,7 +36,6 @@ Partial Class OptionsDialog
         Me.CBViewImage = New System.Windows.Forms.CheckBox()
         Me.CBFullscreen = New System.Windows.Forms.CheckBox()
         Me.GBUndo = New System.Windows.Forms.GroupBox()
-        Me.CBPerformaceMode = New System.Windows.Forms.CheckBox()
         Me.NUDMaxUndo = New System.Windows.Forms.NumericUpDown()
         Me.LblMaxUndo = New System.Windows.Forms.Label()
         Me.GBMeta = New System.Windows.Forms.GroupBox()
@@ -242,7 +241,6 @@ Partial Class OptionsDialog
         '
         'GBUndo
         '
-        Me.GBUndo.Controls.Add(Me.CBPerformaceMode)
         Me.GBUndo.Controls.Add(Me.NUDMaxUndo)
         Me.GBUndo.Controls.Add(Me.LblMaxUndo)
         Me.GBUndo.Location = New System.Drawing.Point(10, 121)
@@ -251,16 +249,6 @@ Partial Class OptionsDialog
         Me.GBUndo.TabIndex = 1
         Me.GBUndo.TabStop = False
         Me.GBUndo.Text = "Undo/Redo:"
-        '
-        'CBPerformaceMode
-        '
-        Me.CBPerformaceMode.AutoSize = True
-        Me.CBPerformaceMode.Location = New System.Drawing.Point(75, 37)
-        Me.CBPerformaceMode.Name = "CBPerformaceMode"
-        Me.CBPerformaceMode.Size = New System.Drawing.Size(220, 17)
-        Me.CBPerformaceMode.TabIndex = 2
-        Me.CBPerformaceMode.Text = "Disable Undo/Redo (Performance Mode)"
-        Me.CBPerformaceMode.UseVisualStyleBackColor = True
         '
         'NUDMaxUndo
         '
@@ -699,7 +687,6 @@ Partial Class OptionsDialog
     Friend WithEvents GBUndo As System.Windows.Forms.GroupBox
     Friend WithEvents NUDMaxUndo As System.Windows.Forms.NumericUpDown
     Friend WithEvents LblMaxUndo As System.Windows.Forms.Label
-    Friend WithEvents CBPerformaceMode As System.Windows.Forms.CheckBox
     Friend WithEvents GBStartup As System.Windows.Forms.GroupBox
     Friend WithEvents CBFullscreen As System.Windows.Forms.CheckBox
     Friend WithEvents CBViewPreferences As System.Windows.Forms.CheckBox

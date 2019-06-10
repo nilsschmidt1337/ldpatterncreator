@@ -81,10 +81,6 @@ Partial Class MainForm
         Me.WithColourToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator21 = New System.Windows.Forms.ToolStripSeparator()
         Me.DetectOverlapsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator26 = New System.Windows.Forms.ToolStripSeparator()
-        Me.PerformanceEnabledToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.FastTriangulationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.FastTriangulationIIToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ResetViewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShowGridToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -265,6 +261,7 @@ Partial Class MainForm
         Me.BtnRound10 = New System.Windows.Forms.ToolStripMenuItem()
         Me.BtnRound1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.LblCoords = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ExportProgressBar = New System.Windows.Forms.ToolStripProgressBar()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
         Me.OpenBitmap = New System.Windows.Forms.OpenFileDialog()
@@ -322,7 +319,6 @@ Partial Class MainForm
         Me.NUDSplineSegs = New System.Windows.Forms.NumericUpDown()
         Me.OpenColours = New System.Windows.Forms.OpenFileDialog()
         Me.SaveColours = New System.Windows.Forms.SaveFileDialog()
-        Me.ExportProgressBar = New System.Windows.Forms.ToolStripProgressBar()
         Me.MenuStrip1.SuspendLayout()
         Me.MainToolStrip.SuspendLayout()
         Me.ColourToolStrip.SuspendLayout()
@@ -592,7 +588,7 @@ Partial Class MainForm
         '
         'EditToolStripMenuItem
         '
-        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UndoToolStripMenuItem, Me.RedoToolStripMenuItem, Me.ToolStripSeparator9, Me.CutToolStripMenuItem, Me.CopyToolStripMenuItem, Me.PasteToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.ToolStripSeparator7, Me.SelectAllToolStripMenuItem, Me.SelectSameColourToolStripMenuItem, Me.ToolStripSeparator22, Me.SelectConnectedToolStripMenuItem, Me.SelectTouchingToolStripMenuItem, Me.WithColourToolStripMenuItem, Me.ToolStripSeparator21, Me.DetectOverlapsToolStripMenuItem, Me.ToolStripSeparator26, Me.PerformanceEnabledToolStripMenuItem, Me.FastTriangulationToolStripMenuItem, Me.FastTriangulationIIToolStripMenuItem})
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UndoToolStripMenuItem, Me.RedoToolStripMenuItem, Me.ToolStripSeparator9, Me.CutToolStripMenuItem, Me.CopyToolStripMenuItem, Me.PasteToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.ToolStripSeparator7, Me.SelectAllToolStripMenuItem, Me.SelectSameColourToolStripMenuItem, Me.ToolStripSeparator22, Me.SelectConnectedToolStripMenuItem, Me.SelectTouchingToolStripMenuItem, Me.WithColourToolStripMenuItem, Me.ToolStripSeparator21, Me.DetectOverlapsToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
         Me.EditToolStripMenuItem.Size = New System.Drawing.Size(39, 20)
         Me.EditToolStripMenuItem.Text = "&Edit"
@@ -720,36 +716,6 @@ Partial Class MainForm
         Me.DetectOverlapsToolStripMenuItem.Name = "DetectOverlapsToolStripMenuItem"
         Me.DetectOverlapsToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
         Me.DetectOverlapsToolStripMenuItem.Text = "Detect Triangle &Overlaps"
-        '
-        'ToolStripSeparator26
-        '
-        Me.ToolStripSeparator26.Name = "ToolStripSeparator26"
-        Me.ToolStripSeparator26.Size = New System.Drawing.Size(238, 6)
-        '
-        'PerformanceEnabledToolStripMenuItem
-        '
-        Me.PerformanceEnabledToolStripMenuItem.CheckOnClick = True
-        Me.PerformanceEnabledToolStripMenuItem.Name = "PerformanceEnabledToolStripMenuItem"
-        Me.PerformanceEnabledToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
-        Me.PerformanceEnabledToolStripMenuItem.Text = "Performance-Mode"
-        '
-        'FastTriangulationToolStripMenuItem
-        '
-        Me.FastTriangulationToolStripMenuItem.Checked = True
-        Me.FastTriangulationToolStripMenuItem.CheckOnClick = True
-        Me.FastTriangulationToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.FastTriangulationToolStripMenuItem.Name = "FastTriangulationToolStripMenuItem"
-        Me.FastTriangulationToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
-        Me.FastTriangulationToolStripMenuItem.Text = "&Fast Triangulation"
-        '
-        'FastTriangulationIIToolStripMenuItem
-        '
-        Me.FastTriangulationIIToolStripMenuItem.Checked = True
-        Me.FastTriangulationIIToolStripMenuItem.CheckOnClick = True
-        Me.FastTriangulationIIToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.FastTriangulationIIToolStripMenuItem.Name = "FastTriangulationIIToolStripMenuItem"
-        Me.FastTriangulationIIToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
-        Me.FastTriangulationIIToolStripMenuItem.Text = "Fast Triangulation II"
         '
         'ViewToolStripMenuItem
         '
@@ -2094,6 +2060,12 @@ Partial Class MainForm
         Me.LblCoords.Size = New System.Drawing.Size(28, 17)
         Me.LblCoords.Text = "0 | 0"
         '
+        'ExportProgressBar
+        '
+        Me.ExportProgressBar.Name = "ExportProgressBar"
+        Me.ExportProgressBar.Size = New System.Drawing.Size(100, 16)
+        Me.ExportProgressBar.Visible = False
+        '
         'Timer1
         '
         Me.Timer1.Enabled = True
@@ -2603,12 +2575,6 @@ Partial Class MainForm
         '
         Me.SaveColours.Filter = "LD Pattern Creator 1.3 (*.txt) |*.txt"
         '
-        'ExportProgressBar
-        '
-        Me.ExportProgressBar.Name = "ExportProgressBar"
-        Me.ExportProgressBar.Size = New System.Drawing.Size(100, 16)
-        Me.ExportProgressBar.Visible = False
-        '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2788,8 +2754,6 @@ Partial Class MainForm
     Friend WithEvents BtnCSG As System.Windows.Forms.ToolStripDropDownButton
     Friend WithEvents CSGUnionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CSGIntersectionPointsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator26 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents PerformanceEnabledToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
     Friend WithEvents StatusStrip1 As System.Windows.Forms.StatusStrip
     Friend WithEvents LblCoords As System.Windows.Forms.ToolStripStatusLabel
@@ -2897,7 +2861,6 @@ Partial Class MainForm
     Friend WithEvents RemoveIsolatedVerticesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MergeToNearestPrimvertexToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SetPathToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents FastTriangulationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CSGRotateToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents BtnPrevOverlap As System.Windows.Forms.Button
     Friend WithEvents BtnNextOverlap As System.Windows.Forms.Button
@@ -2959,7 +2922,6 @@ Partial Class MainForm
     Friend WithEvents BtnAddReferenceLine As System.Windows.Forms.ToolStripButton
     Friend WithEvents ToolStripSeparator43 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ReferenceLineModeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents FastTriangulationIIToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DebugToolStripButton As ToolStripButton
     Friend WithEvents ExportProgressBar As ToolStripProgressBar
 End Class

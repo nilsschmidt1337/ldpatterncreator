@@ -43,7 +43,6 @@ Public Class MainState
     Public Shared objectToModify As Integer = Modified.Vertex
 
     Public Shared unsavedChanges As Boolean = False
-    Public Shared doIntelligentSelection As Boolean = False
     Public Shared intelligentFocusTriangle As Triangle
 
     Public Shared adjustDirection As Double = 0

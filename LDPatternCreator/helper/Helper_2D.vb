@@ -31,7 +31,7 @@ Public Class Helper_2D
     End Sub
 
     Public Shared Sub stopTriangulation()
-        MainState.trianglemode = 0 : MainState.doIntelligentSelection = False : MainState.intelligentFocusTriangle = Nothing : MainState.referenceLineMode = 0
+        MainState.trianglemode = 0 : MainState.intelligentFocusTriangle = Nothing : MainState.referenceLineMode = 0
     End Sub
 
     Public Shared Function removeTriangle(ByVal tri As Triangle) As Boolean

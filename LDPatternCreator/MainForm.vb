@@ -1330,7 +1330,7 @@ newTry:
 
                             BtnPipette.Enabled = View.SelectedTriangles.Count = 1 OrElse (MainState.objectToModify = Modified.Primitive AndAlso View.SelectedTriangles.Count >= 1)
                             If BtnAddTriangle.Checked AndAlso MainState.objectToModify = Modified.Vertex Then
-                                If View.SelectedVertices.Count = 0 AndAlso FastTriangulationIIToolStripMenuItem.Checked Then
+                                If View.SelectedVertices.Count = 0 Then
                                     LPCFile.Vertices.Add(New Vertex(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX()) / View.moveSnap) * View.moveSnap, Math.Round(getYcoordinate(MouseHelper.getCursorpositionY()) / View.moveSnap) * View.moveSnap, False))
                                     If Not View.SelectedVertices.Contains(ListHelper.LLast(LPCFile.Vertices)) Then
                                         View.SelectedVertices.Add(ListHelper.LLast(LPCFile.Vertices))
@@ -1357,7 +1357,7 @@ newTry:
                                             View.SelectedVertices(i).selected = False
                                         Next
                                         View.SelectedVertices.Clear()
-                                        If FastTriangulationToolStripMenuItem.Checked Then MainState.doIntelligentSelection = True : MainState.intelligentFocusTriangle = ListHelper.LLast(LPCFile.Triangles)
+                                        MainState.intelligentFocusTriangle = ListHelper.LLast(LPCFile.Triangles)
                                     End If
                                 ElseIf View.SelectedVertices.Count = 4 Then
                                     If canBuiltQuad(View.SelectedVertices(0), View.SelectedVertices(1), View.SelectedVertices(2), View.SelectedVertices(3)) Then
@@ -1427,7 +1427,7 @@ newTry:
                                             View.SelectedVertices(i).selected = False
                                         Next
                                         View.SelectedVertices.Clear()
-                                        If FastTriangulationToolStripMenuItem.Checked Then MainState.doIntelligentSelection = True : MainState.intelligentFocusTriangle = ListHelper.LLast(LPCFile.Triangles)
+                                        MainState.intelligentFocusTriangle = ListHelper.LLast(LPCFile.Triangles)
                                     End If
                                 End If
                                 If MainState.trianglemode > 0 AndAlso View.SelectedVertices.Count > 0 Then
@@ -1454,11 +1454,9 @@ newTry:
                                             View.SelectedVertices(0).linkedTriangles.Add(ListHelper.LLast(LPCFile.Triangles))
                                             MainState.trianglemode = 0
                                         End If
-                                        If FastTriangulationToolStripMenuItem.Checked Then
-                                            MainState.doIntelligentSelection = True
-                                            MainState.intelligentFocusTriangle = ListHelper.LLast(LPCFile.Triangles)
-                                            MainState.trianglemode = 2
-                                        End If
+
+                                        MainState.intelligentFocusTriangle = ListHelper.LLast(LPCFile.Triangles)
+                                        MainState.trianglemode = 2
                                     Else
                                         If MainState.trianglemode = 1 AndAlso Not MainState.temp_vertices(0).Equals(View.SelectedVertices(0)) Then
                                             MainState.temp_vertices(1) = View.SelectedVertices(0)
@@ -7960,7 +7958,7 @@ doMatrix:
 
     Private Sub selectNearestTriangleEdgeForNewObjects()
         If Not MainState.isLoading AndAlso (BtnAddVertex.Checked OrElse BtnAddTriangle.Checked) Then
-            If FastTriangulationToolStripMenuItem.Checked AndAlso Not MainState.intelligentFocusTriangle Is Nothing AndAlso Not Control.ModifierKeys = Keys.Control AndAlso Not MainState.doSelection Then
+            If Not MainState.intelligentFocusTriangle Is Nothing AndAlso Not Control.ModifierKeys = Keys.Control AndAlso Not MainState.doSelection Then
                 MainState.trianglemode = 2
                 Dim cx As Double = getXcoordinate(MouseHelper.getCursorpositionX)
                 Dim cy As Double = getYcoordinate(MouseHelper.getCursorpositionY)
@@ -8255,20 +8253,6 @@ doMatrix:
             NUDVertY.Value = View.SelectedVertices(0).Y * View.unitFactor / 1000
         End If
         MainState.conversionEnabled = False
-    End Sub
-
-    Private Sub PerformanceEnabledToolStripMenuItem_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles PerformanceEnabledToolStripMenuItem.CheckedChanged
-        If PerformanceEnabledToolStripMenuItem.Checked Then
-            LDSettings.Editor.performanceMode = True
-            UndoRedoHelper.clearHistory()
-        Else
-            PerformanceEnabledToolStripMenuItem.Checked = False
-            LDSettings.Editor.performanceMode = False
-            If UndoRedoHelper.historyVertices.Count = 0 Then
-                UndoRedoHelper.pointer = 0
-                UndoRedoHelper.addHistory()
-            End If
-        End If
     End Sub
 
     Private Sub BtnAddToGroup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnAddToGroup.Click
@@ -8716,7 +8700,6 @@ doMatrix:
                 End Using
                 BtnMode.ToolTipText = I18N.trl8(I18N.lk.TriangleMode) & " [" & KeyToSet.keyToString(New System.Windows.Forms.KeyEventArgs(TrianglesModeToolStripMenuItem.ShortcutKeys)) & "]"
                 Me.MaxUndoToolStripTextBox.Text = LDSettings.Editor.max_undo
-                Me.PerformanceEnabledToolStripMenuItem.Checked = LDSettings.Editor.performanceMode
                 If Not LDSettings.Editor.showImageViewAtStartup AndAlso ImageToolStripMenuItem.Checked Then Me.ImageToolStripMenuItem.PerformClick()
                 If Not LDSettings.Editor.showPreferencesViewAtStartup AndAlso ViewPrefsToolStripMenuItem.Checked Then ViewPrefsToolStripMenuItem.PerformClick()
             Catch
@@ -9552,12 +9535,6 @@ newDelete:
             Me.WithColourToolStripMenuItem.Font = f
             Me.DetectOverlapsToolStripMenuItem.Text = I18N.trl8(I18N.lk.DetectOverlaps)
             Me.DetectOverlapsToolStripMenuItem.Font = f
-            Me.PerformanceEnabledToolStripMenuItem.Text = I18N.trl8(I18N.lk.PerfMode)
-            Me.PerformanceEnabledToolStripMenuItem.Font = f
-            Me.FastTriangulationToolStripMenuItem.Text = I18N.trl8(I18N.lk.FastTriangulation)
-            Me.FastTriangulationToolStripMenuItem.Font = f
-            Me.FastTriangulationIIToolStripMenuItem.Text = I18N.trl8(I18N.lk.FastTriangulation) & " II"
-            Me.FastTriangulationIIToolStripMenuItem.Font = f
             ' View Menu
             Me.ResetViewToolStripMenuItem.Text = I18N.trl8(I18N.lk.ResetView)
             Me.ResetViewToolStripMenuItem.Font = f
@@ -10011,7 +9988,6 @@ newDelete:
                 .LblUser.Text = I18N.trl8(I18N.lk.MUser)
                 .GBUndo.Text = I18N.trl8(I18N.lk.SUndoRedo)
                 .LblMaxUndo.Text = I18N.trl8(I18N.lk.SMaxUndo)
-                .CBPerformaceMode.Text = I18N.trl8(I18N.lk.SDisableUndo)
                 .GBStartup.Text = I18N.trl8(I18N.lk.SStartup)
                 .CBFullscreen.Text = I18N.trl8(I18N.lk.SStartFullscreen)
                 .CBViewImage.Text = I18N.trl8(I18N.lk.SImage)
@@ -10264,10 +10240,6 @@ newDelete:
 
     Private Sub BtnBFC_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnBFC.Click
         Me.Refresh()
-    End Sub
-
-    Private Sub FastTriangulationToolStripMenuItem_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles FastTriangulationToolStripMenuItem.CheckedChanged
-        MainState.doIntelligentSelection = False
     End Sub
 
     Private Sub ImportToolbarColoursToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ImportToolbarColoursToolStripMenuItem.Click

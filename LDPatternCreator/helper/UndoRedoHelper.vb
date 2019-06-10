@@ -34,52 +34,50 @@ Public Class UndoRedoHelper
 
 
     Public Shared Sub addHistory()
-        If Not MainForm.PerformanceEnabledToolStripMenuItem.Checked Then
-            Dim vc As Integer = historyVertices.Count
-            If pointer < vc Then
-                historyVertices.RemoveRange(pointer + 1, historyVertices.Count - pointer - 1)
-                historyTriangles.RemoveRange(pointer + 1, historyTriangles.Count - pointer - 1)
-                historySelectedVertices.RemoveRange(pointer + 1, historySelectedVertices.Count - pointer - 1)
-                historySelectedTriangles.RemoveRange(pointer + 1, historySelectedTriangles.Count - pointer - 1)
-                historyPrimitives.RemoveRange(pointer + 1, historyPrimitives.Count - pointer - 1)
-                historyPrimitivesHash.RemoveRange(pointer + 1, historyPrimitivesHash.Count - pointer - 1)
-                historyTemplateShape.RemoveRange(pointer + 1, historyTemplateShape.Count - pointer - 1)
-                historyPrimitivesMetadataHash.RemoveRange(pointer + 1, historyPrimitivesMetadataHash.Count - pointer - 1)
-                historyMyMetadata.RemoveRange(pointer + 1, historyMyMetadata.Count - pointer - 1)
-                historyProjectionQuads.RemoveRange(pointer + 1, historyProjectionQuads.Count - pointer - 1)
-                historyTemplateText.RemoveRange(pointer + 1, historyTemplateText.Count - pointer - 1)
-            End If
-
-            historyVertices.Add(CloneHelper.DeepCloneVertices(LPCFile.Vertices))
-            historyTriangles.Add(CloneHelper.DeepCloneTriangles(LPCFile.Triangles))
-            historySelectedVertices.Add(CloneHelper.DeepCloneVertices(View.SelectedVertices))
-            historySelectedTriangles.Add(CloneHelper.DeepCloneTriangles(View.SelectedTriangles))
-            historyMyMetadata.Add(CloneHelper.DeepCloneMetadata(LPCFile.myMetadata))
-            historyPrimitives.Add(CloneHelper.DeepClonePrimitives(LPCFile.Primitives))
-            historyPrimitivesHash.Add(CloneHelper.DeepClonePrimitivesHMap(LPCFile.PrimitivesHMap))
-            historyPrimitivesMetadataHash.Add(CloneHelper.DeepClonePrimitivesMetadataHMap(LPCFile.PrimitivesMetadataHMap))
-            historyTemplateShape.Add(CloneHelper.DeepCloneTemplateShape(LPCFile.templateShape))
-            historyProjectionQuads.Add(CloneHelper.DeepCloneProjectionQuads(LPCFile.templateProjectionQuads))
-            historyTemplateText.Add(CloneHelper.DeepCloneTemplateTexts(LPCFile.templateTexts))
-
-            If pointer < LDSettings.Editor.max_undo Then
-                pointer += 1
-            Else
-                UndoRedoHelper.historyVertices.RemoveAt(0)
-                UndoRedoHelper.historyTriangles.RemoveAt(0)
-                UndoRedoHelper.historySelectedVertices.RemoveAt(0)
-                UndoRedoHelper.historySelectedTriangles.RemoveAt(0)
-                UndoRedoHelper.historyPrimitives.RemoveAt(0)
-                UndoRedoHelper.historyPrimitivesHash.RemoveAt(0)
-                UndoRedoHelper.historyTemplateShape.RemoveAt(0)
-                UndoRedoHelper.historyPrimitivesMetadataHash.RemoveAt(0)
-                UndoRedoHelper.historyMyMetadata.RemoveAt(0)
-                UndoRedoHelper.historyProjectionQuads.RemoveAt(0)
-                UndoRedoHelper.historyTemplateText.RemoveAt(0)
-            End If
-            MainForm.UndoToolStripMenuItem.Enabled = vc > 1
-            MainForm.RedoToolStripMenuItem.Enabled = False
+        Dim vc As Integer = historyVertices.Count
+        If pointer < vc Then
+            historyVertices.RemoveRange(pointer + 1, historyVertices.Count - pointer - 1)
+            historyTriangles.RemoveRange(pointer + 1, historyTriangles.Count - pointer - 1)
+            historySelectedVertices.RemoveRange(pointer + 1, historySelectedVertices.Count - pointer - 1)
+            historySelectedTriangles.RemoveRange(pointer + 1, historySelectedTriangles.Count - pointer - 1)
+            historyPrimitives.RemoveRange(pointer + 1, historyPrimitives.Count - pointer - 1)
+            historyPrimitivesHash.RemoveRange(pointer + 1, historyPrimitivesHash.Count - pointer - 1)
+            historyTemplateShape.RemoveRange(pointer + 1, historyTemplateShape.Count - pointer - 1)
+            historyPrimitivesMetadataHash.RemoveRange(pointer + 1, historyPrimitivesMetadataHash.Count - pointer - 1)
+            historyMyMetadata.RemoveRange(pointer + 1, historyMyMetadata.Count - pointer - 1)
+            historyProjectionQuads.RemoveRange(pointer + 1, historyProjectionQuads.Count - pointer - 1)
+            historyTemplateText.RemoveRange(pointer + 1, historyTemplateText.Count - pointer - 1)
         End If
+
+        historyVertices.Add(CloneHelper.DeepCloneVertices(LPCFile.Vertices))
+        historyTriangles.Add(CloneHelper.DeepCloneTriangles(LPCFile.Triangles))
+        historySelectedVertices.Add(CloneHelper.DeepCloneVertices(View.SelectedVertices))
+        historySelectedTriangles.Add(CloneHelper.DeepCloneTriangles(View.SelectedTriangles))
+        historyMyMetadata.Add(CloneHelper.DeepCloneMetadata(LPCFile.myMetadata))
+        historyPrimitives.Add(CloneHelper.DeepClonePrimitives(LPCFile.Primitives))
+        historyPrimitivesHash.Add(CloneHelper.DeepClonePrimitivesHMap(LPCFile.PrimitivesHMap))
+        historyPrimitivesMetadataHash.Add(CloneHelper.DeepClonePrimitivesMetadataHMap(LPCFile.PrimitivesMetadataHMap))
+        historyTemplateShape.Add(CloneHelper.DeepCloneTemplateShape(LPCFile.templateShape))
+        historyProjectionQuads.Add(CloneHelper.DeepCloneProjectionQuads(LPCFile.templateProjectionQuads))
+        historyTemplateText.Add(CloneHelper.DeepCloneTemplateTexts(LPCFile.templateTexts))
+
+        If pointer < LDSettings.Editor.max_undo Then
+            pointer += 1
+        Else
+            UndoRedoHelper.historyVertices.RemoveAt(0)
+            UndoRedoHelper.historyTriangles.RemoveAt(0)
+            UndoRedoHelper.historySelectedVertices.RemoveAt(0)
+            UndoRedoHelper.historySelectedTriangles.RemoveAt(0)
+            UndoRedoHelper.historyPrimitives.RemoveAt(0)
+            UndoRedoHelper.historyPrimitivesHash.RemoveAt(0)
+            UndoRedoHelper.historyTemplateShape.RemoveAt(0)
+            UndoRedoHelper.historyPrimitivesMetadataHash.RemoveAt(0)
+            UndoRedoHelper.historyMyMetadata.RemoveAt(0)
+            UndoRedoHelper.historyProjectionQuads.RemoveAt(0)
+            UndoRedoHelper.historyTemplateText.RemoveAt(0)
+        End If
+        MainForm.UndoToolStripMenuItem.Enabled = vc > 1
+        MainForm.RedoToolStripMenuItem.Enabled = False
         MainState.unsavedChanges = True
     End Sub
 
