@@ -1341,7 +1341,7 @@ newTry:
 
                             BtnPipette.Enabled = View.SelectedTriangles.Count = 1 OrElse (MainState.objectToModify = Modified.Primitive AndAlso View.SelectedTriangles.Count >= 1)
                             If BtnAddTriangle.Checked AndAlso MainState.objectToModify = Modified.Vertex Then
-                                If View.SelectedVertices.Count = 0 Then
+                                If View.SelectedVertices.Count = 0 AndAlso FastTriangulationIIToolStripMenuItem.Checked Then
                                     LPCFile.Vertices.Add(New Vertex(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX()) / View.moveSnap) * View.moveSnap, Math.Round(getYcoordinate(MouseHelper.getCursorpositionY()) / View.moveSnap) * View.moveSnap, False))
                                     If Not View.SelectedVertices.Contains(ListHelper.LLast(LPCFile.Vertices)) Then
                                         View.SelectedVertices.Add(ListHelper.LLast(LPCFile.Vertices))
@@ -9554,6 +9554,8 @@ newDelete:
             Me.WithColourToolStripMenuItem.Font = f
             Me.DetectOverlapsToolStripMenuItem.Text = I18N.trl8(I18N.lk.DetectOverlaps)
             Me.DetectOverlapsToolStripMenuItem.Font = f
+            Me.FastTriangulationIIToolStripMenuItem.Text = I18N.trl8(I18N.lk.FastTriangulation)
+            Me.FastTriangulationIIToolStripMenuItem.Font = f
             ' View Menu
             Me.ResetViewToolStripMenuItem.Text = I18N.trl8(I18N.lk.ResetView)
             Me.ResetViewToolStripMenuItem.Font = f

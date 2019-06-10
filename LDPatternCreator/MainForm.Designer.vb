@@ -81,6 +81,8 @@ Partial Class MainForm
         Me.WithColourToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator21 = New System.Windows.Forms.ToolStripSeparator()
         Me.DetectOverlapsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator26 = New System.Windows.Forms.ToolStripSeparator()
+        Me.FastTriangulationIIToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ResetViewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShowGridToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -587,7 +589,7 @@ Partial Class MainForm
         '
         'EditToolStripMenuItem
         '
-        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UndoToolStripMenuItem, Me.RedoToolStripMenuItem, Me.ToolStripSeparator9, Me.CutToolStripMenuItem, Me.CopyToolStripMenuItem, Me.PasteToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.ToolStripSeparator7, Me.SelectAllToolStripMenuItem, Me.SelectSameColourToolStripMenuItem, Me.ToolStripSeparator22, Me.SelectConnectedToolStripMenuItem, Me.SelectTouchingToolStripMenuItem, Me.WithColourToolStripMenuItem, Me.ToolStripSeparator21, Me.DetectOverlapsToolStripMenuItem})
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UndoToolStripMenuItem, Me.RedoToolStripMenuItem, Me.ToolStripSeparator9, Me.CutToolStripMenuItem, Me.CopyToolStripMenuItem, Me.PasteToolStripMenuItem, Me.DeleteToolStripMenuItem, Me.ToolStripSeparator7, Me.SelectAllToolStripMenuItem, Me.SelectSameColourToolStripMenuItem, Me.ToolStripSeparator22, Me.SelectConnectedToolStripMenuItem, Me.SelectTouchingToolStripMenuItem, Me.WithColourToolStripMenuItem, Me.ToolStripSeparator21, Me.DetectOverlapsToolStripMenuItem, Me.ToolStripSeparator26, Me.FastTriangulationIIToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
         Me.EditToolStripMenuItem.Size = New System.Drawing.Size(39, 20)
         Me.EditToolStripMenuItem.Text = "&Edit"
@@ -599,7 +601,7 @@ Partial Class MainForm
         Me.UndoToolStripMenuItem.Name = "UndoToolStripMenuItem"
         Me.UndoToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Z"
         Me.UndoToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Z), System.Windows.Forms.Keys)
-        Me.UndoToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
+        Me.UndoToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
         Me.UndoToolStripMenuItem.Text = "&Undo"
         '
         'RedoToolStripMenuItem
@@ -609,13 +611,13 @@ Partial Class MainForm
         Me.RedoToolStripMenuItem.Name = "RedoToolStripMenuItem"
         Me.RedoToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Y"
         Me.RedoToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Y), System.Windows.Forms.Keys)
-        Me.RedoToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
+        Me.RedoToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
         Me.RedoToolStripMenuItem.Text = "&Redo"
         '
         'ToolStripSeparator9
         '
         Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
-        Me.ToolStripSeparator9.Size = New System.Drawing.Size(238, 6)
+        Me.ToolStripSeparator9.Size = New System.Drawing.Size(292, 6)
         '
         'CutToolStripMenuItem
         '
@@ -623,7 +625,7 @@ Partial Class MainForm
         Me.CutToolStripMenuItem.Name = "CutToolStripMenuItem"
         Me.CutToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+X"
         Me.CutToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
-        Me.CutToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
+        Me.CutToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
         Me.CutToolStripMenuItem.Text = "&Cut"
         '
         'CopyToolStripMenuItem
@@ -632,7 +634,7 @@ Partial Class MainForm
         Me.CopyToolStripMenuItem.Name = "CopyToolStripMenuItem"
         Me.CopyToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+C"
         Me.CopyToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
-        Me.CopyToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
+        Me.CopyToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
         Me.CopyToolStripMenuItem.Text = "C&opy"
         '
         'PasteToolStripMenuItem
@@ -641,7 +643,7 @@ Partial Class MainForm
         Me.PasteToolStripMenuItem.Name = "PasteToolStripMenuItem"
         Me.PasteToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+V"
         Me.PasteToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
-        Me.PasteToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
+        Me.PasteToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
         Me.PasteToolStripMenuItem.Text = "&Paste"
         '
         'DeleteToolStripMenuItem
@@ -650,20 +652,20 @@ Partial Class MainForm
         Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
         Me.DeleteToolStripMenuItem.ShortcutKeyDisplayString = "Del"
         Me.DeleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
         Me.DeleteToolStripMenuItem.Text = "&Delete"
         '
         'ToolStripSeparator7
         '
         Me.ToolStripSeparator7.Name = "ToolStripSeparator7"
-        Me.ToolStripSeparator7.Size = New System.Drawing.Size(238, 6)
+        Me.ToolStripSeparator7.Size = New System.Drawing.Size(292, 6)
         '
         'SelectAllToolStripMenuItem
         '
         Me.SelectAllToolStripMenuItem.Name = "SelectAllToolStripMenuItem"
         Me.SelectAllToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+A"
         Me.SelectAllToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
-        Me.SelectAllToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
+        Me.SelectAllToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
         Me.SelectAllToolStripMenuItem.Text = "Select &All"
         '
         'SelectSameColourToolStripMenuItem
@@ -672,20 +674,20 @@ Partial Class MainForm
         Me.SelectSameColourToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Alt+C"
         Me.SelectSameColourToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
             Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
-        Me.SelectSameColourToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
+        Me.SelectSameColourToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
         Me.SelectSameColourToolStripMenuItem.Text = "&Select Same Colour"
         '
         'ToolStripSeparator22
         '
         Me.ToolStripSeparator22.Name = "ToolStripSeparator22"
-        Me.ToolStripSeparator22.Size = New System.Drawing.Size(238, 6)
+        Me.ToolStripSeparator22.Size = New System.Drawing.Size(292, 6)
         '
         'SelectConnectedToolStripMenuItem
         '
         Me.SelectConnectedToolStripMenuItem.Name = "SelectConnectedToolStripMenuItem"
         Me.SelectConnectedToolStripMenuItem.ShortcutKeyDisplayString = "Alt+C"
         Me.SelectConnectedToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
-        Me.SelectConnectedToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
+        Me.SelectConnectedToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
         Me.SelectConnectedToolStripMenuItem.Text = "Select Co&nnected.."
         '
         'SelectTouchingToolStripMenuItem
@@ -693,7 +695,7 @@ Partial Class MainForm
         Me.SelectTouchingToolStripMenuItem.Name = "SelectTouchingToolStripMenuItem"
         Me.SelectTouchingToolStripMenuItem.ShortcutKeyDisplayString = "Alt+T"
         Me.SelectTouchingToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.T), System.Windows.Forms.Keys)
-        Me.SelectTouchingToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
+        Me.SelectTouchingToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
         Me.SelectTouchingToolStripMenuItem.Text = "Select &Touching.."
         '
         'WithColourToolStripMenuItem
@@ -702,19 +704,33 @@ Partial Class MainForm
         Me.WithColourToolStripMenuItem.Name = "WithColourToolStripMenuItem"
         Me.WithColourToolStripMenuItem.ShortcutKeyDisplayString = "Alt+S"
         Me.WithColourToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.WithColourToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
+        Me.WithColourToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
         Me.WithColourToolStripMenuItem.Text = "..&with Same Colour"
         '
         'ToolStripSeparator21
         '
         Me.ToolStripSeparator21.Name = "ToolStripSeparator21"
-        Me.ToolStripSeparator21.Size = New System.Drawing.Size(238, 6)
+        Me.ToolStripSeparator21.Size = New System.Drawing.Size(292, 6)
         '
         'DetectOverlapsToolStripMenuItem
         '
         Me.DetectOverlapsToolStripMenuItem.Name = "DetectOverlapsToolStripMenuItem"
-        Me.DetectOverlapsToolStripMenuItem.Size = New System.Drawing.Size(241, 22)
+        Me.DetectOverlapsToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
         Me.DetectOverlapsToolStripMenuItem.Text = "Detect Triangle &Overlaps"
+        '
+        'ToolStripSeparator26
+        '
+        Me.ToolStripSeparator26.Name = "ToolStripSeparator26"
+        Me.ToolStripSeparator26.Size = New System.Drawing.Size(292, 6)
+        '
+        'FastTriangulationIIToolStripMenuItem
+        '
+        Me.FastTriangulationIIToolStripMenuItem.Checked = True
+        Me.FastTriangulationIIToolStripMenuItem.CheckOnClick = True
+        Me.FastTriangulationIIToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.FastTriangulationIIToolStripMenuItem.Name = "FastTriangulationIIToolStripMenuItem"
+        Me.FastTriangulationIIToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
+        Me.FastTriangulationIIToolStripMenuItem.Text = "Create new vertices while adding triangles"
         '
         'ViewToolStripMenuItem
         '
@@ -2920,4 +2936,6 @@ Partial Class MainForm
     Friend WithEvents DebugToolStripButton As ToolStripButton
     Friend WithEvents ExportProgressBar As ToolStripProgressBar
     Friend WithEvents ButtonRemoveIsolatedVertices As ToolStripButton
+    Friend WithEvents ToolStripSeparator26 As ToolStripSeparator
+    Friend WithEvents FastTriangulationIIToolStripMenuItem As ToolStripMenuItem
 End Class
