@@ -8991,19 +8991,6 @@ doMatrix:
         End If
     End Sub
 
-    Private Sub RemoveIsolatedVerticesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveIsolatedVerticesToolStripMenuItem.Click
-        If View.SelectedVertices.Count = 1 Then GBVertex.Visible = False
-        Helper_2D.clearSelection()
-        For i As Integer = 0 To LPCFile.Vertices.Count - 1
-            If LPCFile.Vertices(i).groupindex = Primitive.NO_INDEX AndAlso LPCFile.Vertices(i).linkedTriangles.Count = 0 Then
-                View.SelectedVertices.Add(LPCFile.Vertices(i))
-            End If
-        Next
-        ClipboardHelper.delete()
-        Me.Refresh()
-        UndoRedoHelper.addHistory()
-    End Sub
-
     Private Sub MergeToNearestPrimvertexToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MergeToNearestPrimvertexToolStripMenuItem.Click
         If View.SelectedVertices.Count > 0 AndAlso MainState.objectToModify <> Modified.Primitive Then
             If View.SelectedVertices.Count > 1 Then
@@ -9673,8 +9660,9 @@ newDelete:
             Me.MergeToNearestTriangleLineToolStripMenuItem.Font = f
             Me.CSGSplitToolStripMenuItem.Text = I18N.trl8(I18N.lk.Split)
             Me.CSGSplitToolStripMenuItem.Font = f
-            Me.RemoveIsolatedVerticesToolStripMenuItem.Text = I18N.trl8(I18N.lk.RemoveIsolated)
-            Me.RemoveIsolatedVerticesToolStripMenuItem.Font = f
+            Me.ButtonRemoveIsolatedVertices.Text = I18N.trl8(I18N.lk.RemoveIsolated)
+            ButtonRemoveIsolatedVertices.ToolTipText = I18N.trl8(I18N.lk.RemoveIsolated)
+            Me.ButtonRemoveIsolatedVertices.Font = f
             ' LPCFile.Primitives
             Me.BtnPrimitives.Text = I18N.trl8(I18N.lk.AddPrimitive)
             Me.BtnPrimitives.ToolTipText = Me.BtnPrimitives.Text
@@ -10658,5 +10646,21 @@ newDelete:
     Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles DebugToolStripButton.Click
         DebugToolStripButton.Checked = Not DebugToolStripButton.Checked
         Timer1.Enabled = DebugToolStripButton.Checked
+    End Sub
+
+    Private Sub ButtonRemoveIsolatedVertices_Click(sender As Object, e As EventArgs) Handles ButtonRemoveIsolatedVertices.Click
+        If View.SelectedVertices.Count = 1 Then GBVertex.Visible = False
+        Helper_2D.clearSelection()
+        For i As Integer = 0 To LPCFile.Vertices.Count - 1
+            If LPCFile.Vertices(i).groupindex = Primitive.NO_INDEX AndAlso LPCFile.Vertices(i).linkedTriangles.Count = 0 Then
+                View.SelectedVertices.Add(LPCFile.Vertices(i))
+            End If
+        Next
+        Dim backup As Integer = MainState.objectToModify
+        MainState.objectToModify = Modified.Vertex
+        ClipboardHelper.delete()
+        MainState.objectToModify = backup
+        Me.Refresh()
+        UndoRedoHelper.addHistory()
     End Sub
 End Class

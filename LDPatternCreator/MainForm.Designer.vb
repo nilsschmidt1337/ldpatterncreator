@@ -203,14 +203,13 @@ Partial Class MainForm
         Me.MergeToNearestTriangleLineToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator13 = New System.Windows.Forms.ToolStripSeparator()
         Me.CSGSplitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator31 = New System.Windows.Forms.ToolStripSeparator()
-        Me.RemoveIsolatedVerticesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BtnCSG = New System.Windows.Forms.ToolStripDropDownButton()
         Me.CSGUnionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CSGSubdivideToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CSGRotateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CSGIntersectionPointsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator11 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ButtonRemoveIsolatedVertices = New System.Windows.Forms.ToolStripButton()
         Me.BtnAutoRound = New System.Windows.Forms.ToolStripButton()
         Me.DebugToolStripButton = New System.Windows.Forms.ToolStripButton()
         Me.SBZoom = New System.Windows.Forms.VScrollBar()
@@ -908,7 +907,7 @@ Partial Class MainForm
         'MainToolStrip
         '
         Me.MainToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.MainToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveToolStripButton, Me.ToolStripSeparator28, Me.BtnSelect, Me.BtnMove, Me.BtnRotate, Me.BtnScale, Me.ToolStripSeparator4, Me.BtnAddVertex, Me.BtnAddTriangle, Me.BtnAddReferenceLine, Me.ToolStripSeparator2, Me.BtnCut, Me.BtnCopy, Me.BtnPaste, Me.ToolStripSeparator3, Me.BtnMirror, Me.ToolStripSeparator23, Me.BtnMode, Me.ToolStripSeparator5, Me.BtnAddToGroup, Me.BtnUngroup, Me.ToolStripSeparator10, Me.BtnColours, Me.ToolStripSeparator12, Me.BtnPrimitives, Me.ToolStripSeparator8, Me.BtnMerge, Me.BtnCSG, Me.ToolStripSeparator11, Me.BtnAutoRound, Me.DebugToolStripButton})
+        Me.MainToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveToolStripButton, Me.ToolStripSeparator28, Me.BtnSelect, Me.BtnMove, Me.BtnRotate, Me.BtnScale, Me.ToolStripSeparator4, Me.BtnAddVertex, Me.BtnAddTriangle, Me.BtnAddReferenceLine, Me.ToolStripSeparator2, Me.BtnCut, Me.BtnCopy, Me.BtnPaste, Me.ToolStripSeparator3, Me.BtnMirror, Me.ToolStripSeparator23, Me.BtnMode, Me.ToolStripSeparator5, Me.BtnAddToGroup, Me.BtnUngroup, Me.ToolStripSeparator10, Me.BtnColours, Me.ToolStripSeparator12, Me.BtnPrimitives, Me.ToolStripSeparator8, Me.BtnMerge, Me.BtnCSG, Me.ToolStripSeparator11, Me.ButtonRemoveIsolatedVertices, Me.BtnAutoRound, Me.DebugToolStripButton})
         Me.MainToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow
         Me.MainToolStrip.Location = New System.Drawing.Point(0, 24)
         Me.MainToolStrip.Name = "MainToolStrip"
@@ -1517,7 +1516,7 @@ Partial Class MainForm
         'BtnMerge
         '
         Me.BtnMerge.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
-        Me.BtnMerge.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToAverageToolStripMenuItem, Me.ToAverageXToolStripMenuItem, Me.ToAverageYToolStripMenuItem, Me.ToLastSelectedToolStripMenuItem, Me.MergeToNearestPrimvertexToolStripMenuItem, Me.MergeToNearestTemplateLineToolStripMenuItem, Me.MergeToNearestTriangleLineToolStripMenuItem, Me.ToolStripSeparator13, Me.CSGSplitToolStripMenuItem, Me.ToolStripSeparator31, Me.RemoveIsolatedVerticesToolStripMenuItem})
+        Me.BtnMerge.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToAverageToolStripMenuItem, Me.ToAverageXToolStripMenuItem, Me.ToAverageYToolStripMenuItem, Me.ToLastSelectedToolStripMenuItem, Me.MergeToNearestPrimvertexToolStripMenuItem, Me.MergeToNearestTemplateLineToolStripMenuItem, Me.MergeToNearestTriangleLineToolStripMenuItem, Me.ToolStripSeparator13, Me.CSGSplitToolStripMenuItem})
         Me.BtnMerge.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnMerge.Name = "BtnMerge"
         Me.BtnMerge.Size = New System.Drawing.Size(88, 19)
@@ -1590,17 +1589,6 @@ Partial Class MainForm
         Me.CSGSplitToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
         Me.CSGSplitToolStripMenuItem.Text = "..split (2 connected vertices only)."
         '
-        'ToolStripSeparator31
-        '
-        Me.ToolStripSeparator31.Name = "ToolStripSeparator31"
-        Me.ToolStripSeparator31.Size = New System.Drawing.Size(292, 6)
-        '
-        'RemoveIsolatedVerticesToolStripMenuItem
-        '
-        Me.RemoveIsolatedVerticesToolStripMenuItem.Name = "RemoveIsolatedVerticesToolStripMenuItem"
-        Me.RemoveIsolatedVerticesToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
-        Me.RemoveIsolatedVerticesToolStripMenuItem.Text = "Remove isolated vertices"
-        '
         'BtnCSG
         '
         Me.BtnCSG.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
@@ -1642,6 +1630,15 @@ Partial Class MainForm
         '
         Me.ToolStripSeparator11.Name = "ToolStripSeparator11"
         Me.ToolStripSeparator11.Size = New System.Drawing.Size(6, 23)
+        '
+        'ButtonRemoveIsolatedVertices
+        '
+        Me.ButtonRemoveIsolatedVertices.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text
+        Me.ButtonRemoveIsolatedVertices.Image = CType(resources.GetObject("ButtonRemoveIsolatedVertices.Image"), System.Drawing.Image)
+        Me.ButtonRemoveIsolatedVertices.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ButtonRemoveIsolatedVertices.Name = "ButtonRemoveIsolatedVertices"
+        Me.ButtonRemoveIsolatedVertices.Size = New System.Drawing.Size(141, 19)
+        Me.ButtonRemoveIsolatedVertices.Text = "Remove isolated vertices"
         '
         'BtnAutoRound
         '
@@ -2857,8 +2854,6 @@ Partial Class MainForm
     Friend WithEvents BtnTranslate As System.Windows.Forms.Button
     Friend WithEvents ToolStripSeparator40 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents FBDLDrawDir As System.Windows.Forms.FolderBrowserDialog
-    Friend WithEvents ToolStripSeparator31 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents RemoveIsolatedVerticesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MergeToNearestPrimvertexToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SetPathToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CSGRotateToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -2924,4 +2919,5 @@ Partial Class MainForm
     Friend WithEvents ReferenceLineModeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DebugToolStripButton As ToolStripButton
     Friend WithEvents ExportProgressBar As ToolStripProgressBar
+    Friend WithEvents ButtonRemoveIsolatedVertices As ToolStripButton
 End Class

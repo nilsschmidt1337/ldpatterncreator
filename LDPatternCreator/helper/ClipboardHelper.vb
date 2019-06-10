@@ -61,7 +61,7 @@ Public Class ClipboardHelper
             End If
             If View.SelectedVertices.Count > 0 AndAlso View.SelectedVertices(0).groupindex > Primitive.NO_INDEX Then
                 Dim prim As Primitive = LPCFile.Primitives(LPCFile.PrimitivesHMap(View.SelectedVertices(0).groupindex))
-                ClipboardPrimitives.Add(New Primitive(0, 0, prim.ox, prim.oy, prim.primitiveName, prim.centerVertexID, False) With {.matrix = prim.matrix, .myColourNumber = prim.myColourNumber, .myColour = prim.myColour})
+                ClipboardPrimitives.Add(New Primitive(0, 0, prim.ox, prim.oy, prim.primitiveName, prim.centerVertexID, False) With {.matrix = prim.matrix.Clone, .myColourNumber = prim.myColourNumber, .myColour = prim.myColour})
                 If ListHelper.LLast(ClipboardPrimitives).primitiveName Like "subfile*" Then
                     Dim m As Metadata = CType(LPCFile.PrimitivesMetadataHMap(prim.primitiveName), Metadata).Clone()
                     ClipboardMetadata.Add(m)
@@ -94,7 +94,7 @@ Public Class ClipboardHelper
             If ClipboardVertices(0).groupindex > Primitive.NO_INDEX Then
                 ' Neues Primitive einfügen:
                 MainForm.PrimitiveModeToolStripMenuItem.PerformClick()
-                LPCFile.Primitives.Add(New Primitive(0, 0, ClipboardPrimitives(0).ox, ClipboardPrimitives(0).oy, ClipboardPrimitives(0).primitiveName, ClipboardPrimitives(0).centerVertexID) With {.matrix = ClipboardPrimitives(0).matrix, .myColourNumber = ClipboardPrimitives(0).myColourNumber, .myColour = ClipboardPrimitives(0).myColour})
+                LPCFile.Primitives.Add(New Primitive(0, 0, ClipboardPrimitives(0).ox, ClipboardPrimitives(0).oy, ClipboardPrimitives(0).primitiveName, ClipboardPrimitives(0).centerVertexID) With {.matrix = ClipboardPrimitives(0).matrix.Clone, .myColourNumber = ClipboardPrimitives(0).myColourNumber, .myColour = ClipboardPrimitives(0).myColour})
                 LPCFile.PrimitivesHMap.Add(GlobalIdSet.primitiveIDglobal, LPCFile.Primitives.Count - 1)
                 For Each vert As Vertex In ClipboardVertices
                     LPCFile.Vertices.Add(New Vertex(vert.X, vert.Y, False) With {.angleFrom = vert.vertexID, .groupindex = GlobalIdSet.primitiveIDglobal})
