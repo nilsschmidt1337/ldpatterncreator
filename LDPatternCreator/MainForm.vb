@@ -2474,7 +2474,12 @@ skipPrimitiveMode:
 #End Region
 #Region "Modi"
     Private Sub BtnSelect_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnSelect.Click
-        If Not MainState.keylock Then MainState.lastAction = 0
+        If Not MainState.keylock Then
+            If BtnAddVertex.Checked Then BtnAddVertex.PerformClick()
+            If BtnAddTriangle.Checked Then BtnAddTriangle.PerformClick()
+            If BtnAddReferenceLine.Checked Then BtnAddReferenceLine.PerformClick()
+            MainState.lastAction = 0
+        End If
         BtnSelect.Checked = True
         BtnMove.Checked = False
         BtnRotate.Checked = False
