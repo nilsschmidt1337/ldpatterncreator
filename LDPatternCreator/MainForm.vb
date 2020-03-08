@@ -4868,6 +4868,7 @@ skipSlicing:
         Me.BtnAbort.Visible = True
         TrianglesModeToolStripMenuItem.PerformClick()
         Me.ColourToolStrip.Visible = False
+        Helper_2D.clearSelection()
     End Sub
 
     Public Sub abortPrimitiveMode()
