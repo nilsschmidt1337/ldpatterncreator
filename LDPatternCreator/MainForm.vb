@@ -7654,6 +7654,8 @@ nextTry:
             (name Like "*chrd.dat") OrElse
             (name Like "48\*ndis.dat") OrElse
             (name Like "*ndis.dat") OrElse
+            (name Like "48\*tang.dat") OrElse
+            (name Like "*tang.dat") OrElse
             (name Like "#-#ring#.dat" OrElse name Like "#-#rin##.dat" OrElse name Like "#-##rin#.dat" OrElse name Like "#-##ri##.dat" OrElse name Like "##-##ri#.dat") OrElse
             (name Like "48\*disc.dat") OrElse
             (name Like "*disc.dat") Then
@@ -7765,8 +7767,11 @@ newTry:
                     endVertex = LPCFile.Vertices.Count
                     If (endVertex <> startVertex AndAlso endTriangle <> startTriangle) Then
 
-                        cleanupDATVertices(startVertex, startTriangle)
-                        cleanupDATTriangles(startTriangle)
+                        If Not createPrimitives Then
+                            cleanupDATVertices(startVertex, startTriangle)
+                            cleanupDATTriangles(startTriangle)
+                        End If
+
                         paintTriangles(startTriangle)
                         endTriangle = LPCFile.Triangles.Count
                         endVertex = LPCFile.Vertices.Count
@@ -9739,6 +9744,8 @@ newDelete:
             Me.DiscToolStripMenuItem.Font = f
             Me.NDisToolStripMenuItem.Text = I18N.trl8(I18N.lk.InvCircDiscSector)
             Me.NDisToolStripMenuItem.Font = f
+            Me.NDisTangToolStripMenuItem.Text = I18N.trl8(I18N.lk.InvTangCircDiscSector)
+            Me.NDisTangToolStripMenuItem.Font = f
             Me.CircularDiscSegmentToolStripMenuItem.Text = I18N.trl8(I18N.lk.CircDiscSegment)
             Me.CircularDiscSegmentToolStripMenuItem.Font = f
             Me.CircularRingSegmentToolStripMenuItem.Text = I18N.trl8(I18N.lk.CircRingSegment)
@@ -9747,6 +9754,8 @@ newDelete:
             Me.Disc48ToolStripMenuItem.Font = f
             Me.NDis48ToolStripMenuItem.Text = I18N.trl8(I18N.lk.InvCircDiscSector)
             Me.NDis48ToolStripMenuItem.Font = f
+            Me.NDisTang48ToolStripMenuItem.Text = I18N.trl8(I18N.lk.InvTangCircDiscSector)
+            Me.NDisTang48ToolStripMenuItem.Font = f
             Me.CircularDiscSegment48ToolStripMenuItem.Text = I18N.trl8(I18N.lk.CircDiscSegment)
             Me.CircularDiscSegment48ToolStripMenuItem.Font = f
             Me.CircularRingSegment48ToolStripMenuItem.Text = I18N.trl8(I18N.lk.CircRingSegment)
@@ -10361,6 +10370,11 @@ newDelete:
                                     tmi.Text = s2(1)
                                     AddHandler tmi.Click, AddressOf primitive_Click
                                     NDisToolStripMenuItem.DropDownItems.Add(tmi)
+                                ElseIf s2(0) = "T" Then
+                                    Dim tmi As New ToolStripMenuItem
+                                    tmi.Text = s2(1)
+                                    AddHandler tmi.Click, AddressOf primitive_Click
+                                    NDisTangToolStripMenuItem.DropDownItems.Add(tmi)
                                 ElseIf s2(0) = "S" Then
                                     Dim tmi As New ToolStripMenuItem
                                     tmi.Text = s2(1)
@@ -10376,6 +10390,11 @@ newDelete:
                                     tmi.Text = s2(1)
                                     AddHandler tmi.Click, AddressOf primitive_Click
                                     NDis48ToolStripMenuItem.DropDownItems.Add(tmi)
+                                ElseIf s2(0) = "T48" Then
+                                    Dim tmi As New ToolStripMenuItem
+                                    tmi.Text = s2(1)
+                                    AddHandler tmi.Click, AddressOf primitive_Click
+                                    NDisTang48ToolStripMenuItem.DropDownItems.Add(tmi)
                                 ElseIf s2(0) = "S48" Then
                                     Dim tmi As New ToolStripMenuItem
                                     tmi.Text = s2(1)

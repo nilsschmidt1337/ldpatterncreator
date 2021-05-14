@@ -320,6 +320,8 @@ Partial Class MainForm
         Me.NUDSplineSegs = New System.Windows.Forms.NumericUpDown()
         Me.OpenColours = New System.Windows.Forms.OpenFileDialog()
         Me.SaveColours = New System.Windows.Forms.SaveFileDialog()
+        Me.NDisTangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NDisTang48ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.MainToolStrip.SuspendLayout()
         Me.ColourToolStrip.SuspendLayout()
@@ -360,7 +362,7 @@ Partial Class MainForm
         Me.NewPatternToolStripMenuItem.Name = "NewPatternToolStripMenuItem"
         Me.NewPatternToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+N"
         Me.NewPatternToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.NewPatternToolStripMenuItem.Size = New System.Drawing.Size(222, 22)
+        Me.NewPatternToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.NewPatternToolStripMenuItem.Text = "&New"
         '
         'LoadPatternToolStripMenuItem
@@ -368,7 +370,7 @@ Partial Class MainForm
         Me.LoadPatternToolStripMenuItem.Name = "LoadPatternToolStripMenuItem"
         Me.LoadPatternToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+O"
         Me.LoadPatternToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
-        Me.LoadPatternToolStripMenuItem.Size = New System.Drawing.Size(222, 22)
+        Me.LoadPatternToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.LoadPatternToolStripMenuItem.Text = "&Load"
         '
         'SaveToolStripMenuItem
@@ -377,43 +379,43 @@ Partial Class MainForm
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
         Me.SaveToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+S"
         Me.SaveToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(222, 22)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.SaveToolStripMenuItem.Text = "&Save"
         '
         'SaveAsToolStripMenuItem
         '
         Me.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem"
-        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(222, 22)
+        Me.SaveAsToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.SaveAsToolStripMenuItem.Text = "Save &as.."
         '
         'ToolStripSeparator34
         '
         Me.ToolStripSeparator34.Name = "ToolStripSeparator34"
-        Me.ToolStripSeparator34.Size = New System.Drawing.Size(219, 6)
+        Me.ToolStripSeparator34.Size = New System.Drawing.Size(218, 6)
         '
         'TemplateToolStripMenuItem
         '
         Me.TemplateToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CreateATemplateToolStripMenuItem, Me.EditTemplateToolStripMenuItem, Me.CreateAStickerToolStripMenuItem, Me.SearchTemplate})
         Me.TemplateToolStripMenuItem.Name = "TemplateToolStripMenuItem"
-        Me.TemplateToolStripMenuItem.Size = New System.Drawing.Size(222, 22)
+        Me.TemplateToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.TemplateToolStripMenuItem.Text = "Load &Template"
         '
         'CreateATemplateToolStripMenuItem
         '
         Me.CreateATemplateToolStripMenuItem.Name = "CreateATemplateToolStripMenuItem"
-        Me.CreateATemplateToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.CreateATemplateToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
         Me.CreateATemplateToolStripMenuItem.Text = "&Create a Template.."
         '
         'EditTemplateToolStripMenuItem
         '
         Me.EditTemplateToolStripMenuItem.Name = "EditTemplateToolStripMenuItem"
-        Me.EditTemplateToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.EditTemplateToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
         Me.EditTemplateToolStripMenuItem.Text = "&Edit / Delete.."
         '
         'CreateAStickerToolStripMenuItem
         '
         Me.CreateAStickerToolStripMenuItem.Name = "CreateAStickerToolStripMenuItem"
-        Me.CreateAStickerToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.CreateAStickerToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
         Me.CreateAStickerToolStripMenuItem.Text = "Create a Sticker.."
         '
         'SearchTemplate
@@ -425,42 +427,42 @@ Partial Class MainForm
         'UnloadTemplateDataToolStripMenuItem
         '
         Me.UnloadTemplateDataToolStripMenuItem.Name = "UnloadTemplateDataToolStripMenuItem"
-        Me.UnloadTemplateDataToolStripMenuItem.Size = New System.Drawing.Size(222, 22)
+        Me.UnloadTemplateDataToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.UnloadTemplateDataToolStripMenuItem.Text = "&Unload template data "
         '
         'ProjectionDataTemplateToolStripMenuItem
         '
         Me.ProjectionDataTemplateToolStripMenuItem.Name = "ProjectionDataTemplateToolStripMenuItem"
-        Me.ProjectionDataTemplateToolStripMenuItem.Size = New System.Drawing.Size(222, 22)
+        Me.ProjectionDataTemplateToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.ProjectionDataTemplateToolStripMenuItem.Text = "&Projection data -> Template"
         '
         'ToolStripSeparator39
         '
         Me.ToolStripSeparator39.Name = "ToolStripSeparator39"
-        Me.ToolStripSeparator39.Size = New System.Drawing.Size(219, 6)
+        Me.ToolStripSeparator39.Size = New System.Drawing.Size(218, 6)
         '
         'LoadBackgroundImageToolStripMenuItem
         '
         Me.LoadBackgroundImageToolStripMenuItem.Name = "LoadBackgroundImageToolStripMenuItem"
-        Me.LoadBackgroundImageToolStripMenuItem.Size = New System.Drawing.Size(222, 22)
+        Me.LoadBackgroundImageToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.LoadBackgroundImageToolStripMenuItem.Text = "Load Back&ground Image"
         '
         'AdjustBackgroundImageToolStripMenuItem
         '
         Me.AdjustBackgroundImageToolStripMenuItem.Name = "AdjustBackgroundImageToolStripMenuItem"
-        Me.AdjustBackgroundImageToolStripMenuItem.Size = New System.Drawing.Size(222, 22)
+        Me.AdjustBackgroundImageToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.AdjustBackgroundImageToolStripMenuItem.Text = "&Adjust Background Image"
         '
         'ToolStripSeparator40
         '
         Me.ToolStripSeparator40.Name = "ToolStripSeparator40"
-        Me.ToolStripSeparator40.Size = New System.Drawing.Size(219, 6)
+        Me.ToolStripSeparator40.Size = New System.Drawing.Size(218, 6)
         '
         'ImportToolStripMenuItem
         '
         Me.ImportToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProjectOnYZPlaneToolStripMenuItem, Me.ProjectOnYZPlane2ToolStripMenuItem, Me.ProjectOnZXPlaneToolStripMenuItem, Me.ProjectOnZXPlane2ToolStripMenuItem, Me.ProjectOnXYPlaneToolStripMenuItem, Me.ProjectOnXYPlane2ToolStripMenuItem})
         Me.ImportToolStripMenuItem.Name = "ImportToolStripMenuItem"
-        Me.ImportToolStripMenuItem.Size = New System.Drawing.Size(222, 22)
+        Me.ImportToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.ImportToolStripMenuItem.Text = "&Import from DAT"
         '
         'ProjectOnYZPlaneToolStripMenuItem
@@ -503,7 +505,7 @@ Partial Class MainForm
         '
         Me.ExportToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EProjectOnYZPlaneToolStripMenuItem, Me.EProjectOnYZPlane2ToolStripMenuItem, Me.EProjectOnZXPlaneToolStripMenuItem, Me.EProjectOnZXPlane2ToolStripMenuItem, Me.EProjectOnXYPlaneToolStripMenuItem, Me.EProjectOnXYPlane2ToolStripMenuItem})
         Me.ExportToolStripMenuItem.Name = "ExportToolStripMenuItem"
-        Me.ExportToolStripMenuItem.Size = New System.Drawing.Size(222, 22)
+        Me.ExportToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.ExportToolStripMenuItem.Text = "&Export as DAT"
         '
         'EProjectOnYZPlaneToolStripMenuItem
@@ -545,46 +547,46 @@ Partial Class MainForm
         'ToolStripSeparator32
         '
         Me.ToolStripSeparator32.Name = "ToolStripSeparator32"
-        Me.ToolStripSeparator32.Size = New System.Drawing.Size(219, 6)
+        Me.ToolStripSeparator32.Size = New System.Drawing.Size(218, 6)
         '
         'ReplaceColoursOnExportToolStripMenuItem
         '
         Me.ReplaceColoursOnExportToolStripMenuItem.Name = "ReplaceColoursOnExportToolStripMenuItem"
-        Me.ReplaceColoursOnExportToolStripMenuItem.Size = New System.Drawing.Size(222, 22)
+        Me.ReplaceColoursOnExportToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.ReplaceColoursOnExportToolStripMenuItem.Text = "&Replace Colours on Export.."
         '
         'MetadataToolStripMenuItem
         '
         Me.MetadataToolStripMenuItem.Name = "MetadataToolStripMenuItem"
-        Me.MetadataToolStripMenuItem.Size = New System.Drawing.Size(222, 22)
+        Me.MetadataToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.MetadataToolStripMenuItem.Text = "&Metadata.."
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(219, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(218, 6)
         '
         'ImportToolbarColoursToolStripMenuItem
         '
         Me.ImportToolbarColoursToolStripMenuItem.Name = "ImportToolbarColoursToolStripMenuItem"
-        Me.ImportToolbarColoursToolStripMenuItem.Size = New System.Drawing.Size(222, 22)
+        Me.ImportToolbarColoursToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.ImportToolbarColoursToolStripMenuItem.Text = "Import Toolbar Colours"
         '
         'ExportToolbarColoursToolStripMenuItem
         '
         Me.ExportToolbarColoursToolStripMenuItem.Name = "ExportToolbarColoursToolStripMenuItem"
-        Me.ExportToolbarColoursToolStripMenuItem.Size = New System.Drawing.Size(222, 22)
+        Me.ExportToolbarColoursToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.ExportToolbarColoursToolStripMenuItem.Text = "Export Toolbar Colours"
         '
         'ToolStripSeparator41
         '
         Me.ToolStripSeparator41.Name = "ToolStripSeparator41"
-        Me.ToolStripSeparator41.Size = New System.Drawing.Size(219, 6)
+        Me.ToolStripSeparator41.Size = New System.Drawing.Size(218, 6)
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(222, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
         Me.ExitToolStripMenuItem.Text = "E&xit"
         '
         'EditToolStripMenuItem
@@ -1078,47 +1080,47 @@ Partial Class MainForm
         'MirrorXToolStripMenuItem
         '
         Me.MirrorXToolStripMenuItem.Name = "MirrorXToolStripMenuItem"
-        Me.MirrorXToolStripMenuItem.Size = New System.Drawing.Size(264, 22)
+        Me.MirrorXToolStripMenuItem.Size = New System.Drawing.Size(265, 22)
         Me.MirrorXToolStripMenuItem.Text = "..on X axis."
         '
         'MirrorYToolStripMenuItem
         '
         Me.MirrorYToolStripMenuItem.Name = "MirrorYToolStripMenuItem"
-        Me.MirrorYToolStripMenuItem.Size = New System.Drawing.Size(264, 22)
+        Me.MirrorYToolStripMenuItem.Size = New System.Drawing.Size(265, 22)
         Me.MirrorYToolStripMenuItem.Text = "..on Y axis."
         '
         'ToolStripSeparator24
         '
         Me.ToolStripSeparator24.Name = "ToolStripSeparator24"
-        Me.ToolStripSeparator24.Size = New System.Drawing.Size(261, 6)
+        Me.ToolStripSeparator24.Size = New System.Drawing.Size(262, 6)
         '
         'MirrorXLeftToolStripMenuItem
         '
         Me.MirrorXLeftToolStripMenuItem.Name = "MirrorXLeftToolStripMenuItem"
-        Me.MirrorXLeftToolStripMenuItem.Size = New System.Drawing.Size(264, 22)
+        Me.MirrorXLeftToolStripMenuItem.Size = New System.Drawing.Size(265, 22)
         Me.MirrorXLeftToolStripMenuItem.Text = "..on X axis (merge with left side)"
         '
         'MirrorXRightToolStripMenuItem
         '
         Me.MirrorXRightToolStripMenuItem.Name = "MirrorXRightToolStripMenuItem"
-        Me.MirrorXRightToolStripMenuItem.Size = New System.Drawing.Size(264, 22)
+        Me.MirrorXRightToolStripMenuItem.Size = New System.Drawing.Size(265, 22)
         Me.MirrorXRightToolStripMenuItem.Text = "..on X axis (merge with right side)"
         '
         'ToolStripSeparator25
         '
         Me.ToolStripSeparator25.Name = "ToolStripSeparator25"
-        Me.ToolStripSeparator25.Size = New System.Drawing.Size(261, 6)
+        Me.ToolStripSeparator25.Size = New System.Drawing.Size(262, 6)
         '
         'MirrorYTopToolStripMenuItem
         '
         Me.MirrorYTopToolStripMenuItem.Name = "MirrorYTopToolStripMenuItem"
-        Me.MirrorYTopToolStripMenuItem.Size = New System.Drawing.Size(264, 22)
+        Me.MirrorYTopToolStripMenuItem.Size = New System.Drawing.Size(265, 22)
         Me.MirrorYTopToolStripMenuItem.Text = "..on Y axis (merge with top side)"
         '
         'MirrorYBottomToolStripMenuItem
         '
         Me.MirrorYBottomToolStripMenuItem.Name = "MirrorYBottomToolStripMenuItem"
-        Me.MirrorYBottomToolStripMenuItem.Size = New System.Drawing.Size(264, 22)
+        Me.MirrorYBottomToolStripMenuItem.Size = New System.Drawing.Size(265, 22)
         Me.MirrorYBottomToolStripMenuItem.Text = "..on Y axis (merge with bottom side)"
         '
         'ToolStripSeparator23
@@ -1132,7 +1134,7 @@ Partial Class MainForm
         Me.BtnMode.Image = Global.LDPatternCreator.My.Resources.Resources.vertices
         Me.BtnMode.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BtnMode.Name = "BtnMode"
-        Me.BtnMode.Size = New System.Drawing.Size(105, 24)
+        Me.BtnMode.Size = New System.Drawing.Size(106, 24)
         Me.BtnMode.Text = "Vertex Mode"
         Me.BtnMode.ToolTipText = "Vertex Mode [F2]"
         '
@@ -1235,7 +1237,7 @@ Partial Class MainForm
         '
         'LDrawPrimitivesToolStripMenuItem
         '
-        Me.LDrawPrimitivesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DiscToolStripMenuItem, Me.NDisToolStripMenuItem, Me.CircularDiscSegmentToolStripMenuItem, Me.CircularRingSegmentToolStripMenuItem, Me.ToolStripSeparator30, Me.HighResToolStripMenuItem})
+        Me.LDrawPrimitivesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DiscToolStripMenuItem, Me.NDisToolStripMenuItem, Me.NDisTangToolStripMenuItem, Me.CircularDiscSegmentToolStripMenuItem, Me.CircularRingSegmentToolStripMenuItem, Me.ToolStripSeparator30, Me.HighResToolStripMenuItem})
         Me.LDrawPrimitivesToolStripMenuItem.Name = "LDrawPrimitivesToolStripMenuItem"
         Me.LDrawPrimitivesToolStripMenuItem.Size = New System.Drawing.Size(192, 22)
         Me.LDrawPrimitivesToolStripMenuItem.Text = "..LDraw-Primitive.."
@@ -1243,67 +1245,67 @@ Partial Class MainForm
         'DiscToolStripMenuItem
         '
         Me.DiscToolStripMenuItem.Name = "DiscToolStripMenuItem"
-        Me.DiscToolStripMenuItem.Size = New System.Drawing.Size(242, 22)
+        Me.DiscToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
         Me.DiscToolStripMenuItem.Text = "..Circular Disc Sector.."
         '
         'NDisToolStripMenuItem
         '
         Me.NDisToolStripMenuItem.Name = "NDisToolStripMenuItem"
-        Me.NDisToolStripMenuItem.Size = New System.Drawing.Size(242, 22)
+        Me.NDisToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
         Me.NDisToolStripMenuItem.Text = "..Inverse of Circular Disc Sector.."
         '
         'CircularDiscSegmentToolStripMenuItem
         '
         Me.CircularDiscSegmentToolStripMenuItem.Name = "CircularDiscSegmentToolStripMenuItem"
-        Me.CircularDiscSegmentToolStripMenuItem.Size = New System.Drawing.Size(242, 22)
+        Me.CircularDiscSegmentToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
         Me.CircularDiscSegmentToolStripMenuItem.Text = "..Circular Disc Segment.."
         '
         'CircularRingSegmentToolStripMenuItem
         '
         Me.CircularRingSegmentToolStripMenuItem.Name = "CircularRingSegmentToolStripMenuItem"
-        Me.CircularRingSegmentToolStripMenuItem.Size = New System.Drawing.Size(242, 22)
+        Me.CircularRingSegmentToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
         Me.CircularRingSegmentToolStripMenuItem.Text = "..Circular Ring Segment."
         '
         'ToolStripSeparator30
         '
         Me.ToolStripSeparator30.Name = "ToolStripSeparator30"
-        Me.ToolStripSeparator30.Size = New System.Drawing.Size(239, 6)
+        Me.ToolStripSeparator30.Size = New System.Drawing.Size(284, 6)
         '
         'HighResToolStripMenuItem
         '
-        Me.HighResToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Disc48ToolStripMenuItem, Me.NDis48ToolStripMenuItem, Me.CircularDiscSegment48ToolStripMenuItem, Me.CircularRingSegment48ToolStripMenuItem, Me.AdaptorRingToolStripMenuItem})
+        Me.HighResToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Disc48ToolStripMenuItem, Me.NDis48ToolStripMenuItem, Me.NDisTang48ToolStripMenuItem, Me.CircularDiscSegment48ToolStripMenuItem, Me.CircularRingSegment48ToolStripMenuItem, Me.AdaptorRingToolStripMenuItem})
         Me.HighResToolStripMenuItem.Name = "HighResToolStripMenuItem"
-        Me.HighResToolStripMenuItem.Size = New System.Drawing.Size(242, 22)
+        Me.HighResToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
         Me.HighResToolStripMenuItem.Text = "48-High Res."
         '
         'Disc48ToolStripMenuItem
         '
         Me.Disc48ToolStripMenuItem.Name = "Disc48ToolStripMenuItem"
-        Me.Disc48ToolStripMenuItem.Size = New System.Drawing.Size(242, 22)
+        Me.Disc48ToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
         Me.Disc48ToolStripMenuItem.Text = "..Circular Disc Sector.."
         '
         'NDis48ToolStripMenuItem
         '
         Me.NDis48ToolStripMenuItem.Name = "NDis48ToolStripMenuItem"
-        Me.NDis48ToolStripMenuItem.Size = New System.Drawing.Size(242, 22)
+        Me.NDis48ToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
         Me.NDis48ToolStripMenuItem.Text = "..Inverse of Circular Disc Sector.."
         '
         'CircularDiscSegment48ToolStripMenuItem
         '
         Me.CircularDiscSegment48ToolStripMenuItem.Name = "CircularDiscSegment48ToolStripMenuItem"
-        Me.CircularDiscSegment48ToolStripMenuItem.Size = New System.Drawing.Size(242, 22)
+        Me.CircularDiscSegment48ToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
         Me.CircularDiscSegment48ToolStripMenuItem.Text = "..Circular Disc Segment.."
         '
         'CircularRingSegment48ToolStripMenuItem
         '
         Me.CircularRingSegment48ToolStripMenuItem.Name = "CircularRingSegment48ToolStripMenuItem"
-        Me.CircularRingSegment48ToolStripMenuItem.Size = New System.Drawing.Size(242, 22)
+        Me.CircularRingSegment48ToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
         Me.CircularRingSegment48ToolStripMenuItem.Text = "..Circular Ring Segment."
         '
         'AdaptorRingToolStripMenuItem
         '
         Me.AdaptorRingToolStripMenuItem.Name = "AdaptorRingToolStripMenuItem"
-        Me.AdaptorRingToolStripMenuItem.Size = New System.Drawing.Size(242, 22)
+        Me.AdaptorRingToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
         Me.AdaptorRingToolStripMenuItem.Text = "..Adaptor Ring.."
         '
         'ToolStripSeparator29
@@ -1543,20 +1545,20 @@ Partial Class MainForm
         Me.ToAverageToolStripMenuItem.Name = "ToAverageToolStripMenuItem"
         Me.ToAverageToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+W"
         Me.ToAverageToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
-        Me.ToAverageToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
+        Me.ToAverageToolStripMenuItem.Size = New System.Drawing.Size(293, 22)
         Me.ToAverageToolStripMenuItem.Text = "..merge to average."
         Me.ToAverageToolStripMenuItem.ToolTipText = "Merges all selected vertices to the center of the selection."
         '
         'ToAverageXToolStripMenuItem
         '
         Me.ToAverageXToolStripMenuItem.Name = "ToAverageXToolStripMenuItem"
-        Me.ToAverageXToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
+        Me.ToAverageXToolStripMenuItem.Size = New System.Drawing.Size(293, 22)
         Me.ToAverageXToolStripMenuItem.Text = "..merge to average (X)."
         '
         'ToAverageYToolStripMenuItem
         '
         Me.ToAverageYToolStripMenuItem.Name = "ToAverageYToolStripMenuItem"
-        Me.ToAverageYToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
+        Me.ToAverageYToolStripMenuItem.Size = New System.Drawing.Size(293, 22)
         Me.ToAverageYToolStripMenuItem.Text = "..merge to average (Y)."
         '
         'ToLastSelectedToolStripMenuItem
@@ -1564,7 +1566,7 @@ Partial Class MainForm
         Me.ToLastSelectedToolStripMenuItem.Name = "ToLastSelectedToolStripMenuItem"
         Me.ToLastSelectedToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+E"
         Me.ToLastSelectedToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.E), System.Windows.Forms.Keys)
-        Me.ToLastSelectedToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
+        Me.ToLastSelectedToolStripMenuItem.Size = New System.Drawing.Size(293, 22)
         Me.ToLastSelectedToolStripMenuItem.Text = "..merge to last selected."
         Me.ToLastSelectedToolStripMenuItem.ToolTipText = "Merges all selected vertices to the last selected vertex."
         '
@@ -1573,7 +1575,7 @@ Partial Class MainForm
         Me.MergeToNearestPrimvertexToolStripMenuItem.Name = "MergeToNearestPrimvertexToolStripMenuItem"
         Me.MergeToNearestPrimvertexToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+P"
         Me.MergeToNearestPrimvertexToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.MergeToNearestPrimvertexToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
+        Me.MergeToNearestPrimvertexToolStripMenuItem.Size = New System.Drawing.Size(293, 22)
         Me.MergeToNearestPrimvertexToolStripMenuItem.Text = "..merge to nearest prim.-vertex."
         '
         'MergeToNearestTemplateLineToolStripMenuItem
@@ -1581,7 +1583,7 @@ Partial Class MainForm
         Me.MergeToNearestTemplateLineToolStripMenuItem.Name = "MergeToNearestTemplateLineToolStripMenuItem"
         Me.MergeToNearestTemplateLineToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+T"
         Me.MergeToNearestTemplateLineToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.T), System.Windows.Forms.Keys)
-        Me.MergeToNearestTemplateLineToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
+        Me.MergeToNearestTemplateLineToolStripMenuItem.Size = New System.Drawing.Size(293, 22)
         Me.MergeToNearestTemplateLineToolStripMenuItem.Text = "..merge to nearest line (Template)."
         '
         'MergeToNearestTriangleLineToolStripMenuItem
@@ -1589,20 +1591,20 @@ Partial Class MainForm
         Me.MergeToNearestTriangleLineToolStripMenuItem.Name = "MergeToNearestTriangleLineToolStripMenuItem"
         Me.MergeToNearestTriangleLineToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Q"
         Me.MergeToNearestTriangleLineToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.MergeToNearestTriangleLineToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
+        Me.MergeToNearestTriangleLineToolStripMenuItem.Size = New System.Drawing.Size(293, 22)
         Me.MergeToNearestTriangleLineToolStripMenuItem.Text = "..merge to nearest line (Triangle)."
         '
         'ToolStripSeparator13
         '
         Me.ToolStripSeparator13.Name = "ToolStripSeparator13"
-        Me.ToolStripSeparator13.Size = New System.Drawing.Size(292, 6)
+        Me.ToolStripSeparator13.Size = New System.Drawing.Size(290, 6)
         '
         'CSGSplitToolStripMenuItem
         '
         Me.CSGSplitToolStripMenuItem.Name = "CSGSplitToolStripMenuItem"
         Me.CSGSplitToolStripMenuItem.ShortcutKeyDisplayString = "Alt+V"
         Me.CSGSplitToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
-        Me.CSGSplitToolStripMenuItem.Size = New System.Drawing.Size(295, 22)
+        Me.CSGSplitToolStripMenuItem.Size = New System.Drawing.Size(293, 22)
         Me.CSGSplitToolStripMenuItem.Text = "..split (2 connected vertices only)."
         '
         'BtnCSG
@@ -2588,6 +2590,18 @@ Partial Class MainForm
         '
         Me.SaveColours.Filter = "LD Pattern Creator 1.3 (*.txt) |*.txt"
         '
+        'NDisTangToolStripMenuItem
+        '
+        Me.NDisTangToolStripMenuItem.Name = "NDisTangToolStripMenuItem"
+        Me.NDisTangToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
+        Me.NDisTangToolStripMenuItem.Text = "..Inverse Tangent of Circular Disc Sector.."
+        '
+        'NDisTang48ToolStripMenuItem
+        '
+        Me.NDisTang48ToolStripMenuItem.Name = "NDisTang48ToolStripMenuItem"
+        Me.NDisTang48ToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
+        Me.NDisTang48ToolStripMenuItem.Text = "..Inverse Tangent of Circular Disc Sector.."
+        '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2938,4 +2952,6 @@ Partial Class MainForm
     Friend WithEvents ButtonRemoveIsolatedVertices As ToolStripButton
     Friend WithEvents ToolStripSeparator26 As ToolStripSeparator
     Friend WithEvents FastTriangulationIIToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents NDisTangToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents NDisTang48ToolStripMenuItem As ToolStripMenuItem
 End Class

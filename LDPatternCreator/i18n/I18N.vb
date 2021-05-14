@@ -155,6 +155,7 @@ Public Class I18N
         LDrawPrimitive
         CircDiscSector
         InvCircDiscSector
+        InvTangCircDiscSector
         CircDiscSegment
         CircRingSegment
         HighRes
@@ -570,6 +571,7 @@ Public Class I18N
             Case "LDrawPrimitive" : Return lk.LDrawPrimitive
             Case "CircDiscSector" : Return lk.CircDiscSector
             Case "InvCircDiscSector" : Return lk.InvCircDiscSector
+            Case "InvTangCircDiscSector" : Return lk.InvTangCircDiscSector
             Case "CircDiscSegment" : Return lk.CircDiscSegment
             Case "CircRingSegment" : Return lk.CircRingSegment
             Case "HighRes" : Return lk.HighRes
