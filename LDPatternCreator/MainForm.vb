@@ -1211,9 +1211,6 @@ Public Class MainForm
                                                     View.SelectedVertices.Add(vert)
                                                 End If
                                                 vert.selected = True
-                                            Else
-                                                View.SelectedVertices.Remove(vert)
-                                                vert.selected = False
                                             End If
                                         ElseIf Control.ModifierKeys <> Keys.Control Then
                                             vert.selected = False
@@ -1234,10 +1231,7 @@ Public Class MainForm
                                            tri.vertexB.Y >= minY AndAlso tri.vertexB.Y <= maxY AndAlso
                                            tri.vertexC.X >= minX AndAlso tri.vertexC.X <= maxX AndAlso
                                            tri.vertexC.Y >= minY AndAlso tri.vertexC.Y <= maxY Then
-                                            If tri.selected Then
-                                                View.SelectedTriangles.Remove(tri)
-                                                tri.selected = False
-                                            Else
+                                            If Not tri.selected Then
                                                 View.SelectedTriangles.Add(tri)
                                                 tri.selected = True
                                             End If
