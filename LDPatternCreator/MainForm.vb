@@ -980,7 +980,25 @@ Public Class MainForm
                 End If
                 If MainState.primitiveMode = PrimitiveModes.Inactive Then
                     If BtnAddVertex.Checked Then
-                        LPCFile.Vertices.Add(New Vertex(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX()) / View.moveSnap) * View.moveSnap, Math.Round(getYcoordinate(MouseHelper.getCursorpositionY()) / View.moveSnap) * View.moveSnap, False))
+                        Dim delta As Double
+                        delta = Math.Sqrt((MainState.klickX - MouseHelper.getCursorpositionX()) ^ 2 + (MainState.klickY - MouseHelper.getCursorpositionY()) ^ 2)
+                        If delta < 5 Then
+                            LPCFile.Vertices.Add(New Vertex(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX()) / View.moveSnap) * View.moveSnap, Math.Round(getYcoordinate(MouseHelper.getCursorpositionY()) / View.moveSnap) * View.moveSnap, False))
+                        Else
+                            Dim cornerPs As List(Of Accord.IntPoint) = Nothing
+                            Dim bw As Integer = View.backgroundPicture.Width
+                            Dim bh As Integer = View.backgroundPicture.Height
+                            Dim ox = bw / 2 * View.imgScale - View.imgOffsetX
+                            Dim oy = bh / 2 * View.imgScale - View.imgOffsetY
+                            Try
+                                Dim harris As New Accord.Imaging.HarrisCornersDetector()
+                                cornerPs = harris.ProcessImage(View.backgroundPicture)
+                                For Each p In cornerPs
+                                    LPCFile.Vertices.Add(New Vertex(Math.Round(ox - View.imgScale * p.X), Math.Round(View.imgScale * p.Y - oy), False))
+                                Next
+                            Catch ex As Exception
+                            End Try
+                        End If
                     End If
                     If BtnAddReferenceLine.Checked Then
                         Select Case MainState.referenceLineMode
@@ -1434,6 +1452,57 @@ newTry:
                                         View.SelectedVertices.Clear()
                                         MainState.intelligentFocusTriangle = ListHelper.LLast(LPCFile.Triangles)
                                     End If
+                                ElseIf View.SelectedVertices.Count > 5 AndAlso MainState.trianglemode = 0 Then
+                                    Delaunay.EmptyVertexList()
+
+                                    Dim v1 As New Vertex(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX()) / View.moveSnap) * View.moveSnap, Math.Round(getYcoordinate(MouseHelper.getCursorpositionY()) / View.moveSnap) * View.moveSnap, False)
+                                    Dim v2 As New Vertex(Math.Round(getXcoordinate(MainState.klickX) / View.moveSnap) * View.moveSnap, Math.Round(getYcoordinate(MainState.klickY) / View.moveSnap) * View.moveSnap, False)
+
+                                    Dim upperLeft As New Vertex(Math.Min(v1.X, v2.X), Math.Min(v1.Y, v2.Y), True)
+                                    Dim lowerRight As New Vertex(Math.Max(v1.X, v2.X), Math.Max(v1.Y, v2.Y), True)
+                                    Dim upperRight As New Vertex(lowerRight.X, upperLeft.Y, True)
+                                    Dim lowerLeft As New Vertex(upperLeft.X, lowerRight.Y, True)
+
+                                    LPCFile.Vertices.Add(upperLeft)
+                                    LPCFile.Vertices.Add(upperRight)
+                                    LPCFile.Vertices.Add(lowerRight)
+                                    LPCFile.Vertices.Add(lowerLeft)
+
+                                    ' Corner vertices
+                                    Delaunay.AddVertex(upperLeft.X, upperLeft.Y, upperLeft)
+                                    Delaunay.AddVertex(lowerRight.X, lowerRight.Y, lowerRight)
+                                    Delaunay.AddVertex(upperRight.X, upperRight.Y, upperRight)
+                                    Delaunay.AddVertex(upperLeft.X, lowerRight.Y, lowerLeft)
+
+                                    For Each vert As Vertex In View.SelectedVertices
+                                        vert.selected = False
+                                        Delaunay.AddVertex(vert.X, vert.Y, vert)
+                                    Next
+
+                                    Delaunay.CalculateTriangles()
+                                    For Each t As Delaunay.dTriangle In Delaunay.Triangle
+                                        If Not Delaunay.isVisible(t) Then Continue For
+                                        Dim a As Delaunay.dVertex = Delaunay.Vertex(t.vv0)
+                                        Dim b As Delaunay.dVertex = Delaunay.Vertex(t.vv1)
+                                        Dim c As Delaunay.dVertex = Delaunay.Vertex(t.vv2)
+                                        If a.v Is Nothing OrElse a.x = 0 AndAlso a.y = 0 Then Continue For
+                                        If b.v Is Nothing OrElse b.x = 0 AndAlso b.y = 0 Then Continue For
+                                        If c.v Is Nothing OrElse c.x = 0 AndAlso c.y = 0 Then Continue For
+                                        Dim tri As New Triangle(a.v, b.v, c.v)
+                                        a.v.linkedTriangles.Add(tri)
+                                        b.v.linkedTriangles.Add(tri)
+                                        c.v.linkedTriangles.Add(tri)
+                                        LPCFile.Triangles.Add(tri)
+                                    Next
+
+                                    View.SelectedTriangles.Clear()
+                                    View.SelectedVertices.Clear()
+                                    View.SelectedVertices.Add(upperLeft)
+                                    View.SelectedVertices.Add(upperRight)
+                                    View.SelectedVertices.Add(lowerRight)
+                                    View.SelectedVertices.Add(lowerLeft)
+
+                                    ClipboardHelper.delete()
                                 End If
                                 If MainState.trianglemode > 0 AndAlso View.SelectedVertices.Count > 0 Then
                                     If MainState.trianglemode = 1 Then

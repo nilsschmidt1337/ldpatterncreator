@@ -250,4 +250,7 @@
   <data name="lang_fr_FR" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Release\lang\lang_fr_FR.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
   </data>
+  <data name="magic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\magic.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
