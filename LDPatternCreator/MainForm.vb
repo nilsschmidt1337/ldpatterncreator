@@ -994,7 +994,16 @@ Public Class MainForm
                                 Dim harris As New Accord.Imaging.HarrisCornersDetector()
                                 cornerPs = harris.ProcessImage(View.backgroundPicture)
                                 For Each p In cornerPs
-                                    LPCFile.Vertices.Add(New Vertex(Math.Round(ox - View.imgScale * p.X), Math.Round(View.imgScale * p.Y - oy), False))
+                                    Dim v1 As New Vertex(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX()) / View.moveSnap) * View.moveSnap, Math.Round(getYcoordinate(MouseHelper.getCursorpositionY()) / View.moveSnap) * View.moveSnap, False)
+                                    Dim v2 As New Vertex(Math.Round(getXcoordinate(MainState.klickX) / View.moveSnap) * View.moveSnap, Math.Round(getYcoordinate(MainState.klickY) / View.moveSnap) * View.moveSnap, False)
+                                    Dim upperLeft As New Vertex(Math.Min(v1.X, v2.X), Math.Min(v1.Y, v2.Y), True)
+                                    Dim lowerRight As New Vertex(Math.Max(v1.X, v2.X), Math.Max(v1.Y, v2.Y), True)
+                                    Dim x As Double = Math.Round(ox - View.imgScale * p.X)
+                                    Dim y As Double = Math.Round(View.imgScale * p.Y - oy)
+                                    If x > upperLeft.X AndAlso x < lowerRight.X AndAlso
+                                                y > upperLeft.Y AndAlso y < lowerRight.Y Then
+                                        LPCFile.Vertices.Add(New Vertex(x, y, False))
+                                    End If
                                 Next
                             Catch ex As Exception
                             End Try
