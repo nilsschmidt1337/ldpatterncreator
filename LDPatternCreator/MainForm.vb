@@ -991,8 +991,14 @@ Public Class MainForm
                             Dim ox = bw / 2 * View.imgScale - View.imgOffsetX
                             Dim oy = bh / 2 * View.imgScale - View.imgOffsetY
                             Try
-                                Dim harris As New Accord.Imaging.HarrisCornersDetector()
-                                cornerPs = harris.ProcessImage(View.backgroundPicture)
+                                Dim k As Single = 0.04
+                                Dim tries As Integer = 0
+                                While tries < 3 AndAlso (cornerPs Is Nothing OrElse cornerPs.Count = 0)
+                                    Dim harris As New Accord.Imaging.HarrisCornersDetector(k)
+                                    cornerPs = harris.ProcessImage(View.backgroundPicture)
+                                    tries += 1
+                                    k /= 2.0
+                                End While
                                 For Each p In cornerPs
                                     Dim v1 As New Vertex(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX()) / View.moveSnap) * View.moveSnap, Math.Round(getYcoordinate(MouseHelper.getCursorpositionY()) / View.moveSnap) * View.moveSnap, False)
                                     Dim v2 As New Vertex(Math.Round(getXcoordinate(MainState.klickX) / View.moveSnap) * View.moveSnap, Math.Round(getYcoordinate(MainState.klickY) / View.moveSnap) * View.moveSnap, False)
@@ -1556,7 +1562,7 @@ newTry:
                             End If
 
                             If BtnAddVertex.Checked Then
-                                If Not View.SelectedVertices.Contains(ListHelper.LLast(LPCFile.Vertices)) Then
+                                If LPCFile.Vertices.Count > 0 AndAlso Not View.SelectedVertices.Contains(ListHelper.LLast(LPCFile.Vertices)) Then
                                     View.SelectedVertices.Add(ListHelper.LLast(LPCFile.Vertices))
                                     ListHelper.LLast(View.SelectedVertices).selected = True
                                 End If
