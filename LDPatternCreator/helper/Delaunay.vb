@@ -4,6 +4,7 @@ Module Delaunay
     Public Structure dVertex 'Points (Vertices)
         Dim x As Double
         Dim y As Double
+        Dim v As Vertex
     End Structure
 
     Public Structure dTriangle 'Created Triangles, vv# are the vertex pointers
@@ -31,10 +32,11 @@ Module Delaunay
     End Function
 
 
-    Public Sub AddVertexOutsideTriangles(ByVal x As Double, ByVal y As Double)
+    Public Sub AddVertexOutsideTriangles(ByVal x As Double, ByVal y As Double, ByRef v As Vertex)
         Dim vert As dVertex
         vert.x = x
         vert.y = y
+        vert.v = v
         If verts.ContainsKey(vert) OrElse (x = 0 AndAlso y = 0) Then
             Exit Sub
         End If
@@ -69,10 +71,11 @@ Module Delaunay
         End If
     End Sub
 
-    Public Sub AddVertex(ByVal x As Double, ByVal y As Double)
+    Public Sub AddVertex(ByVal x As Double, ByVal y As Double, ByRef v As Vertex)
         Dim vert As dVertex
         vert.x = x
         vert.y = y
+        vert.v = v
         If verts.ContainsKey(vert) OrElse (x = 0 AndAlso y = 0) Then
             Exit Sub
         End If
@@ -123,6 +126,7 @@ Module Delaunay
         Triangle(0).vv0 = VertexCount + 1
         Triangle(0).vv1 = VertexCount + 2
         Triangle(0).vv2 = VertexCount + 3
+        VertexCount += 3
         Dim ntri As Integer = 0
 
         'Include each point one at a time into the existing mesh

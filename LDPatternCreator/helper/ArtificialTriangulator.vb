@@ -60,10 +60,10 @@ Module ArtificialTriangulator
         Delaunay.EmptyVertexList()
 
         ' Corner vertices
-        Delaunay.AddVertexOutsideTriangles(Math.Round(ox), Math.Round(-oy))
-        Delaunay.AddVertexOutsideTriangles(Math.Round(ox), Math.Round(View.imgScale * bh - oy))
-        Delaunay.AddVertexOutsideTriangles(Math.Round(ox - View.imgScale * bw), Math.Round(-oy))
-        Delaunay.AddVertexOutsideTriangles(Math.Round(ox - View.imgScale * bw), Math.Round(View.imgScale * bh - oy))
+        Delaunay.AddVertexOutsideTriangles(Math.Round(ox), Math.Round(-oy), Nothing)
+        Delaunay.AddVertexOutsideTriangles(Math.Round(ox), Math.Round(View.imgScale * bh - oy), Nothing)
+        Delaunay.AddVertexOutsideTriangles(Math.Round(ox - View.imgScale * bw), Math.Round(-oy), Nothing)
+        Delaunay.AddVertexOutsideTriangles(Math.Round(ox - View.imgScale * bw), Math.Round(View.imgScale * bh - oy), Nothing)
 
         For Each tri As Triangle In selectedTriangles
             If tri.myColourNumber <> 16 Then Continue For
@@ -71,9 +71,9 @@ Module ArtificialTriangulator
             Dim b As New Vertex(tri.vertexB.X, tri.vertexB.Y, False)
             Dim c As New Vertex(tri.vertexC.X, tri.vertexC.Y, False)
             Dim newTri As New Triangle(a, b, c)
-            Delaunay.AddVertex(a.X, a.Y)
-            Delaunay.AddVertex(b.X, b.Y)
-            Delaunay.AddVertex(c.X, c.Y)
+            Delaunay.AddVertex(a.X, a.Y, Nothing)
+            Delaunay.AddVertex(b.X, b.Y, Nothing)
+            Delaunay.AddVertex(c.X, c.Y, Nothing)
             newTri.myColour = tri.myColour
             newTri.myColourNumber = tri.myColourNumber
             View.SelectedTriangles.Add(newTri)
@@ -85,9 +85,9 @@ Module ArtificialTriangulator
             Dim b As New Vertex(tri.vertexB.X, tri.vertexB.Y, False)
             Dim c As New Vertex(tri.vertexC.X, tri.vertexC.Y, False)
             Dim newTri As New Triangle(a, b, c)
-            Delaunay.AddVertex(a.X, a.Y)
-            Delaunay.AddVertex(b.X, b.Y)
-            Delaunay.AddVertex(c.X, c.Y)
+            Delaunay.AddVertex(a.X, a.Y, Nothing)
+            Delaunay.AddVertex(b.X, b.Y, Nothing)
+            Delaunay.AddVertex(c.X, c.Y, Nothing)
             newTri.myColour = tri.myColour
             newTri.myColourNumber = tri.myColourNumber
             LPCFile.Triangles.Add(newTri)
@@ -95,14 +95,14 @@ Module ArtificialTriangulator
 
         For Each vert As Vertex In isolatedVerts
             Dim v As New Vertex(vert.X, vert.Y, False)
-            Delaunay.AddVertexOutsideTriangles(vert.X, vert.Y)
+            Delaunay.AddVertexOutsideTriangles(vert.X, vert.Y, Nothing)
         Next
 
         Dim cornerPs As List(Of Accord.IntPoint) = Nothing
         Try
             cornerPs = harris.ProcessImage(View.backgroundPicture)
             For Each p In cornerPs
-                Delaunay.AddVertexOutsideTriangles(Math.Round(ox - View.imgScale * p.X), Math.Round(View.imgScale * p.Y - oy))
+                Delaunay.AddVertexOutsideTriangles(Math.Round(ox - View.imgScale * p.X), Math.Round(View.imgScale * p.Y - oy), Nothing)
             Next
         Catch ex As Exception
         End Try
