@@ -16,7 +16,7 @@ DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 LicenseFile=C:\Users\nilss\Documents\Visual Studio 2015\Projects\LDPatternCreator\LDPatternCreator\bin\Release\License.rtf
 OutputDir=C:\Users\nilss\Documents\Visual Studio 2015\Projects\LDPatternCreator\LDPatternCreator\Setup\Final
-OutputBaseFilename=LPC_1_7_3_Setup
+OutputBaseFilename=LPC_1_7_4_Setup
 Compression=lzma
 SolidCompression=yes
 
