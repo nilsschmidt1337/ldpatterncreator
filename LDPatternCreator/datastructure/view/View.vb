@@ -26,6 +26,7 @@ Public Class View
     Public Shared SelectedVertices As New List(Of Vertex)
     Public Shared SelectedTriangles As New List(Of Triangle)
     Public Shared CollisionVertices As New List(Of Vertex)
+    Public Shared TriangulationVertices As New List(Of Vertex)
 
     Public Shared unit As String = "LDU"
     Public Shared unitFactor As Double = 1
@@ -60,4 +61,5 @@ Public Class View
     Public Shared correctionOffsetY As Integer = 30
     Public Shared getCorrectionOffset As Boolean = False
 
+    Public Shared selectionRadius As Integer = 100
 End Class

@@ -68,6 +68,11 @@ Public Class MainForm
 
     Private Sub MainForm_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If SBZoom.Focused AndAlso Not MainState.isLoading Then
+            If View.selectionRadius > 10 AndAlso (e.KeyCode = Keys.Left OrElse e.KeyCode = Keys.Down) Then
+                View.selectionRadius -= 10
+            ElseIf View.selectionRadius < 1000 AndAlso (e.KeyCode = Keys.Right OrElse e.KeyCode = Keys.Up) Then
+                View.selectionRadius += 10
+            End If
             If e.KeyCode = Keys.Oemplus OrElse e.KeyCode = Keys.Add Then
                 SBZoom_Scroll(Me, New ScrollEventArgs(ScrollEventType.SmallIncrement, 0, 1, ScrollOrientation.VerticalScroll), False)
                 Me.Refresh()
@@ -824,7 +829,7 @@ Public Class MainForm
         If curX + View.correctionOffsetX < Cursor.Position.X Then View.correctionOffsetX = Cursor.Position.X - curX
         If curY + View.correctionOffsetY > Cursor.Position.Y Then View.correctionOffsetY = Cursor.Position.Y - curY
         If curY + View.correctionOffsetY < Cursor.Position.Y Then View.correctionOffsetY = Cursor.Position.Y - curY
-        If MainState.doSelection OrElse MainState.doCameraMove OrElse MainState.movemode OrElse MainState.trianglemode > 0 OrElse MainState.referenceLineMode > 0 OrElse MainState.rotatemode OrElse MainState.scalemode OrElse MainState.adjustmode OrElse MainState.primitiveMode > 0 OrElse BtnAddVertex.Checked OrElse BtnAddTriangle.Checked Then Me.Refresh()
+        If MainState.doSelection OrElse MainState.doCameraMove OrElse MainState.movemode OrElse MainState.trianglemode > 0 OrElse MainState.referenceLineMode > 0 OrElse MainState.rotatemode OrElse MainState.scalemode OrElse MainState.adjustmode OrElse MainState.primitiveMode > 0 OrElse BtnAddVertex.Checked OrElse BtnAddTriangle.Checked OrElse BtnTriangleAutoCompletion.Enabled Then Me.Refresh()
         If MainState.adjustmode Then
             Dim tx As Integer = MouseHelper.getCursorpositionX()
             Dim ty As Integer = MouseHelper.getCursorpositionY()
@@ -5350,6 +5355,31 @@ skipSlicing:
 
         End If
 
+        ' When triangle auto-completion is enabled, draw a circle for selection
+        If BtnTriangleAutoCompletion.Checked Then
+            Dim tX, tY, selectionRadius As Integer
+            selectionRadius = View.selectionRadius
+            tX = MouseHelper.getCursorpositionX() - selectionRadius
+            tY = MouseHelper.getCursorpositionY() - selectionRadius
+            selectionRadius = 2 * selectionRadius
+            e.Graphics.DrawEllipse(LDSettings.Colours.selectionRectPen, tX, tY, selectionRadius, selectionRadius)
+
+            Dim radius As Double = getXcoordinate(View.selectionRadius) - getXcoordinate(0)
+            Dim radiusSquared As Double = radius * radius
+            Dim centerX As Double = getXcoordinate(MouseHelper.getCursorpositionX())
+            Dim centerY As Double = getYcoordinate(MouseHelper.getCursorpositionY())
+            View.TriangulationVertices.Clear()
+            For Each vert As Vertex In LPCFile.Vertices
+                Dim dX As Double = vert.X - centerX
+                Dim dY As Double = vert.Y - centerY
+                Dim dist As Double = dX * dX + dY * dY
+                If dist < radiusSquared Then
+                    View.TriangulationVertices.Add(vert)
+                    If View.TriangulationVertices.Count > 24 Then Exit For
+                End If
+            Next
+        End If
+
         ' Grid, Origin
         If View.showGrid Then
             Dim scale As Double
@@ -6140,8 +6170,11 @@ raster_zechnen:
                     End If
                 End If
             Next
-            If vs.Count > 0 Then e.Graphics.FillRectangles(LDSettings.Colours.selectedVertexBrush, vs.ToArray)
+            For Each vert As Vertex In View.TriangulationVertices
+                vs.Add(New RectangleF(-vert.X * View.zoomfactor - View.pointsizeHalf, vert.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+            Next
             If v.Count > 0 Then e.Graphics.FillRectangles(LDSettings.Colours.vertexBrush, v.ToArray)
+            If vs.Count > 0 Then e.Graphics.FillRectangles(LDSettings.Colours.selectedVertexBrush, vs.ToArray)
             If MainState.trianglemode > 0 OrElse MainState.referenceLineMode > 0 Then
                 e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(-MainState.lastPointX * View.zoomfactor - View.pointsizeHalf, MainState.lastPointY * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
             End If
@@ -6569,13 +6602,13 @@ raster_zechnen:
         ' Axis Label:
         If ShowAxisLabelToolStripMenuItem.Checked Then
             Dim scale As Double
-            If View.zoomlevel > 80 Then scale = View.rasterSnap * View.zoomfactor : GoTo label_zechnen
-            If View.zoomlevel > 0 Then scale = View.rasterSnap * View.zoomfactor * 10.0 : GoTo label_zechnen
-            If View.zoomlevel > -10 Then scale = View.rasterSnap * View.zoomfactor * 100.0 : GoTo label_zechnen
-            If View.zoomlevel > -20 Then scale = View.rasterSnap * View.zoomfactor * 1000.0 : GoTo label_zechnen
-            If View.zoomlevel > -30 Then scale = View.rasterSnap * View.zoomfactor * 10000.0 : GoTo label_zechnen
+            If View.zoomlevel > 80 Then scale = View.rasterSnap * View.zoomfactor : GoTo label_zeichnen
+            If View.zoomlevel > 0 Then scale = View.rasterSnap * View.zoomfactor * 10.0 : GoTo label_zeichnen
+            If View.zoomlevel > -10 Then scale = View.rasterSnap * View.zoomfactor * 100.0 : GoTo label_zeichnen
+            If View.zoomlevel > -20 Then scale = View.rasterSnap * View.zoomfactor * 1000.0 : GoTo label_zeichnen
+            If View.zoomlevel > -30 Then scale = View.rasterSnap * View.zoomfactor * 10000.0 : GoTo label_zeichnen
             scale = View.rasterSnap * View.zoomfactor * 100000.0
-label_zechnen:
+label_zeichnen:
             Dim relOffsetX As Double
             Dim relOffsetY As Double
             relOffsetX = (View.offsetX * View.zoomfactor + CType(Me.ClientSize.Width, Double) / 2.0) Mod (scale * 10.0)
@@ -6592,9 +6625,15 @@ label_zechnen:
                 e.Graphics.DrawString(Math.Round(getYcoordinateD(y) / View.moveSnap * View.unitFactor * 10.0) * View.moveSnap / 10000.0, New Font("Arial", 12, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, 4, y)
             Next
         End If
-
         ' Detect Nearest Edge while adding new triangles
         selectNearestTriangleEdgeForNewObjects()
+    End Sub
+
+    Private Sub BtnTriangleAutoCompletion_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnTriangleAutoCompletion.Click
+        BtnAddTriangle.Checked = False
+        BtnAddReferenceLine.Checked = False
+        BtnAddTriangle.Enabled = Not BtnTriangleAutoCompletion.Checked
+        BtnAddReferenceLine.Enabled = Not BtnTriangleAutoCompletion.Checked
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem.Click
