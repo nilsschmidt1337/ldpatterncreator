@@ -5368,16 +5368,92 @@ skipSlicing:
             Dim radiusSquared As Double = radius * radius
             Dim centerX As Double = getXcoordinate(MouseHelper.getCursorpositionX())
             Dim centerY As Double = getYcoordinate(MouseHelper.getCursorpositionY())
+            Dim triangles As New Hashtable(LPCFile.Triangles.Count)
             View.TriangulationVertices.Clear()
+            View.TriangulationVerticesInCircle.Clear()
             For Each vert As Vertex In LPCFile.Vertices
                 Dim dX As Double = vert.X - centerX
                 Dim dY As Double = vert.Y - centerY
                 Dim dist As Double = dX * dX + dY * dY
                 If dist < radiusSquared Then
-                    View.TriangulationVertices.Add(vert)
-                    If View.TriangulationVertices.Count > 24 Then Exit For
+                    View.TriangulationVerticesInCircle.Add(vert)
+                    If View.TriangulationVertices.Count < 26 Then View.TriangulationVertices.Add(vert)
+                    If View.TriangulationVerticesInCircle.Count > 40 Then Exit For
+                    For Each tri As Triangle In vert.linkedTriangles
+                        If Not triangles.ContainsKey(tri.triangleID) Then triangles.Add(tri.triangleID, tri)
+                    Next
                 End If
             Next
+
+            ' Limit the feature only to a maximum of 40 vertices
+            If View.TriangulationVerticesInCircle.Count > 40 Then
+                View.TriangulationVertices.Clear()
+                View.TriangulationVerticesInCircle.Clear()
+            End If
+
+            ' Now iterate over all triangle combinations for max. 25 vertices
+            Dim tv As List(Of Vertex) = View.TriangulationVertices
+            Dim tvc As Integer = tv.Count - 1
+            Dim vert0(2) As Decimal
+            Dim vert1(2) As Decimal
+            Dim vert2(2) As Decimal
+            Dim newTriangles As New List(Of Triangle)
+            CSG.beamorig(2) = 0
+            For ai As Integer = 0 To tvc
+                For bi As Integer = ai + 1 To tvc
+                    For ci As Integer = bi + 1 To tvc
+                        Dim a As Vertex = tv(ai)
+                        Dim b As Vertex = tv(bi)
+                        Dim c As Vertex = tv(ci)
+                        If CSG.pointsConnected(a, b, c) Then Continue For
+                        vert0(0) = a.X
+                        vert0(1) = a.Y
+                        vert1(0) = b.X
+                        vert1(1) = b.Y
+                        vert2(0) = c.X
+                        vert2(1) = c.Y
+                        Dim containsVertex As Boolean = False
+                        For Each vert As Vertex In View.TriangulationVerticesInCircle
+                            If vert = a OrElse vert = b OrElse vert = c Then Continue For
+                            CSG.beamorig(0) = vert.X
+                            CSG.beamorig(1) = vert.Y
+                            containsVertex = PowerRay.SCHNITTPKT_DREIECK(CSG.beamorig, CSG.beamdir, vert0, vert1, vert2)
+                            If containsVertex Then Exit For
+                        Next
+                        If containsVertex Then Continue For
+
+                        Dim newTri As New Triangle(a, b, c, False)
+                        Dim intersectsWithTriangle As Boolean = False
+
+                        ' Check if this triangle collides with another triangle
+                        For Each id In triangles.Keys
+                            Dim tri As Triangle = triangles(id)
+                            If CSG.trianglesIntersectionsOnly(tri, newTri, False) Then
+                                intersectsWithTriangle = True
+                                Exit For
+                            End If
+                        Next
+
+                        If intersectsWithTriangle Then Continue For
+                        newTriangles.Add(newTri)
+                    Next
+                Next
+            Next
+
+            ' Now sort the triangles by their angles, difference of abs(angle - 60 degree)
+            newTriangles.Sort(Function(elementA As Triangle, elementB As Triangle)
+                                  Return elementA.maxAngle().CompareTo(elementB.maxAngle())
+                              End Function)
+
+            If newTriangles.Count > 0 Then
+                Dim newTriangle As Triangle = newTriangles(0)
+                Dim newTriangleToAdd As New Triangle(newTriangle.vertexA, newTriangle.vertexB, newTriangle.vertexC) With {.myColour = MainState.lastColour, .myColourNumber = MainState.lastColourNumber}
+                LPCFile.Triangles.Add(newTriangleToAdd)
+                newTriangle.vertexA.linkedTriangles.Add(newTriangleToAdd)
+                newTriangle.vertexB.linkedTriangles.Add(newTriangleToAdd)
+                newTriangle.vertexC.linkedTriangles.Add(newTriangleToAdd)
+                UndoRedoHelper.addHistory()
+            End If
         End If
 
         ' Grid, Origin
@@ -6630,6 +6706,8 @@ label_zeichnen:
     End Sub
 
     Private Sub BtnTriangleAutoCompletion_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnTriangleAutoCompletion.Click
+        View.TriangulationVertices.Clear()
+        View.TriangulationVerticesInCircle.Clear()
         BtnAddTriangle.Checked = False
         BtnAddReferenceLine.Checked = False
         BtnAddTriangle.Enabled = Not BtnTriangleAutoCompletion.Checked

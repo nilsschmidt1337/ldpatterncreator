@@ -287,6 +287,30 @@ Public Class CSG
         Return False
     End Function
 
+    Public Shared Function pointsConnected(ByRef v1 As Vertex, ByRef v2 As Vertex, ByRef v3 As Vertex) As Boolean
+        Dim ht As New Dictionary(Of Triangle, Byte)
+        Dim c As Integer
+        For Each tri As Triangle In v1.linkedTriangles
+            If Not ht.ContainsKey(tri) Then
+                ht.Add(tri, 0)
+            End If
+        Next
+        For Each tri As Triangle In v2.linkedTriangles
+            If ht.ContainsKey(tri) Then
+                c = 1
+                Exit For
+            End If
+        Next
+        If c = 0 Then Return False
+        For Each tri As Triangle In v3.linkedTriangles
+            If ht.ContainsKey(tri) Then
+                c = 2
+                Exit For
+            End If
+        Next
+        Return c = 2
+    End Function
+
     Public Shared Sub rotateTriangles()
         Dim commonVertices As New List(Of Vertex) With {.Capacity = 5}
         Dim otherVertices As New List(Of Vertex) With {.Capacity = 5}
