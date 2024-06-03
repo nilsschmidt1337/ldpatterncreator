@@ -5412,6 +5412,10 @@ skipSlicing:
                         vert2(0) = c.X
                         vert2(1) = c.Y
                         Dim containsVertex As Boolean = False
+                        Dim maxX As Double = Math.Max(Math.Max(a.X, b.X), c.X)
+                        Dim maxY As Double = Math.Max(Math.Max(a.Y, b.Y), c.Y)
+                        Dim minX As Double = Math.Min(Math.Min(a.X, b.X), c.X)
+                        Dim minY As Double = Math.Min(Math.Min(a.Y, b.Y), c.Y)
                         For Each vert As Vertex In View.TriangulationVerticesInCircle
                             If vert = a OrElse vert = b OrElse vert = c Then Continue For
                             CSG.beamorig(0) = vert.X
@@ -5441,6 +5445,27 @@ skipSlicing:
 
                         Dim maxAngle As Double = Math.Max(alpha, Math.Max(beta, gamma))
                         If maxAngle > maxAngleLimit Then Continue For
+
+                        Dim triangleIntersectsVertex As Boolean = False
+                        For Each vert As Vertex In View.TriangulationVerticesInCircle
+                            If vert.vertexID <> a.vertexID AndAlso
+                               vert.vertexID <> b.vertexID AndAlso
+                               vert.vertexID <> c.vertexID Then
+                                If vert.X <= maxX AndAlso
+                                       vert.Y <= maxY AndAlso
+                                       vert.X >= minX AndAlso
+                                       vert.Y >= minY Then
+                                    If CSG.distanceSquareFromVertexToLine(vert, a, b) < 10.0 OrElse
+                                           CSG.distanceSquareFromVertexToLine(vert, a, c) < 10.0 OrElse
+                                           CSG.distanceSquareFromVertexToLine(vert, b, c) < 10.0 Then
+                                        triangleIntersectsVertex = True
+                                        Exit For
+                                    End If
+                                End If
+                            End If
+                        Next
+
+                        If triangleIntersectsVertex Then Continue For
 
                         angles.Add(Math.Abs(alpha - deg60))
                         angles.Add(Math.Abs(beta - deg60))
