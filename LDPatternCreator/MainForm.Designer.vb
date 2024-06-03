@@ -118,6 +118,8 @@ Partial Class MainForm
         Me.BtnAddVertex = New System.Windows.Forms.ToolStripButton()
         Me.BtnAddTriangle = New System.Windows.Forms.ToolStripButton()
         Me.BtnAddReferenceLine = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
+        Me.BtnTriangleAutoCompletion = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.BtnCut = New System.Windows.Forms.ToolStripButton()
         Me.BtnCopy = New System.Windows.Forms.ToolStripButton()
@@ -149,12 +151,14 @@ Partial Class MainForm
         Me.LDrawPrimitivesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DiscToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NDisToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NDisTangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CircularDiscSegmentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CircularRingSegmentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator30 = New System.Windows.Forms.ToolStripSeparator()
         Me.HighResToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Disc48ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NDis48ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NDisTang48ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CircularDiscSegment48ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CircularRingSegment48ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AdaptorRingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -320,8 +324,6 @@ Partial Class MainForm
         Me.NUDSplineSegs = New System.Windows.Forms.NumericUpDown()
         Me.OpenColours = New System.Windows.Forms.OpenFileDialog()
         Me.SaveColours = New System.Windows.Forms.SaveFileDialog()
-        Me.NDisTangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.NDisTang48ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.MainToolStrip.SuspendLayout()
         Me.ColourToolStrip.SuspendLayout()
@@ -925,7 +927,7 @@ Partial Class MainForm
         'MainToolStrip
         '
         Me.MainToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.MainToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveToolStripButton, Me.ToolStripSeparator28, Me.BtnSelect, Me.BtnMove, Me.BtnRotate, Me.BtnScale, Me.ToolStripSeparator4, Me.BtnAddVertex, Me.BtnAddTriangle, Me.BtnAddReferenceLine, Me.ToolStripSeparator2, Me.BtnCut, Me.BtnCopy, Me.BtnPaste, Me.ToolStripSeparator3, Me.BtnMirror, Me.ToolStripSeparator23, Me.BtnMode, Me.ToolStripSeparator5, Me.BtnAddToGroup, Me.BtnUngroup, Me.ToolStripSeparator10, Me.BtnColours, Me.ToolStripSeparator12, Me.BtnPrimitives, Me.ToolStripSeparator8, Me.BtnMerge, Me.BtnCSG, Me.ToolStripSeparator11, Me.ButtonRemoveIsolatedVertices, Me.BtnAutoRound, Me.DebugToolStripButton})
+        Me.MainToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveToolStripButton, Me.ToolStripSeparator28, Me.BtnSelect, Me.BtnMove, Me.BtnRotate, Me.BtnScale, Me.ToolStripSeparator4, Me.BtnAddVertex, Me.BtnAddTriangle, Me.BtnAddReferenceLine, Me.ToolStripSeparator6, Me.BtnTriangleAutoCompletion, Me.ToolStripSeparator2, Me.BtnCut, Me.BtnCopy, Me.BtnPaste, Me.ToolStripSeparator3, Me.BtnMirror, Me.ToolStripSeparator23, Me.BtnMode, Me.ToolStripSeparator5, Me.BtnAddToGroup, Me.BtnUngroup, Me.ToolStripSeparator10, Me.BtnColours, Me.ToolStripSeparator12, Me.BtnPrimitives, Me.ToolStripSeparator8, Me.BtnMerge, Me.BtnCSG, Me.ToolStripSeparator11, Me.ButtonRemoveIsolatedVertices, Me.BtnAutoRound, Me.DebugToolStripButton})
         Me.MainToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow
         Me.MainToolStrip.Location = New System.Drawing.Point(0, 24)
         Me.MainToolStrip.Name = "MainToolStrip"
@@ -1029,6 +1031,22 @@ Partial Class MainForm
         Me.BtnAddReferenceLine.Size = New System.Drawing.Size(24, 24)
         Me.BtnAddReferenceLine.Text = "Add Reference Line"
         Me.BtnAddReferenceLine.ToolTipText = "Add Reference Line"
+        '
+        'ToolStripSeparator6
+        '
+        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
+        Me.ToolStripSeparator6.Size = New System.Drawing.Size(6, 23)
+        '
+        'BtnTriangleAutoCompletion
+        '
+        Me.BtnTriangleAutoCompletion.CheckOnClick = True
+        Me.BtnTriangleAutoCompletion.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.BtnTriangleAutoCompletion.Image = Global.LDPatternCreator.My.Resources.Resources.magic
+        Me.BtnTriangleAutoCompletion.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.BtnTriangleAutoCompletion.Name = "BtnTriangleAutoCompletion"
+        Me.BtnTriangleAutoCompletion.Size = New System.Drawing.Size(24, 24)
+        Me.BtnTriangleAutoCompletion.Text = "Triangle Auto-Completion"
+        Me.BtnTriangleAutoCompletion.ToolTipText = "Triangle Auto-Completion"
         '
         'ToolStripSeparator2
         '
@@ -1254,6 +1272,12 @@ Partial Class MainForm
         Me.NDisToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
         Me.NDisToolStripMenuItem.Text = "..Inverse of Circular Disc Sector.."
         '
+        'NDisTangToolStripMenuItem
+        '
+        Me.NDisTangToolStripMenuItem.Name = "NDisTangToolStripMenuItem"
+        Me.NDisTangToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
+        Me.NDisTangToolStripMenuItem.Text = "..Inverse Tangent of Circular Disc Sector.."
+        '
         'CircularDiscSegmentToolStripMenuItem
         '
         Me.CircularDiscSegmentToolStripMenuItem.Name = "CircularDiscSegmentToolStripMenuItem"
@@ -1289,6 +1313,12 @@ Partial Class MainForm
         Me.NDis48ToolStripMenuItem.Name = "NDis48ToolStripMenuItem"
         Me.NDis48ToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
         Me.NDis48ToolStripMenuItem.Text = "..Inverse of Circular Disc Sector.."
+        '
+        'NDisTang48ToolStripMenuItem
+        '
+        Me.NDisTang48ToolStripMenuItem.Name = "NDisTang48ToolStripMenuItem"
+        Me.NDisTang48ToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
+        Me.NDisTang48ToolStripMenuItem.Text = "..Inverse Tangent of Circular Disc Sector.."
         '
         'CircularDiscSegment48ToolStripMenuItem
         '
@@ -2590,18 +2620,6 @@ Partial Class MainForm
         '
         Me.SaveColours.Filter = "LD Pattern Creator 1.3 (*.txt) |*.txt"
         '
-        'NDisTangToolStripMenuItem
-        '
-        Me.NDisTangToolStripMenuItem.Name = "NDisTangToolStripMenuItem"
-        Me.NDisTangToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
-        Me.NDisTangToolStripMenuItem.Text = "..Inverse Tangent of Circular Disc Sector.."
-        '
-        'NDisTang48ToolStripMenuItem
-        '
-        Me.NDisTang48ToolStripMenuItem.Name = "NDisTang48ToolStripMenuItem"
-        Me.NDisTang48ToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
-        Me.NDisTang48ToolStripMenuItem.Text = "..Inverse Tangent of Circular Disc Sector.."
-        '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2954,4 +2972,6 @@ Partial Class MainForm
     Friend WithEvents FastTriangulationIIToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents NDisTangToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents NDisTang48ToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator6 As ToolStripSeparator
+    Friend WithEvents BtnTriangleAutoCompletion As ToolStripButton
 End Class

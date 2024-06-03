@@ -68,6 +68,11 @@ Public Class MainForm
 
     Private Sub MainForm_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If SBZoom.Focused AndAlso Not MainState.isLoading Then
+            If View.selectionRadius > 10 AndAlso (e.KeyCode = Keys.Left OrElse e.KeyCode = Keys.Down) Then
+                View.selectionRadius -= 10
+            ElseIf View.selectionRadius < 1000 AndAlso (e.KeyCode = Keys.Right OrElse e.KeyCode = Keys.Up) Then
+                View.selectionRadius += 10
+            End If
             If e.KeyCode = Keys.Oemplus OrElse e.KeyCode = Keys.Add Then
                 SBZoom_Scroll(Me, New ScrollEventArgs(ScrollEventType.SmallIncrement, 0, 1, ScrollOrientation.VerticalScroll), False)
                 Me.Refresh()
@@ -824,7 +829,7 @@ Public Class MainForm
         If curX + View.correctionOffsetX < Cursor.Position.X Then View.correctionOffsetX = Cursor.Position.X - curX
         If curY + View.correctionOffsetY > Cursor.Position.Y Then View.correctionOffsetY = Cursor.Position.Y - curY
         If curY + View.correctionOffsetY < Cursor.Position.Y Then View.correctionOffsetY = Cursor.Position.Y - curY
-        If MainState.doSelection OrElse MainState.doCameraMove OrElse MainState.movemode OrElse MainState.trianglemode > 0 OrElse MainState.referenceLineMode > 0 OrElse MainState.rotatemode OrElse MainState.scalemode OrElse MainState.adjustmode OrElse MainState.primitiveMode > 0 OrElse BtnAddVertex.Checked OrElse BtnAddTriangle.Checked Then Me.Refresh()
+        If MainState.doSelection OrElse MainState.doCameraMove OrElse MainState.movemode OrElse MainState.trianglemode > 0 OrElse MainState.referenceLineMode > 0 OrElse MainState.rotatemode OrElse MainState.scalemode OrElse MainState.adjustmode OrElse MainState.primitiveMode > 0 OrElse BtnAddVertex.Checked OrElse BtnAddTriangle.Checked OrElse BtnTriangleAutoCompletion.Enabled Then Me.Refresh()
         If MainState.adjustmode Then
             Dim tx As Integer = MouseHelper.getCursorpositionX()
             Dim ty As Integer = MouseHelper.getCursorpositionY()
@@ -5350,6 +5355,159 @@ skipSlicing:
 
         End If
 
+        ' When triangle auto-completion is enabled, draw a circle for selection
+        If BtnTriangleAutoCompletion.Checked Then
+            Dim radius As Double = getXcoordinate(View.selectionRadius) - getXcoordinate(0)
+            Dim radiusSquared As Double = radius * radius
+            Dim centerX As Double = getXcoordinate(MouseHelper.getCursorpositionX())
+            Dim centerY As Double = getYcoordinate(MouseHelper.getCursorpositionY())
+            Dim triangles As New Hashtable(LPCFile.Triangles.Count)
+            View.TriangulationVertices.Clear()
+            View.TriangulationVerticesInCircle.Clear()
+            For Each vert As Vertex In LPCFile.Vertices
+                Dim dX As Double = vert.X - centerX
+                Dim dY As Double = vert.Y - centerY
+                Dim dist As Double = dX * dX + dY * dY
+                If dist < radiusSquared Then
+                    View.TriangulationVerticesInCircle.Add(vert)
+                    If View.TriangulationVertices.Count < 26 Then View.TriangulationVertices.Add(vert)
+                    If View.TriangulationVerticesInCircle.Count > 40 Then Exit For
+                    For Each tri As Triangle In vert.linkedTriangles
+                        If Not triangles.ContainsKey(tri.triangleID) Then triangles.Add(tri.triangleID, tri)
+                    Next
+                End If
+            Next
+
+            ' Limit the feature only to a maximum of 40 vertices
+            If View.TriangulationVerticesInCircle.Count > 40 Then
+                View.TriangulationVertices.Clear()
+                View.TriangulationVerticesInCircle.Clear()
+            End If
+
+            ' Now iterate over all triangle combinations for max. 25 vertices
+            Dim tv As List(Of Vertex) = View.TriangulationVertices
+            Dim tvc As Integer = tv.Count - 1
+            Dim vert0(2) As Decimal
+            Dim vert1(2) As Decimal
+            Dim vert2(2) As Decimal
+            Dim newTriangles As New List(Of Triangle)
+            Dim alphaAngles As New Dictionary(Of Triangle, Double)
+            Dim betaAngles As New Dictionary(Of Triangle, Double)
+            Dim gammaAngles As New Dictionary(Of Triangle, Double)
+            Dim maxAngleLimit As Double = Math.PI * 0.95
+            Dim deg60 As Double = Math.PI / 3.0
+            Dim angles As New List(Of Double)
+            CSG.beamorig(2) = 0
+            For ai As Integer = 0 To tvc
+                For bi As Integer = ai + 1 To tvc
+                    For ci As Integer = bi + 1 To tvc
+                        Dim a As Vertex = tv(ai)
+                        Dim b As Vertex = tv(bi)
+                        Dim c As Vertex = tv(ci)
+                        If CSG.pointsConnected(a, b, c) Then Continue For
+                        vert0(0) = a.X
+                        vert0(1) = a.Y
+                        vert1(0) = b.X
+                        vert1(1) = b.Y
+                        vert2(0) = c.X
+                        vert2(1) = c.Y
+                        Dim containsVertex As Boolean = False
+                        Dim maxX As Double = Math.Max(Math.Max(a.X, b.X), c.X)
+                        Dim maxY As Double = Math.Max(Math.Max(a.Y, b.Y), c.Y)
+                        Dim minX As Double = Math.Min(Math.Min(a.X, b.X), c.X)
+                        Dim minY As Double = Math.Min(Math.Min(a.Y, b.Y), c.Y)
+                        For Each vert As Vertex In View.TriangulationVerticesInCircle
+                            If vert = a OrElse vert = b OrElse vert = c Then Continue For
+                            CSG.beamorig(0) = vert.X
+                            CSG.beamorig(1) = vert.Y
+                            containsVertex = PowerRay.SCHNITTPKT_DREIECK(CSG.beamorig, CSG.beamdir, vert0, vert1, vert2)
+                            If containsVertex Then Exit For
+                        Next
+                        If containsVertex Then Continue For
+
+                        Dim newTri As New Triangle(a, b, c, False)
+                        Dim intersectsWithTriangle As Boolean = False
+
+                        ' Check if this triangle collides with another triangle
+                        For Each id In triangles.Keys
+                            Dim tri As Triangle = triangles(id)
+                            If CSG.trianglesIntersectionsOnly(tri, newTri, False) Then
+                                intersectsWithTriangle = True
+                                Exit For
+                            End If
+                        Next
+
+                        If intersectsWithTriangle Then Continue For
+
+                        Dim alpha As Double = (b - a).directedAngle(c - a)
+                        Dim beta As Double = (a - b).directedAngle(c - b)
+                        Dim gamma As Double = Math.PI - alpha - beta
+
+                        Dim maxAngle As Double = Math.Max(alpha, Math.Max(beta, gamma))
+                        If maxAngle > maxAngleLimit Then Continue For
+
+                        Dim triangleIntersectsVertex As Boolean = False
+                        For Each vert As Vertex In View.TriangulationVerticesInCircle
+                            If vert.vertexID <> a.vertexID AndAlso
+                               vert.vertexID <> b.vertexID AndAlso
+                               vert.vertexID <> c.vertexID Then
+                                If vert.X <= maxX AndAlso
+                                       vert.Y <= maxY AndAlso
+                                       vert.X >= minX AndAlso
+                                       vert.Y >= minY Then
+                                    If CSG.distanceSquareFromVertexToLine(vert, a, b) < 10.0 OrElse
+                                           CSG.distanceSquareFromVertexToLine(vert, a, c) < 10.0 OrElse
+                                           CSG.distanceSquareFromVertexToLine(vert, b, c) < 10.0 Then
+                                        triangleIntersectsVertex = True
+                                        Exit For
+                                    End If
+                                End If
+                            End If
+                        Next
+
+                        If triangleIntersectsVertex Then Continue For
+
+                        angles.Add(Math.Abs(alpha - deg60))
+                        angles.Add(Math.Abs(beta - deg60))
+                        angles.Add(Math.Abs(gamma - deg60))
+                        angles.Sort()
+
+                        alphaAngles.Add(newTri, angles(0))
+                        betaAngles.Add(newTri, angles(1))
+                        gammaAngles.Add(newTri, angles(2))
+                        newTriangles.Add(newTri)
+                    Next
+                Next
+            Next
+
+            ' Now sort the triangles by their angles, difference of abs(angle - 60 degree)
+            newTriangles.Sort(Function(elementA As Triangle, elementB As Triangle)
+                                  Dim result
+                                  Dim alphaA As Double = alphaAngles(elementA)
+                                  Dim alphaB As Double = alphaAngles(elementB)
+                                  result = alphaA.CompareTo(alphaB)
+                                  If result <> 0 Then Return result
+                                  Dim betaA As Double = betaAngles(elementA)
+                                  Dim betaB As Double = betaAngles(elementB)
+                                  result = betaA.CompareTo(betaB)
+                                  If result <> 0 Then Return result
+                                  Dim gammaA As Double = gammaAngles(elementA)
+                                  Dim gammaB As Double = gammaAngles(elementB)
+                                  result = gammaA.CompareTo(gammaB)
+                                  Return result
+                              End Function)
+
+            If newTriangles.Count > 0 Then
+                Dim newTriangle As Triangle = newTriangles(0)
+                Dim newTriangleToAdd As New Triangle(newTriangle.vertexA, newTriangle.vertexB, newTriangle.vertexC) With {.myColour = MainState.lastColour, .myColourNumber = MainState.lastColourNumber}
+                LPCFile.Triangles.Add(newTriangleToAdd)
+                newTriangle.vertexA.linkedTriangles.Add(newTriangleToAdd)
+                newTriangle.vertexB.linkedTriangles.Add(newTriangleToAdd)
+                newTriangle.vertexC.linkedTriangles.Add(newTriangleToAdd)
+                UndoRedoHelper.addHistory()
+            End If
+        End If
+
         ' Grid, Origin
         If View.showGrid Then
             Dim scale As Double
@@ -6095,6 +6253,16 @@ raster_zechnen:
                 e.Graphics.DrawPolygon(LDSettings.Colours.selectedLinePenFat, templateShapeArray)
             End If
 
+            ' When triangle auto-completion is enabled, draw a circle for selection
+            If BtnTriangleAutoCompletion.Checked Then
+                Dim tX, tY, selectionRadius As Integer
+                selectionRadius = View.selectionRadius
+                tX = MouseHelper.getCursorpositionX() - selectionRadius
+                tY = MouseHelper.getCursorpositionY() - selectionRadius
+                selectionRadius = 2 * selectionRadius
+                e.Graphics.DrawEllipse(LDSettings.Colours.selectionRectPen, tX, tY, selectionRadius, selectionRadius)
+            End If
+
             e.Graphics.TranslateTransform(absOffsetX, absOffsetY)
             ' TODO Uncomment for debug purposes
             '' Projection Quad Data
@@ -6140,8 +6308,11 @@ raster_zechnen:
                     End If
                 End If
             Next
-            If vs.Count > 0 Then e.Graphics.FillRectangles(LDSettings.Colours.selectedVertexBrush, vs.ToArray)
+            For Each vert As Vertex In View.TriangulationVertices
+                vs.Add(New RectangleF(-vert.X * View.zoomfactor - View.pointsizeHalf, vert.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
+            Next
             If v.Count > 0 Then e.Graphics.FillRectangles(LDSettings.Colours.vertexBrush, v.ToArray)
+            If vs.Count > 0 Then e.Graphics.FillRectangles(LDSettings.Colours.selectedVertexBrush, vs.ToArray)
             If MainState.trianglemode > 0 OrElse MainState.referenceLineMode > 0 Then
                 e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(-MainState.lastPointX * View.zoomfactor - View.pointsizeHalf, MainState.lastPointY * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
             End If
@@ -6569,13 +6740,13 @@ raster_zechnen:
         ' Axis Label:
         If ShowAxisLabelToolStripMenuItem.Checked Then
             Dim scale As Double
-            If View.zoomlevel > 80 Then scale = View.rasterSnap * View.zoomfactor : GoTo label_zechnen
-            If View.zoomlevel > 0 Then scale = View.rasterSnap * View.zoomfactor * 10.0 : GoTo label_zechnen
-            If View.zoomlevel > -10 Then scale = View.rasterSnap * View.zoomfactor * 100.0 : GoTo label_zechnen
-            If View.zoomlevel > -20 Then scale = View.rasterSnap * View.zoomfactor * 1000.0 : GoTo label_zechnen
-            If View.zoomlevel > -30 Then scale = View.rasterSnap * View.zoomfactor * 10000.0 : GoTo label_zechnen
+            If View.zoomlevel > 80 Then scale = View.rasterSnap * View.zoomfactor : GoTo label_zeichnen
+            If View.zoomlevel > 0 Then scale = View.rasterSnap * View.zoomfactor * 10.0 : GoTo label_zeichnen
+            If View.zoomlevel > -10 Then scale = View.rasterSnap * View.zoomfactor * 100.0 : GoTo label_zeichnen
+            If View.zoomlevel > -20 Then scale = View.rasterSnap * View.zoomfactor * 1000.0 : GoTo label_zeichnen
+            If View.zoomlevel > -30 Then scale = View.rasterSnap * View.zoomfactor * 10000.0 : GoTo label_zeichnen
             scale = View.rasterSnap * View.zoomfactor * 100000.0
-label_zechnen:
+label_zeichnen:
             Dim relOffsetX As Double
             Dim relOffsetY As Double
             relOffsetX = (View.offsetX * View.zoomfactor + CType(Me.ClientSize.Width, Double) / 2.0) Mod (scale * 10.0)
@@ -6592,9 +6763,17 @@ label_zechnen:
                 e.Graphics.DrawString(Math.Round(getYcoordinateD(y) / View.moveSnap * View.unitFactor * 10.0) * View.moveSnap / 10000.0, New Font("Arial", 12, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, 4, y)
             Next
         End If
-
         ' Detect Nearest Edge while adding new triangles
         selectNearestTriangleEdgeForNewObjects()
+    End Sub
+
+    Private Sub BtnTriangleAutoCompletion_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnTriangleAutoCompletion.Click
+        View.TriangulationVertices.Clear()
+        View.TriangulationVerticesInCircle.Clear()
+        BtnAddTriangle.Checked = False
+        BtnAddReferenceLine.Checked = False
+        BtnAddTriangle.Enabled = Not BtnTriangleAutoCompletion.Checked
+        BtnAddReferenceLine.Enabled = Not BtnTriangleAutoCompletion.Checked
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem.Click
@@ -8575,6 +8754,7 @@ doMatrix:
                     LDSettings.Keys.AddTriangle = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnAddTriangle, LDSettings.Keys.AddTriangle)
                     LDSettings.Keys.AddVertex = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnAddVertex, LDSettings.Keys.AddVertex)
                     BtnAddReferenceLine.ToolTipText = I18N.trl8(I18N.lk.AddReferenceLine)
+                    BtnTriangleAutoCompletion.ToolTipText = I18N.trl8(I18N.lk.TriangleAutoCompletion)
 
                     LDSettings.Keys.ModeMove = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnMove, LDSettings.Keys.ModeMove)
                     LDSettings.Keys.ModeRotate = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnRotate, LDSettings.Keys.ModeRotate)
@@ -9602,6 +9782,8 @@ newDelete:
             Me.BtnAddTriangle.Font = f
             Me.BtnAddReferenceLine.Text = I18N.trl8(I18N.lk.AddReferenceLine)
             Me.BtnAddReferenceLine.Font = f
+            Me.BtnTriangleAutoCompletion.Text = I18N.trl8(I18N.lk.TriangleAutoCompletion)
+            Me.BtnTriangleAutoCompletion.Font = f
             Me.BtnCut.Text = I18N.trl8(I18N.lk.Tcut)
             Me.BtnCut.Font = f
             Me.BtnCopy.Text = I18N.trl8(I18N.lk.Tcopy)
