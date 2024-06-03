@@ -5357,13 +5357,6 @@ skipSlicing:
 
         ' When triangle auto-completion is enabled, draw a circle for selection
         If BtnTriangleAutoCompletion.Checked Then
-            Dim tX, tY, selectionRadius As Integer
-            selectionRadius = View.selectionRadius
-            tX = MouseHelper.getCursorpositionX() - selectionRadius
-            tY = MouseHelper.getCursorpositionY() - selectionRadius
-            selectionRadius = 2 * selectionRadius
-            e.Graphics.DrawEllipse(LDSettings.Colours.selectionRectPen, tX, tY, selectionRadius, selectionRadius)
-
             Dim radius As Double = getXcoordinate(View.selectionRadius) - getXcoordinate(0)
             Dim radiusSquared As Double = radius * radius
             Dim centerX As Double = getXcoordinate(MouseHelper.getCursorpositionX())
@@ -5398,6 +5391,12 @@ skipSlicing:
             Dim vert1(2) As Decimal
             Dim vert2(2) As Decimal
             Dim newTriangles As New List(Of Triangle)
+            Dim alphaAngles As New Dictionary(Of Triangle, Double)
+            Dim betaAngles As New Dictionary(Of Triangle, Double)
+            Dim gammaAngles As New Dictionary(Of Triangle, Double)
+            Dim maxAngleLimit As Double = Math.PI * 0.95
+            Dim deg60 As Double = Math.PI / 3.0
+            Dim angles As New List(Of Double)
             CSG.beamorig(2) = 0
             For ai As Integer = 0 To tvc
                 For bi As Integer = ai + 1 To tvc
@@ -5435,6 +5434,22 @@ skipSlicing:
                         Next
 
                         If intersectsWithTriangle Then Continue For
+
+                        Dim alpha As Double = (b - a).directedAngle(c - a)
+                        Dim beta As Double = (a - b).directedAngle(c - b)
+                        Dim gamma As Double = Math.PI - alpha - beta
+
+                        Dim maxAngle As Double = Math.Max(alpha, Math.Max(beta, gamma))
+                        If maxAngle > maxAngleLimit Then Continue For
+
+                        angles.Add(Math.Abs(alpha - deg60))
+                        angles.Add(Math.Abs(beta - deg60))
+                        angles.Add(Math.Abs(gamma - deg60))
+                        angles.Sort()
+
+                        alphaAngles.Add(newTri, angles(0))
+                        betaAngles.Add(newTri, angles(1))
+                        gammaAngles.Add(newTri, angles(2))
                         newTriangles.Add(newTri)
                     Next
                 Next
@@ -5442,7 +5457,19 @@ skipSlicing:
 
             ' Now sort the triangles by their angles, difference of abs(angle - 60 degree)
             newTriangles.Sort(Function(elementA As Triangle, elementB As Triangle)
-                                  Return elementA.maxAngle().CompareTo(elementB.maxAngle())
+                                  Dim result
+                                  Dim alphaA As Double = alphaAngles(elementA)
+                                  Dim alphaB As Double = alphaAngles(elementB)
+                                  result = alphaA.CompareTo(alphaB)
+                                  If result <> 0 Then Return result
+                                  Dim betaA As Double = betaAngles(elementA)
+                                  Dim betaB As Double = betaAngles(elementB)
+                                  result = betaA.CompareTo(betaB)
+                                  If result <> 0 Then Return result
+                                  Dim gammaA As Double = gammaAngles(elementA)
+                                  Dim gammaB As Double = gammaAngles(elementB)
+                                  result = gammaA.CompareTo(gammaB)
+                                  Return result
                               End Function)
 
             If newTriangles.Count > 0 Then
@@ -6199,6 +6226,16 @@ raster_zechnen:
                     counter += 1
                 Next
                 e.Graphics.DrawPolygon(LDSettings.Colours.selectedLinePenFat, templateShapeArray)
+            End If
+
+            ' When triangle auto-completion is enabled, draw a circle for selection
+            If BtnTriangleAutoCompletion.Checked Then
+                Dim tX, tY, selectionRadius As Integer
+                selectionRadius = View.selectionRadius
+                tX = MouseHelper.getCursorpositionX() - selectionRadius
+                tY = MouseHelper.getCursorpositionY() - selectionRadius
+                selectionRadius = 2 * selectionRadius
+                e.Graphics.DrawEllipse(LDSettings.Colours.selectionRectPen, tX, tY, selectionRadius, selectionRadius)
             End If
 
             e.Graphics.TranslateTransform(absOffsetX, absOffsetY)

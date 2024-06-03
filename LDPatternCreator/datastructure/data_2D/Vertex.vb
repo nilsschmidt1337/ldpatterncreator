@@ -121,6 +121,14 @@ Public Class Vertex
         Return angle2
     End Function
 
+    Public Function directedAngle(ByVal v2 As Vertex) As Double
+        Dim angle2 As Double
+        angle2 = Math.Atan2(Me.Y, Me.X) - Math.Atan2(v2.Y, v2.X)
+        If angle2 < 0 Then angle2 += MathHelper.twoPI
+        If angle2 > Math.PI Then angle2 = MathHelper.twoPI - angle2
+        Return angle2
+    End Function
+
     Public Function MYangle() As Double
         Dim angle2 As Double
         angle2 = Math.Atan2(Me.Y, Me.X)
