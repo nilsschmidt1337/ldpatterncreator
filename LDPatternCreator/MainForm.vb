@@ -8754,6 +8754,7 @@ doMatrix:
                     LDSettings.Keys.AddTriangle = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnAddTriangle, LDSettings.Keys.AddTriangle)
                     LDSettings.Keys.AddVertex = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnAddVertex, LDSettings.Keys.AddVertex)
                     BtnAddReferenceLine.ToolTipText = I18N.trl8(I18N.lk.AddReferenceLine)
+                    BtnTriangleAutoCompletion.ToolTipText = I18N.trl8(I18N.lk.TriangleAutoCompletion)
 
                     LDSettings.Keys.ModeMove = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnMove, LDSettings.Keys.ModeMove)
                     LDSettings.Keys.ModeRotate = CType(DateiIn.ReadLine, Integer) : KeyToSet.setKey(BtnRotate, LDSettings.Keys.ModeRotate)
@@ -9781,6 +9782,8 @@ newDelete:
             Me.BtnAddTriangle.Font = f
             Me.BtnAddReferenceLine.Text = I18N.trl8(I18N.lk.AddReferenceLine)
             Me.BtnAddReferenceLine.Font = f
+            Me.BtnTriangleAutoCompletion.Text = I18N.trl8(I18N.lk.TriangleAutoCompletion)
+            Me.BtnTriangleAutoCompletion.Font = f
             Me.BtnCut.Text = I18N.trl8(I18N.lk.Tcut)
             Me.BtnCut.Font = f
             Me.BtnCopy.Text = I18N.trl8(I18N.lk.Tcopy)

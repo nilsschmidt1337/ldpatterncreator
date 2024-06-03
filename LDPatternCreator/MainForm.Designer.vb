@@ -118,6 +118,8 @@ Partial Class MainForm
         Me.BtnAddVertex = New System.Windows.Forms.ToolStripButton()
         Me.BtnAddTriangle = New System.Windows.Forms.ToolStripButton()
         Me.BtnAddReferenceLine = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
+        Me.BtnTriangleAutoCompletion = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.BtnCut = New System.Windows.Forms.ToolStripButton()
         Me.BtnCopy = New System.Windows.Forms.ToolStripButton()
@@ -322,8 +324,6 @@ Partial Class MainForm
         Me.NUDSplineSegs = New System.Windows.Forms.NumericUpDown()
         Me.OpenColours = New System.Windows.Forms.OpenFileDialog()
         Me.SaveColours = New System.Windows.Forms.SaveFileDialog()
-        Me.BtnTriangleAutoCompletion = New System.Windows.Forms.ToolStripButton()
-        Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuStrip1.SuspendLayout()
         Me.MainToolStrip.SuspendLayout()
         Me.ColourToolStrip.SuspendLayout()
@@ -1031,6 +1031,22 @@ Partial Class MainForm
         Me.BtnAddReferenceLine.Size = New System.Drawing.Size(24, 24)
         Me.BtnAddReferenceLine.Text = "Add Reference Line"
         Me.BtnAddReferenceLine.ToolTipText = "Add Reference Line"
+        '
+        'ToolStripSeparator6
+        '
+        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
+        Me.ToolStripSeparator6.Size = New System.Drawing.Size(6, 23)
+        '
+        'BtnTriangleAutoCompletion
+        '
+        Me.BtnTriangleAutoCompletion.CheckOnClick = True
+        Me.BtnTriangleAutoCompletion.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.BtnTriangleAutoCompletion.Image = Global.LDPatternCreator.My.Resources.Resources.magic
+        Me.BtnTriangleAutoCompletion.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.BtnTriangleAutoCompletion.Name = "BtnTriangleAutoCompletion"
+        Me.BtnTriangleAutoCompletion.Size = New System.Drawing.Size(24, 24)
+        Me.BtnTriangleAutoCompletion.Text = "Triangle Auto-Completion"
+        Me.BtnTriangleAutoCompletion.ToolTipText = "Triangle Auto-Completion"
         '
         'ToolStripSeparator2
         '
@@ -2603,22 +2619,6 @@ Partial Class MainForm
         'SaveColours
         '
         Me.SaveColours.Filter = "LD Pattern Creator 1.3 (*.txt) |*.txt"
-        '
-        'BtnTriangleAutoCompletion
-        '
-        Me.BtnTriangleAutoCompletion.CheckOnClick = True
-        Me.BtnTriangleAutoCompletion.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BtnTriangleAutoCompletion.Image = Global.LDPatternCreator.My.Resources.Resources.magic
-        Me.BtnTriangleAutoCompletion.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.BtnTriangleAutoCompletion.Name = "BtnTriangleAutoCompletion"
-        Me.BtnTriangleAutoCompletion.Size = New System.Drawing.Size(24, 24)
-        Me.BtnTriangleAutoCompletion.Text = "Add Reference Line"
-        Me.BtnTriangleAutoCompletion.ToolTipText = "Enable Triangle Auto-Completion"
-        '
-        'ToolStripSeparator6
-        '
-        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
-        Me.ToolStripSeparator6.Size = New System.Drawing.Size(6, 23)
         '
         'MainForm
         '

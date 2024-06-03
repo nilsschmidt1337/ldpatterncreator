@@ -98,6 +98,7 @@ Public Class I18N
         AddVertex
         AddTriangle
         AddReferenceLine
+        TriangleAutoCompletion
         Tcut
         Tcopy
         Tpaste
@@ -514,6 +515,7 @@ Public Class I18N
             Case "AddVertex" : Return lk.AddVertex
             Case "AddTriangle" : Return lk.AddTriangle
             Case "AddReferenceLine" : Return lk.AddReferenceLine
+            Case "TriangleAutoCompletion" : Return lk.TriangleAutoCompletion
             Case "Tcut" : Return lk.Tcut
             Case "Tcopy" : Return lk.Tcopy
             Case "Tpaste" : Return lk.Tpaste
