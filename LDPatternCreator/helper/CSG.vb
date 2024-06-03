@@ -289,6 +289,7 @@ Public Class CSG
 
     Public Shared Function pointsConnected(ByRef v1 As Vertex, ByRef v2 As Vertex, ByRef v3 As Vertex) As Boolean
         Dim ht As New Dictionary(Of Triangle, Byte)
+        Dim ht2 As New Dictionary(Of Triangle, Byte)
         Dim c As Integer
         For Each tri As Triangle In v1.linkedTriangles
             If Not ht.ContainsKey(tri) Then
@@ -297,18 +298,17 @@ Public Class CSG
         Next
         For Each tri As Triangle In v2.linkedTriangles
             If ht.ContainsKey(tri) Then
+                If Not ht2.ContainsKey(tri) Then ht2.Add(tri, 0)
                 c = 1
-                Exit For
             End If
         Next
         If c = 0 Then Return False
         For Each tri As Triangle In v3.linkedTriangles
-            If ht.ContainsKey(tri) Then
-                c = 2
-                Exit For
+            If ht.ContainsKey(tri) AndAlso ht2.ContainsKey(tri) Then
+                Return True
             End If
         Next
-        Return c = 2
+        Return False
     End Function
 
     Public Shared Sub rotateTriangles()
