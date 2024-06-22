@@ -10522,15 +10522,15 @@ newDelete:
 
     Private Sub BtnPrimitives_DropDownOpening(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnPrimitives.DropDownOpening
         If Not MainState.primitivesLoaded Then
-            If Not My.Computer.FileSystem.FileExists(EnvironmentPaths.appPath & "Primitives.cfg") Then
-                Using DateiOut As BinaryWriter = New BinaryWriter(File.Open(EnvironmentPaths.appPath & "Primitives.cfg", FileMode.Create))
+            If Not My.Computer.FileSystem.FileExists(EnvironmentPaths.appPath & "LDrawPrimitives.cfg") Then
+                Using DateiOut As BinaryWriter = New BinaryWriter(File.Open(EnvironmentPaths.appPath & "LDrawPrimitives.cfg", FileMode.Create))
                     For Each b As Byte In My.Resources.Primitives1
                         DateiOut.Write(b)
                     Next
                 End Using
             End If
-            If My.Computer.FileSystem.FileExists(EnvironmentPaths.appPath & "Primitives.cfg") Then
-                Using DateiIn As StreamReader = My.Computer.FileSystem.OpenTextFileReader(EnvironmentPaths.appPath & "Primitives.cfg", New System.Text.UTF8Encoding(False))
+            If My.Computer.FileSystem.FileExists(EnvironmentPaths.appPath & "LDrawPrimitives.cfg") Then
+                Using DateiIn As StreamReader = My.Computer.FileSystem.OpenTextFileReader(EnvironmentPaths.appPath & "LDrawPrimitives.cfg", New System.Text.UTF8Encoding(False))
                     Do
                         Dim s As String = DateiIn.ReadLine
                         If s <> "" Then

@@ -103,6 +103,9 @@ Type: filesandordirs; Name: "{userappdata}\Nils Schmidt\LDPatternCreator\lang\*"
 Type: filesandordirs; Name: "{userappdata}\Nils Schmidt\LDPatternCreator\*.exe"
 Type: filesandordirs; Name: "{userappdata}\Nils Schmidt\LDPatternCreator\*.dll"
 Type: filesandordirs; Name: "{userappdata}\Nils Schmidt\LDPatternCreator\*.txt"
+; This is the most recent configuration
+Type: filesandordirs; Name: "{userappdata}\Nils Schmidt\LDPatternCreator\LDrawPrimitives.cfg"
+; This was a legacy version which contained old "rin" entries
 Type: filesandordirs; Name: "{userappdata}\Nils Schmidt\LDPatternCreator\Primitives.cfg"
 Type: filesandordirs; Name: "{userappdata}\Nils Schmidt\LDPatternCreator\*.ldr"
 
