@@ -20,6 +20,7 @@ Imports System.Text
 Imports System.IO
 Imports System.Threading
 Imports System.Drawing.Drawing2D
+Imports LDPatternCreator
 
 Public Class MainForm
 
@@ -5467,6 +5468,74 @@ skipSlicing:
 
                         If triangleIntersectsVertex Then Continue For
 
+                        ' Check if this triangle collides with a reference line
+                        Dim collidesWithRefLine As Boolean = False
+                        Dim shapeCount As Integer = LPCFile.templateShape.Count
+                        If shapeCount > 1 AndAlso Not BtnPreview.Checked Then
+                            If Not LPCFile.templateShape(0).X = Single.Epsilon Then
+                                Dim start As Integer = 0
+                                Dim finish As Integer = shapeCount - 1
+                                Dim templateShapeArray(finish) As PointF
+                                For i As Integer = 0 To finish
+                                    templateShapeArray(i).X = LPCFile.templateShape(i).X
+                                    templateShapeArray(i).Y = LPCFile.templateShape(i).Y
+                                    If LPCFile.templateShape(i).X = Single.Epsilon Then
+                                        Dim lenght As Integer = i - start - 1
+                                        Dim templatePolyPart(lenght) As PointF
+                                        Array.Copy(templateShapeArray, start, templatePolyPart, 0, lenght + 1)
+                                        If PolygonCollidesWithReferenceLine(a, b, c, templatePolyPart) Then
+                                            collidesWithRefLine = True
+                                            Exit For
+                                        End If
+                                        start = i + 1
+                                    End If
+                                Next
+                                Dim lenght2 As Integer = finish - start
+                                Dim templatePolyPart2(lenght2) As PointF
+                                Array.Copy(templateShapeArray, start, templatePolyPart2, 0, lenght2 + 1)
+                                If PolygonCollidesWithReferenceLine(a, b, c, templatePolyPart2) Then
+                                    collidesWithRefLine = True
+                                    Exit For
+                                End If
+                            Else
+                                For i As Integer = 1 To shapeCount - 1 Step 4
+                                    Dim templateShapeArray(3) As PointF
+                                    templateShapeArray(0).X = LPCFile.templateShape(i).X
+                                    templateShapeArray(0).Y = LPCFile.templateShape(i).Y
+
+                                    If (i + 1) < shapeCount Then
+                                        templateShapeArray(1).X = LPCFile.templateShape(i + 1).X
+                                        templateShapeArray(1).Y = LPCFile.templateShape(i + 1).Y
+                                    Else
+                                        templateShapeArray(1).X = templateShapeArray(0).X
+                                        templateShapeArray(1).Y = templateShapeArray(0).Y
+                                    End If
+
+                                    If (i + 2) < shapeCount Then
+                                        templateShapeArray(2).X = LPCFile.templateShape(i + 2).X
+                                        templateShapeArray(2).Y = LPCFile.templateShape(i + 2).Y
+                                    Else
+                                        templateShapeArray(2).X = templateShapeArray(0).X
+                                        templateShapeArray(2).Y = templateShapeArray(0).Y
+                                    End If
+
+                                    If (i + 3) < shapeCount Then
+                                        templateShapeArray(3).X = LPCFile.templateShape(i + 3).X
+                                        templateShapeArray(3).Y = LPCFile.templateShape(i + 3).Y
+                                    Else
+                                        templateShapeArray(3).X = templateShapeArray(0).X
+                                        templateShapeArray(3).Y = templateShapeArray(0).Y
+                                    End If
+                                    If PolygonCollidesWithReferenceLine(a, b, c, templateShapeArray) Then
+                                        collidesWithRefLine = True
+                                        Exit For
+                                    End If
+                                Next
+                            End If
+                        End If
+
+                        If collidesWithRefLine Then Continue For
+
                         angles.Add(Math.Abs(alpha - deg60))
                         angles.Add(Math.Abs(beta - deg60))
                         angles.Add(Math.Abs(gamma - deg60))
@@ -6767,11 +6836,35 @@ label_zeichnen:
         selectNearestTriangleEdgeForNewObjects()
     End Sub
 
-    Private Sub BtnTriangleAutoCompletion_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnTriangleAutoCompletion.Click
-        If BtnAddTriangle.Checked Then
-            BtnMode.Enabled = True : VerticesModeToolStripMenuItem.Enabled = True : TrianglesModeToolStripMenuItem.Enabled = True : PrimitiveModeToolStripMenuItem.Enabled = True
-            TrianglesModeToolStripMenuItem.PerformClick()
+    Private Function PolygonCollidesWithReferenceLine(a As Vertex, b As Vertex, c As Vertex, polygon() As PointF) As Boolean
+        If polygon.Length <= 1 Then Return False
+        Dim p1 As Vertex
+        Dim p2 As Vertex = Nothing
+
+        For i As Integer = 0 To polygon.Length - 2
+            p1 = New Vertex(polygon(i))
+            p2 = New Vertex(polygon(i + 1))
+            If CSG.intersectionBetweenTwoLines(a, b, p1, p2) IsNot Nothing OrElse
+               CSG.intersectionBetweenTwoLines(b, c, p1, p2) IsNot Nothing OrElse
+               CSG.intersectionBetweenTwoLines(c, a, p1, p2) IsNot Nothing Then
+                Return True
+            End If
+        Next
+
+        If p2 Is Nothing Then Return False
+        p1 = New Vertex(polygon(0))
+
+        If CSG.intersectionBetweenTwoLines(a, b, p1, p2) IsNot Nothing OrElse
+           CSG.intersectionBetweenTwoLines(b, c, p1, p2) IsNot Nothing OrElse
+           CSG.intersectionBetweenTwoLines(c, a, p1, p2) IsNot Nothing Then
+            Return True
         End If
+        Return False
+    End Function
+
+    Private Sub BtnTriangleAutoCompletion_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnTriangleAutoCompletion.Click
+        If BtnAddTriangle.Checked Then BtnAddTriangle.PerformClick()
+        If BtnAddReferenceLine.Checked Then BtnAddReferenceLine.PerformClick()
         View.TriangulationVertices.Clear()
         View.TriangulationVerticesInCircle.Clear()
         BtnAddTriangle.Checked = False
@@ -9046,6 +9139,7 @@ doMatrix:
         Dim isEnabled As Boolean = Not BtnPreview.Checked
         If BtnAddTriangle.Checked Then BtnAddTriangle.PerformClick()
         If BtnAddVertex.Checked Then BtnAddVertex.PerformClick()
+        If BtnTriangleAutoCompletion.Checked Then BtnTriangleAutoCompletion.PerformClick()
         BtnSelect.PerformClick()
         Helper_2D.clearSelection()
         Me.MainToolStrip.Enabled = isEnabled

@@ -43,6 +43,13 @@ Public Class Vertex
 
     End Sub
 
+    Sub New(ByVal p As PointF)
+        Me.X = p.X
+        Me.Y = p.Y
+        Me.selected = False
+        Me.groupindex = Primitive.NO_INDEX
+    End Sub
+
     Sub New(ByVal vx As Double, ByVal vy As Double, ByVal sel As Boolean, ByVal id As Integer)
         Me.X = vx
         Me.Y = vy
