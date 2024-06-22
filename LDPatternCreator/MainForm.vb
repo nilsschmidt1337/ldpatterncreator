@@ -6768,6 +6768,10 @@ label_zeichnen:
     End Sub
 
     Private Sub BtnTriangleAutoCompletion_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnTriangleAutoCompletion.Click
+        If BtnAddTriangle.Checked Then
+            BtnMode.Enabled = True : VerticesModeToolStripMenuItem.Enabled = True : TrianglesModeToolStripMenuItem.Enabled = True : PrimitiveModeToolStripMenuItem.Enabled = True
+            TrianglesModeToolStripMenuItem.PerformClick()
+        End If
         View.TriangulationVertices.Clear()
         View.TriangulationVerticesInCircle.Clear()
         BtnAddTriangle.Checked = False
