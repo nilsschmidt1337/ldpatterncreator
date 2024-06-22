@@ -5356,7 +5356,7 @@ skipSlicing:
         End If
 
         ' When triangle auto-completion is enabled, draw a circle for selection
-        If BtnTriangleAutoCompletion.Checked Then
+        If BtnTriangleAutoCompletion.Checked AndAlso Not Control.ModifierKeys = Keys.Control Then
             Dim radius As Double = getXcoordinate(View.selectionRadius) - getXcoordinate(0)
             Dim radiusSquared As Double = radius * radius
             Dim centerX As Double = getXcoordinate(MouseHelper.getCursorpositionX())
