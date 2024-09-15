@@ -109,6 +109,9 @@ Partial Class MainForm
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MainToolStrip = New System.Windows.Forms.ToolStrip()
         Me.SaveToolStripButton = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator31 = New System.Windows.Forms.ToolStripSeparator()
+        Me.BtnUndo = New System.Windows.Forms.ToolStripButton()
+        Me.BtnRedo = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator28 = New System.Windows.Forms.ToolStripSeparator()
         Me.BtnSelect = New System.Windows.Forms.ToolStripButton()
         Me.BtnMove = New System.Windows.Forms.ToolStripButton()
@@ -927,7 +930,7 @@ Partial Class MainForm
         'MainToolStrip
         '
         Me.MainToolStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.MainToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveToolStripButton, Me.ToolStripSeparator28, Me.BtnSelect, Me.BtnMove, Me.BtnRotate, Me.BtnScale, Me.ToolStripSeparator4, Me.BtnAddVertex, Me.BtnAddTriangle, Me.BtnAddReferenceLine, Me.ToolStripSeparator6, Me.BtnTriangleAutoCompletion, Me.ToolStripSeparator2, Me.BtnCut, Me.BtnCopy, Me.BtnPaste, Me.ToolStripSeparator3, Me.BtnMirror, Me.ToolStripSeparator23, Me.BtnMode, Me.ToolStripSeparator5, Me.BtnAddToGroup, Me.BtnUngroup, Me.ToolStripSeparator10, Me.BtnColours, Me.ToolStripSeparator12, Me.BtnPrimitives, Me.ToolStripSeparator8, Me.BtnMerge, Me.BtnCSG, Me.ToolStripSeparator11, Me.ButtonRemoveIsolatedVertices, Me.BtnAutoRound, Me.DebugToolStripButton})
+        Me.MainToolStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveToolStripButton, Me.ToolStripSeparator31, Me.BtnUndo, Me.BtnRedo, Me.ToolStripSeparator28, Me.BtnSelect, Me.BtnMove, Me.BtnRotate, Me.BtnScale, Me.ToolStripSeparator4, Me.BtnAddVertex, Me.BtnAddTriangle, Me.BtnAddReferenceLine, Me.ToolStripSeparator6, Me.BtnTriangleAutoCompletion, Me.ToolStripSeparator2, Me.BtnCut, Me.BtnCopy, Me.BtnPaste, Me.ToolStripSeparator3, Me.BtnMirror, Me.ToolStripSeparator23, Me.BtnMode, Me.ToolStripSeparator5, Me.BtnAddToGroup, Me.BtnUngroup, Me.ToolStripSeparator10, Me.BtnColours, Me.ToolStripSeparator12, Me.BtnPrimitives, Me.ToolStripSeparator8, Me.BtnMerge, Me.BtnCSG, Me.ToolStripSeparator11, Me.ButtonRemoveIsolatedVertices, Me.BtnAutoRound, Me.DebugToolStripButton})
         Me.MainToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow
         Me.MainToolStrip.Location = New System.Drawing.Point(0, 24)
         Me.MainToolStrip.Name = "MainToolStrip"
@@ -941,6 +944,31 @@ Partial Class MainForm
         Me.SaveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.SaveToolStripButton.Name = "SaveToolStripButton"
         Me.SaveToolStripButton.Size = New System.Drawing.Size(24, 24)
+        '
+        'ToolStripSeparator31
+        '
+        Me.ToolStripSeparator31.Name = "ToolStripSeparator31"
+        Me.ToolStripSeparator31.Size = New System.Drawing.Size(6, 23)
+        '
+        'BtnUndo
+        '
+        Me.BtnUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.BtnUndo.Enabled = False
+        Me.BtnUndo.Image = Global.LDPatternCreator.My.Resources.Resources.undo
+        Me.BtnUndo.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.BtnUndo.Name = "BtnUndo"
+        Me.BtnUndo.Size = New System.Drawing.Size(24, 24)
+        Me.BtnUndo.Text = "Undo"
+        '
+        'BtnRedo
+        '
+        Me.BtnRedo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.BtnRedo.Enabled = False
+        Me.BtnRedo.Image = Global.LDPatternCreator.My.Resources.Resources.redo
+        Me.BtnRedo.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.BtnRedo.Name = "BtnRedo"
+        Me.BtnRedo.Size = New System.Drawing.Size(24, 24)
+        Me.BtnRedo.Text = "Redo"
         '
         'ToolStripSeparator28
         '
@@ -2974,4 +3002,7 @@ Partial Class MainForm
     Friend WithEvents NDisTang48ToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator6 As ToolStripSeparator
     Friend WithEvents BtnTriangleAutoCompletion As ToolStripButton
+    Friend WithEvents ToolStripSeparator31 As ToolStripSeparator
+    Friend WithEvents BtnUndo As ToolStripButton
+    Friend WithEvents BtnRedo As ToolStripButton
 End Class

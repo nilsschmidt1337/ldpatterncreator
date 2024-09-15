@@ -79,6 +79,8 @@ Public Class UndoRedoHelper
         MainForm.UndoToolStripMenuItem.Enabled = vc > 1
         MainForm.RedoToolStripMenuItem.Enabled = False
         MainState.unsavedChanges = True
+        MainForm.BtnUndo.Enabled = MainForm.UndoToolStripMenuItem.Enabled
+        MainForm.BtnRedo.Enabled = MainForm.RedoToolStripMenuItem.Enabled
     End Sub
 
     Public Shared Sub undo()
@@ -111,6 +113,8 @@ Public Class UndoRedoHelper
             UndoRedoHelper.cleanupUndoRedo()
         End If
         MainForm.UndoToolStripMenuItem.Enabled = pointer > 0
+        MainForm.BtnUndo.Enabled = MainForm.UndoToolStripMenuItem.Enabled
+        MainForm.BtnRedo.Enabled = MainForm.RedoToolStripMenuItem.Enabled
     End Sub
 
     Public Shared Sub redo()
@@ -142,6 +146,8 @@ Public Class UndoRedoHelper
             UndoRedoHelper.cleanupUndoRedo()
         End If
         MainForm.RedoToolStripMenuItem.Enabled = pointer < (historyVertices.Count - 1)
+        MainForm.BtnUndo.Enabled = MainForm.UndoToolStripMenuItem.Enabled
+        MainForm.BtnRedo.Enabled = MainForm.RedoToolStripMenuItem.Enabled
     End Sub
 
     Public Shared Sub cleanupUndoRedo()
@@ -253,6 +259,8 @@ newDelete3:
     Public Shared Sub clearHistory()
         MainForm.UndoToolStripMenuItem.Enabled = False
         MainForm.RedoToolStripMenuItem.Enabled = False
+        MainForm.BtnUndo.Enabled = False
+        MainForm.BtnRedo.Enabled = False
         UndoRedoHelper.historyVertices.Clear()
         UndoRedoHelper.historyTriangles.Clear()
         UndoRedoHelper.historySelectedVertices.Clear()

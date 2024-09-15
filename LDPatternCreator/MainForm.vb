@@ -2925,13 +2925,29 @@ skipPrimitiveMode:
 #End Region
 #Region "Undo & Redo"
     Private Sub UndoToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UndoToolStripMenuItem.Click
+        Undo()
+    End Sub
+
+    Private Sub RedoToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RedoToolStripMenuItem.Click
+        Redo()
+    End Sub
+
+    Private Sub BtnUndo_Click(sender As Object, e As EventArgs) Handles BtnUndo.Click
+        Undo()
+    End Sub
+
+    Private Sub BtnRedo_Click(sender As Object, e As EventArgs) Handles BtnRedo.Click
+        Redo()
+    End Sub
+
+    Private Sub Undo()
         MainState.isLoading = True
         UndoRedoHelper.undo()
         MainState.isLoading = False
         Me.Refresh()
     End Sub
 
-    Private Sub RedoToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RedoToolStripMenuItem.Click
+    Private Sub Redo()
         MainState.isLoading = True
         UndoRedoHelper.redo()
         MainState.isLoading = False
@@ -9812,6 +9828,8 @@ newDelete:
             Me.UndoToolStripMenuItem.Font = f
             Me.RedoToolStripMenuItem.Text = I18N.trl8(I18N.lk.Redo)
             Me.RedoToolStripMenuItem.Font = f
+            Me.BtnUndo.Text = I18N.trl8(I18N.lk.Undo)
+            Me.BtnRedo.Text = I18N.trl8(I18N.lk.Redo)
             Me.CutToolStripMenuItem.Text = I18N.trl8(I18N.lk.Cut)
             Me.CutToolStripMenuItem.Font = f
             Me.CopyToolStripMenuItem.Text = I18N.trl8(I18N.lk.Copy)
