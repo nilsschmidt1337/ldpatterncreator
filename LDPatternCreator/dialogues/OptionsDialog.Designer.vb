@@ -289,7 +289,7 @@ Partial Class OptionsDialog
         '
         Me.CBLicense.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.CBLicense.FormattingEnabled = True
-        Me.CBLicense.Items.AddRange(New Object() {"", "Redistributable under CCAL version 2.0 : see CAreadme.txt", "Not redistributable : see NonCAreadme.txt"})
+        Me.CBLicense.Items.AddRange(New Object() {"", "Licensed under CC BY 4.0 : see CAreadme.txt", "Licensed under CC BY 2.0 and CC BY 4.0 : see CAreadme.txt", "Redistributable under CCAL version 2.0 : see CAreadme.txt", "Not redistributable : see NonCAreadme.txt"})
         Me.CBLicense.Location = New System.Drawing.Point(6, 71)
         Me.CBLicense.Name = "CBLicense"
         Me.CBLicense.Size = New System.Drawing.Size(532, 21)
