@@ -821,6 +821,10 @@ Public Class MainForm
                 LblCoords.Text = ""
             End If
             LblCoords.Text = LblCoords.Text & Math.Round(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX()) / View.moveSnap * View.unitFactor) * View.moveSnap / 1000, 3) & " | " & Math.Round(Math.Round(getYcoordinate(MouseHelper.getCursorpositionY()) / View.moveSnap * View.unitFactor) * View.moveSnap / 1000, 3) & " " & translateUnit(View.unit)
+
+            If BtnAddTriangle.Checked Then
+                LblCoords.Text = LblCoords.Text & " " & I18N.trl8(I18N.lk.AddHint)
+            End If
         End If
         Dim curX As Integer
         Dim curY As Integer
