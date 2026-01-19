@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Create and edit patterned parts quick and easy.")> 
 <Assembly: AssemblyCompany("Nils Schmidt")> 
 <Assembly: AssemblyProduct("LDPatternCreator")>
-<Assembly: AssemblyCopyright("Copyright © - Nils Schmidt, 2024")>
+<Assembly: AssemblyCopyright("Copyright © - Nils Schmidt, 2026")>
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
