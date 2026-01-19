@@ -2216,8 +2216,8 @@ Partial Class MainForm
         '
         Me.NUDVertY.DecimalPlaces = 4
         Me.NUDVertY.Location = New System.Drawing.Point(33, 49)
-        Me.NUDVertY.Maximum = New Decimal(New Integer() {1241513984, 370409800, 542101, 0})
-        Me.NUDVertY.Minimum = New Decimal(New Integer() {1241513984, 370409800, 542101, -2147483648})
+        Me.NUDVertY.Maximum = New Decimal(New Integer() {1000000, 0, 0, 0})
+        Me.NUDVertY.Minimum = New Decimal(New Integer() {1000000, 0, 0, -2147483648})
         Me.NUDVertY.Name = "NUDVertY"
         Me.NUDVertY.Size = New System.Drawing.Size(120, 20)
         Me.NUDVertY.TabIndex = 3
@@ -2226,8 +2226,8 @@ Partial Class MainForm
         '
         Me.NUDVertX.DecimalPlaces = 4
         Me.NUDVertX.Location = New System.Drawing.Point(33, 23)
-        Me.NUDVertX.Maximum = New Decimal(New Integer() {1241513984, 370409800, 542101, 0})
-        Me.NUDVertX.Minimum = New Decimal(New Integer() {1241513984, 370409800, 542101, -2147483648})
+        Me.NUDVertX.Maximum = New Decimal(New Integer() {1000000, 0, 0, 0})
+        Me.NUDVertX.Minimum = New Decimal(New Integer() {1000000, 0, 0, -2147483648})
         Me.NUDVertX.Name = "NUDVertX"
         Me.NUDVertX.Size = New System.Drawing.Size(120, 20)
         Me.NUDVertX.TabIndex = 2
@@ -2537,8 +2537,8 @@ Partial Class MainForm
         '
         Me.NUDM23.DecimalPlaces = 4
         Me.NUDM23.Location = New System.Drawing.Point(171, 46)
-        Me.NUDM23.Maximum = New Decimal(New Integer() {1241513984, 370409800, 542101, 0})
-        Me.NUDM23.Minimum = New Decimal(New Integer() {1241513984, 370409800, 542101, -2147483648})
+        Me.NUDM23.Maximum = New Decimal(New Integer() {1000000, 0, 0, 0})
+        Me.NUDM23.Minimum = New Decimal(New Integer() {1000000, 0, 0, -2147483648})
         Me.NUDM23.Name = "NUDM23"
         Me.NUDM23.Size = New System.Drawing.Size(72, 20)
         Me.NUDM23.TabIndex = 8
@@ -2547,8 +2547,8 @@ Partial Class MainForm
         '
         Me.NUDM22.DecimalPlaces = 5
         Me.NUDM22.Location = New System.Drawing.Point(93, 46)
-        Me.NUDM22.Maximum = New Decimal(New Integer() {1241513984, 370409800, 542101, 0})
-        Me.NUDM22.Minimum = New Decimal(New Integer() {1241513984, 370409800, 542101, -2147483648})
+        Me.NUDM22.Maximum = New Decimal(New Integer() {1000000, 0, 0, 0})
+        Me.NUDM22.Minimum = New Decimal(New Integer() {1000000, 0, 0, -2147483648})
         Me.NUDM22.Name = "NUDM22"
         Me.NUDM22.Size = New System.Drawing.Size(72, 20)
         Me.NUDM22.TabIndex = 7
@@ -2557,8 +2557,8 @@ Partial Class MainForm
         '
         Me.NUDM21.DecimalPlaces = 5
         Me.NUDM21.Location = New System.Drawing.Point(15, 46)
-        Me.NUDM21.Maximum = New Decimal(New Integer() {1241513984, 370409800, 542101, 0})
-        Me.NUDM21.Minimum = New Decimal(New Integer() {1241513984, 370409800, 542101, -2147483648})
+        Me.NUDM21.Maximum = New Decimal(New Integer() {1000000, 0, 0, 0})
+        Me.NUDM21.Minimum = New Decimal(New Integer() {1000000, 0, 0, -2147483648})
         Me.NUDM21.Name = "NUDM21"
         Me.NUDM21.Size = New System.Drawing.Size(72, 20)
         Me.NUDM21.TabIndex = 6
@@ -2567,8 +2567,8 @@ Partial Class MainForm
         '
         Me.NUDM13.DecimalPlaces = 4
         Me.NUDM13.Location = New System.Drawing.Point(171, 20)
-        Me.NUDM13.Maximum = New Decimal(New Integer() {1241513984, 370409800, 542101, 0})
-        Me.NUDM13.Minimum = New Decimal(New Integer() {1241513984, 370409800, 542101, -2147483648})
+        Me.NUDM13.Maximum = New Decimal(New Integer() {1000000, 0, 0, 0})
+        Me.NUDM13.Minimum = New Decimal(New Integer() {1000000, 0, 0, -2147483648})
         Me.NUDM13.Name = "NUDM13"
         Me.NUDM13.Size = New System.Drawing.Size(72, 20)
         Me.NUDM13.TabIndex = 5
@@ -2577,8 +2577,8 @@ Partial Class MainForm
         '
         Me.NUDM12.DecimalPlaces = 5
         Me.NUDM12.Location = New System.Drawing.Point(93, 20)
-        Me.NUDM12.Maximum = New Decimal(New Integer() {1241513984, 370409800, 542101, 0})
-        Me.NUDM12.Minimum = New Decimal(New Integer() {1241513984, 370409800, 542101, -2147483648})
+        Me.NUDM12.Maximum = New Decimal(New Integer() {1000000, 0, 0, 0})
+        Me.NUDM12.Minimum = New Decimal(New Integer() {1000000, 0, 0, -2147483648})
         Me.NUDM12.Name = "NUDM12"
         Me.NUDM12.Size = New System.Drawing.Size(72, 20)
         Me.NUDM12.TabIndex = 4
@@ -2587,8 +2587,8 @@ Partial Class MainForm
         '
         Me.NUDM11.DecimalPlaces = 5
         Me.NUDM11.Location = New System.Drawing.Point(15, 20)
-        Me.NUDM11.Maximum = New Decimal(New Integer() {1241513984, 370409800, 542101, 0})
-        Me.NUDM11.Minimum = New Decimal(New Integer() {1241513984, 370409800, 542101, -2147483648})
+        Me.NUDM11.Maximum = New Decimal(New Integer() {1000000, 0, 0, 0})
+        Me.NUDM11.Minimum = New Decimal(New Integer() {1000000, 0, 0, -2147483648})
         Me.NUDM11.Name = "NUDM11"
         Me.NUDM11.Size = New System.Drawing.Size(72, 20)
         Me.NUDM11.TabIndex = 3
