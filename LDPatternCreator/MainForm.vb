@@ -1654,7 +1654,6 @@ newTry:
 
                     ' Spline Width & Segments
                     If MainState.primitiveMode = PrimitiveModes.SetSplineWidthNSegments Then
-                        GBSpline.Visible = False
                         MainState.primitiveMode = PrimitiveModes.SetSplineNextPoint
                         ListHelper.LLast(MainState.Splines).persistGeometry()
                         Dim s As New Spline
@@ -1668,8 +1667,6 @@ newTry:
                             Dim v1 As New Vertex(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX())), Math.Round(getYcoordinate(MouseHelper.getCursorpositionY())), False, False)
                             Dim v2 As Vertex = ListHelper.LLast(MainState.Splines).stopAt
                             ListHelper.LLast(MainState.Splines).stopDirection = v1 - v2
-                            GBSpline.Visible = True
-                            NUDSplineSegs.Focus()
                             MainState.primitiveMode = PrimitiveModes.SetSplineWidthNSegments
                         End If
 
@@ -10763,6 +10760,8 @@ newDelete:
     Private Sub SplineToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles SplineToolStripMenuItem.Click
         startPrimitiveMode()
         MainState.primitiveMode = PrimitiveModes.SetSplineStartingPoint
+        GBSpline.Visible = True
+        NUDSplineSegs.Focus()
     End Sub
 
     Private Sub NUDSplineSegs_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles NUDSplineSegs.ValueChanged
