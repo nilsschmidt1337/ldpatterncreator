@@ -3008,8 +3008,7 @@ skipPrimitiveMode:
             LoadFile.FileName = System.IO.Path.GetFullPath(file)
             SaveAs.FileName = System.IO.Path.GetFullPath(file)
 
-            Dim shortFileName As String = Mid(file, file.LastIndexOf("\") + 2)
-            Me.Text = "LD - Pattern Creator : " + shortFileName
+            Dim shortFileName As String = CalculateShortFileNameAndUpdateTitle(file)
 
             Dim ti As New ToolStripMenuItem
             ti.Text = shortFileName
@@ -4000,10 +3999,15 @@ newDelete:
         SaveToolStripMenuItem.PerformClick()
     End Sub
 
+    Private Function CalculateShortFileNameAndUpdateTitle(ByVal fileName As String)
+        Dim shortFileName As String = Mid(SaveAs.FileName, SaveAs.FileName.LastIndexOf("\") + 2)
+        Me.Text = "LD - Pattern Creator : " + shortFileName
+        Return shortFileName
+    End Function
+
     Private Sub SaveToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveToolStripMenuItem.Click
         If SaveAs.FileName <> "" Then
-            Dim shortFileName As String = Mid(SaveAs.FileName, SaveAs.FileName.LastIndexOf("\") + 2)
-            Me.Text = "LD - Pattern Creator : " + shortFileName
+            CalculateShortFileNameAndUpdateTitle(SaveAs.FileName)
 
             Dim uni As UnicodeEncoding = New System.Text.UnicodeEncoding()
             If SaveAs.FileName Like "*.lpc" Then
