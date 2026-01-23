@@ -3008,8 +3008,11 @@ skipPrimitiveMode:
             LoadFile.FileName = System.IO.Path.GetFullPath(file)
             SaveAs.FileName = System.IO.Path.GetFullPath(file)
 
+            Dim shortFileName As String = Mid(file, file.LastIndexOf("\") + 2)
+            Me.Text = "LD - Pattern Creator : " + shortFileName
+
             Dim ti As New ToolStripMenuItem
-            ti.Text = Mid(file, file.LastIndexOf("\") + 2)
+            ti.Text = shortFileName
             ti.ToolTipText = file
             AddHandler ti.Click, AddressOf recentFileNameClick
             If EnvironmentPaths.recentFiles.Contains(file) Then
@@ -3999,6 +4002,9 @@ newDelete:
 
     Private Sub SaveToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SaveToolStripMenuItem.Click
         If SaveAs.FileName <> "" Then
+            Dim shortFileName As String = Mid(SaveAs.FileName, SaveAs.FileName.LastIndexOf("\") + 2)
+            Me.Text = "LD - Pattern Creator : " + shortFileName
+
             Dim uni As UnicodeEncoding = New System.Text.UnicodeEncoding()
             If SaveAs.FileName Like "*.lpc" Then
                 Using DateiOut As StreamWriter = My.Computer.FileSystem.OpenTextFileWriter(SaveAs.FileName, False, uni)
