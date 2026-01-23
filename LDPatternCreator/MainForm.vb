@@ -8672,6 +8672,8 @@ doMatrix:
                 End If
             Next i
         End If
+        Dim tempMyColour As Color = LPCFile.Primitives(myindex).myColour
+        Dim tempMyColourNumber As Short = LPCFile.Primitives(myindex).myColourNumber
         Dim tempVertexID As Integer = LPCFile.Primitives(myindex).centerVertexID
         Dim tempVertex As Vertex = Nothing
         Dim tempName As String = LPCFile.Primitives(myindex).primitiveName
@@ -8692,6 +8694,11 @@ doMatrix:
             vert.selected = False
         Next
         For Each tri As Triangle In View.SelectedTriangles
+            If tri.myColourNumber = 16 Then
+                tri.myColourNumber = tempMyColourNumber
+                tri.myColour = tempMyColour
+            End If
+
             tri.groupindex = -1
             tri.selected = False
         Next
