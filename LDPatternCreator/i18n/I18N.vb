@@ -158,6 +158,7 @@ Public Class I18N
         CircDiscSector
         InvCircDiscSector
         InvTangCircDiscSector
+        InvTruncCircDiscSector
         CircDiscSegment
         CircRingSegment
         HighRes
@@ -576,6 +577,7 @@ Public Class I18N
             Case "CircDiscSector" : Return lk.CircDiscSector
             Case "InvCircDiscSector" : Return lk.InvCircDiscSector
             Case "InvTangCircDiscSector" : Return lk.InvTangCircDiscSector
+            Case "InvTruncCircDiscSector" : Return lk.InvTruncCircDiscSector
             Case "CircDiscSegment" : Return lk.CircDiscSegment
             Case "CircRingSegment" : Return lk.CircRingSegment
             Case "HighRes" : Return lk.HighRes

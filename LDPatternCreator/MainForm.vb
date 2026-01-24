@@ -10056,6 +10056,8 @@ newDelete:
             Me.NDisToolStripMenuItem.Font = f
             Me.NDisTangToolStripMenuItem.Text = I18N.trl8(I18N.lk.InvTangCircDiscSector)
             Me.NDisTangToolStripMenuItem.Font = f
+            Me.NDisTruncToolStripMenuItem.Text = I18N.trl8(I18N.lk.InvTruncCircDiscSector)
+            Me.NDisTruncToolStripMenuItem.Font = f
             Me.CircularDiscSegmentToolStripMenuItem.Text = I18N.trl8(I18N.lk.CircDiscSegment)
             Me.CircularDiscSegmentToolStripMenuItem.Font = f
             Me.CircularRingSegmentToolStripMenuItem.Text = I18N.trl8(I18N.lk.CircRingSegment)
@@ -10066,6 +10068,8 @@ newDelete:
             Me.NDis48ToolStripMenuItem.Font = f
             Me.NDisTang48ToolStripMenuItem.Text = I18N.trl8(I18N.lk.InvTangCircDiscSector)
             Me.NDisTang48ToolStripMenuItem.Font = f
+            Me.NDisTrunc48ToolStripMenuItem.Text = I18N.trl8(I18N.lk.InvTruncCircDiscSector)
+            Me.NDisTrunc48ToolStripMenuItem.Font = f
             Me.CircularDiscSegment48ToolStripMenuItem.Text = I18N.trl8(I18N.lk.CircDiscSegment)
             Me.CircularDiscSegment48ToolStripMenuItem.Font = f
             Me.CircularRingSegment48ToolStripMenuItem.Text = I18N.trl8(I18N.lk.CircRingSegment)
@@ -10690,6 +10694,11 @@ newDelete:
                                     tmi.Text = s2(1)
                                     AddHandler tmi.Click, AddressOf primitive_Click
                                     CircularDiscSegmentToolStripMenuItem.DropDownItems.Add(tmi)
+                                ElseIf s2(0) = "U" Then
+                                    Dim tmi As New ToolStripMenuItem
+                                    tmi.Text = s2(1)
+                                    AddHandler tmi.Click, AddressOf primitive_Click
+                                    NDisTruncToolStripMenuItem.DropDownItems.Add(tmi)
                                 ElseIf s2(0) = "D48" Then
                                     Dim tmi As New ToolStripMenuItem
                                     tmi.Text = s2(1)
@@ -10710,6 +10719,11 @@ newDelete:
                                     tmi.Text = s2(1)
                                     AddHandler tmi.Click, AddressOf primitive_Click
                                     CircularDiscSegment48ToolStripMenuItem.DropDownItems.Add(tmi)
+                                ElseIf s2(0) = "U48" Then
+                                    Dim tmi As New ToolStripMenuItem
+                                    tmi.Text = s2(1)
+                                    AddHandler tmi.Click, AddressOf primitive_Click
+                                    NDisTrunc48ToolStripMenuItem.DropDownItems.Add(tmi)
                                 ElseIf s2(0) = "A48" Then
                                     Dim tmi As New ToolStripMenuItem
                                     tmi.Text = s2(1)

@@ -154,6 +154,7 @@ Partial Class MainForm
         Me.LDrawPrimitivesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DiscToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NDisToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NDisTruncToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NDisTangToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CircularDiscSegmentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CircularRingSegmentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -161,6 +162,7 @@ Partial Class MainForm
         Me.HighResToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Disc48ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NDis48ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NDisTrunc48ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NDisTang48ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CircularDiscSegment48ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CircularRingSegment48ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -1283,7 +1285,7 @@ Partial Class MainForm
         '
         'LDrawPrimitivesToolStripMenuItem
         '
-        Me.LDrawPrimitivesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DiscToolStripMenuItem, Me.NDisToolStripMenuItem, Me.NDisTangToolStripMenuItem, Me.CircularDiscSegmentToolStripMenuItem, Me.CircularRingSegmentToolStripMenuItem, Me.ToolStripSeparator30, Me.HighResToolStripMenuItem})
+        Me.LDrawPrimitivesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DiscToolStripMenuItem, Me.NDisToolStripMenuItem, Me.NDisTruncToolStripMenuItem, Me.NDisTangToolStripMenuItem, Me.CircularDiscSegmentToolStripMenuItem, Me.CircularRingSegmentToolStripMenuItem, Me.ToolStripSeparator30, Me.HighResToolStripMenuItem})
         Me.LDrawPrimitivesToolStripMenuItem.Name = "LDrawPrimitivesToolStripMenuItem"
         Me.LDrawPrimitivesToolStripMenuItem.Size = New System.Drawing.Size(192, 22)
         Me.LDrawPrimitivesToolStripMenuItem.Text = "..LDraw-Primitive.."
@@ -1299,6 +1301,12 @@ Partial Class MainForm
         Me.NDisToolStripMenuItem.Name = "NDisToolStripMenuItem"
         Me.NDisToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
         Me.NDisToolStripMenuItem.Text = "..Inverse of Circular Disc Sector.."
+        '
+        'NDisTruncToolStripMenuItem
+        '
+        Me.NDisTruncToolStripMenuItem.Name = "NDisTruncToolStripMenuItem"
+        Me.NDisTruncToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
+        Me.NDisTruncToolStripMenuItem.Text = "..Inverse of Circular Disc Sector (Truncated).."
         '
         'NDisTangToolStripMenuItem
         '
@@ -1325,7 +1333,7 @@ Partial Class MainForm
         '
         'HighResToolStripMenuItem
         '
-        Me.HighResToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Disc48ToolStripMenuItem, Me.NDis48ToolStripMenuItem, Me.NDisTang48ToolStripMenuItem, Me.CircularDiscSegment48ToolStripMenuItem, Me.CircularRingSegment48ToolStripMenuItem, Me.AdaptorRingToolStripMenuItem})
+        Me.HighResToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Disc48ToolStripMenuItem, Me.NDis48ToolStripMenuItem, Me.NDisTrunc48ToolStripMenuItem, Me.NDisTang48ToolStripMenuItem, Me.CircularDiscSegment48ToolStripMenuItem, Me.CircularRingSegment48ToolStripMenuItem, Me.AdaptorRingToolStripMenuItem})
         Me.HighResToolStripMenuItem.Name = "HighResToolStripMenuItem"
         Me.HighResToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
         Me.HighResToolStripMenuItem.Text = "48-High Res."
@@ -1341,6 +1349,12 @@ Partial Class MainForm
         Me.NDis48ToolStripMenuItem.Name = "NDis48ToolStripMenuItem"
         Me.NDis48ToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
         Me.NDis48ToolStripMenuItem.Text = "..Inverse of Circular Disc Sector.."
+        '
+        'NDisTrunc48ToolStripMenuItem
+        '
+        Me.NDisTrunc48ToolStripMenuItem.Name = "NDisTrunc48ToolStripMenuItem"
+        Me.NDisTrunc48ToolStripMenuItem.Size = New System.Drawing.Size(287, 22)
+        Me.NDisTrunc48ToolStripMenuItem.Text = "..Inverse of Circular Disc Sector (Truncated).."
         '
         'NDisTang48ToolStripMenuItem
         '
@@ -2846,7 +2860,9 @@ Partial Class MainForm
     Friend WithEvents InchToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Disc48ToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents NDisToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents NDisTruncToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents NDis48ToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents NDisTrunc48ToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CircularDiscSegmentToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CircularDiscSegment48ToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CircularRingSegmentToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
