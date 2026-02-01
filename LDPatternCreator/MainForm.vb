@@ -9040,6 +9040,14 @@ doMatrix:
                         End If
                     End If
 
+                    If Not DateiIn.EndOfStream Then
+                        ' Config Entries from version 1.7.8
+                        CSGRotateToolStripMenuItem.ShortcutKeys = CType(DateiIn.ReadLine, Integer)
+                    Else
+                        CSGRotateToolStripMenuItem.ShortcutKeys = Keys.F Or Keys.Control
+                    End If
+                    CSGRotateToolStripMenuItem.ShortcutKeyDisplayString = KeyToSet.keyToString(New System.Windows.Forms.KeyEventArgs(CSGRotateToolStripMenuItem.ShortcutKeys))
+
                 End Using
                 BtnMode.ToolTipText = I18N.trl8(I18N.lk.TriangleMode) & " [" & KeyToSet.keyToString(New System.Windows.Forms.KeyEventArgs(TrianglesModeToolStripMenuItem.ShortcutKeys)) & "]"
                 Me.MaxUndoToolStripTextBox.Text = LDSettings.Editor.max_undo
@@ -9162,6 +9170,9 @@ doMatrix:
             ' Config Entries from version 1.6.6
             DateiOut.WriteLine(View.showGrid)
             DateiOut.WriteLine(ColourToolStrip.Visible)
+
+            ' Config Entries from version 1.7.8
+            DateiOut.WriteLine(CType(CSGRotateToolStripMenuItem.ShortcutKeys, Integer))
         End Using
     End Sub
 

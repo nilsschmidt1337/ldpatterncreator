@@ -186,6 +186,7 @@ Public Class OptionsDialog
         addKey(StrConv(Replace(I18N.trl8(I18N.lk.ToNearestLineTriangle), "..", ""), VbStrConv.ProperCase), MainForm.MergeToNearestTriangleLineToolStripMenuItem)
         addKey(StrConv(Replace(I18N.trl8(I18N.lk.ToNearestPrim), "..", ""), VbStrConv.ProperCase), MainForm.MergeToNearestPrimvertexToolStripMenuItem)
         addKey(StrConv(Replace(I18N.trl8(I18N.lk.Split), "..", ""), VbStrConv.ProperCase), MainForm.CSGSplitToolStripMenuItem)
+        addKey(StrConv(Replace(Replace(Replace(I18N.trl8(I18N.lk.CSGRotate), "..", ""), "CSG ", ""), "KFG ", ""), VbStrConv.ProperCase), MainForm.CSGRotateToolStripMenuItem)
     End Sub
 
     Private Sub saveSettings()
@@ -554,6 +555,8 @@ newTry:
                 Shortkeys.Rows(tRow).Cells(3).Value = Keys.Control Or Keys.P : tRow += 1
                 Shortkeys.Rows(tRow).Cells(1).Value = "Alt+V"
                 Shortkeys.Rows(tRow).Cells(3).Value = Keys.Alt Or Keys.V : tRow += 1
+                Shortkeys.Rows(tRow).Cells(1).Value = "Ctrl+F"
+                Shortkeys.Rows(tRow).Cells(3).Value = Keys.Control Or Keys.F : tRow += 1
 
                 refreshBlacklist()
             Case 2
