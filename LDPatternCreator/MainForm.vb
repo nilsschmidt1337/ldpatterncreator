@@ -5811,66 +5811,8 @@ raster_zechnen:
         End If
 
         If Not LDSettings.Editor.showTemplateLinesOnTop Then
-            ' Templates:
-            Dim shapeCount As Integer = LPCFile.templateShape.Count
-            If shapeCount > 1 AndAlso Not BtnPreview.Checked Then
-                If Not LPCFile.templateShape(0).X = Single.Epsilon Then
-                    Dim start As Integer = 0
-                    Dim finish As Integer = shapeCount - 1
-                    Dim templateShapeArray(finish) As PointF
-                    For i As Integer = 0 To finish
-                        templateShapeArray(i).X = CType(absOffsetX - LPCFile.templateShape(i).X * View.zoomfactor, Single)
-                        templateShapeArray(i).Y = CType(absOffsetY + LPCFile.templateShape(i).Y * View.zoomfactor, Single)
-                        If LPCFile.templateShape(i).X = Single.Epsilon Then
-                            Dim lenght As Integer = i - start - 1
-                            Dim templatePolyPart(lenght) As PointF
-                            Array.Copy(templateShapeArray, start, templatePolyPart, 0, lenght + 1)
-                            e.Graphics.DrawPolygon(LDSettings.Colours.templatePen, templatePolyPart)
-                            start = i + 1
-                        End If
-                    Next
-                    Dim lenght2 As Integer = finish - start
-                    Dim templatePolyPart2(lenght2) As PointF
-                    Array.Copy(templateShapeArray, start, templatePolyPart2, 0, lenght2 + 1)
-                    e.Graphics.DrawPolygon(LDSettings.Colours.templatePen, templatePolyPart2)
-
-                    For i = 0 To LPCFile.templateTexts.Count - 1
-                        e.Graphics.DrawString(LPCFile.templateTexts(i).Text, New Font("Arial", (1000 * View.zoomfactor) + 8, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, absOffsetX - LPCFile.templateTexts(i).X * View.zoomfactor + 2, absOffsetY + LPCFile.templateTexts(i).Y * View.zoomfactor + 2)
-                        e.Graphics.DrawString(LPCFile.templateTexts(i).Text, New Font("Arial", (1000 * View.zoomfactor) + 8, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Azure, absOffsetX - LPCFile.templateTexts(i).X * View.zoomfactor, absOffsetY + LPCFile.templateTexts(i).Y * View.zoomfactor)
-                    Next
-                Else
-                    For i As Integer = 1 To shapeCount - 1 Step 4
-                        Dim templateShapeArray(3) As PointF
-                        templateShapeArray(0).X = absOffsetX - LPCFile.templateShape(i).X * View.zoomfactor
-                        templateShapeArray(0).Y = absOffsetY + LPCFile.templateShape(i).Y * View.zoomfactor
-
-                        If (i + 1) < shapeCount Then
-                            templateShapeArray(1).X = absOffsetX - LPCFile.templateShape(i + 1).X * View.zoomfactor
-                            templateShapeArray(1).Y = absOffsetY + LPCFile.templateShape(i + 1).Y * View.zoomfactor
-                        Else
-                            templateShapeArray(1).X = templateShapeArray(0).X
-                            templateShapeArray(1).Y = templateShapeArray(0).Y
-                        End If
-
-                        If (i + 2) < shapeCount Then
-                            templateShapeArray(2).X = absOffsetX - LPCFile.templateShape(i + 2).X * View.zoomfactor
-                            templateShapeArray(2).Y = absOffsetY + LPCFile.templateShape(i + 2).Y * View.zoomfactor
-                        Else
-                            templateShapeArray(2).X = templateShapeArray(0).X
-                            templateShapeArray(2).Y = templateShapeArray(0).Y
-                        End If
-
-                        If (i + 3) < shapeCount Then
-                            templateShapeArray(3).X = absOffsetX - LPCFile.templateShape(i + 3).X * View.zoomfactor
-                            templateShapeArray(3).Y = absOffsetY + LPCFile.templateShape(i + 3).Y * View.zoomfactor
-                        Else
-                            templateShapeArray(3).X = templateShapeArray(0).X
-                            templateShapeArray(3).Y = templateShapeArray(0).Y
-                        End If
-                        e.Graphics.DrawPolygon(LDSettings.Colours.projectionPen, templateShapeArray)
-                    Next
-                End If
-            End If
+            ' Draw Templates:
+            DrawTemplates(e, absOffsetX, absOffsetY)
         End If
         Dim r1 As New Rectangle
         Dim r2 As New Rectangle
@@ -6275,67 +6217,8 @@ raster_zechnen:
 
 
             If LDSettings.Editor.showTemplateLinesOnTop Then
-                ' Templates:
-                Dim shapeCount As Integer = LPCFile.templateShape.Count
-                If shapeCount > 1 AndAlso Not BtnPreview.Checked Then
-                    If Not LPCFile.templateShape(0).X = Single.Epsilon Then
-                        Dim start As Integer = 0
-                        Dim finish As Integer = shapeCount - 1
-                        Dim templateShapeArray(finish) As PointF
-                        For i As Integer = 0 To finish
-                            templateShapeArray(i).X = CType(absOffsetX - LPCFile.templateShape(i).X * View.zoomfactor, Single)
-                            templateShapeArray(i).Y = CType(absOffsetY + LPCFile.templateShape(i).Y * View.zoomfactor, Single)
-                            If LPCFile.templateShape(i).X = Single.Epsilon Then
-                                Dim lenght As Integer = i - start - 1
-                                Dim templatePolyPart(lenght) As PointF
-                                Array.Copy(templateShapeArray, start, templatePolyPart, 0, lenght + 1)
-                                e.Graphics.DrawPolygon(LDSettings.Colours.templatePen, templatePolyPart)
-                                start = i + 1
-                            End If
-                        Next
-                        Dim lenght2 As Integer = finish - start
-                        Dim templatePolyPart2(lenght2) As PointF
-                        Array.Copy(templateShapeArray, start, templatePolyPart2, 0, lenght2 + 1)
-                        e.Graphics.DrawPolygon(LDSettings.Colours.templatePen, templatePolyPart2)
-
-                        For i = 0 To LPCFile.templateTexts.Count - 1
-                            e.Graphics.DrawString(LPCFile.templateTexts(i).Text, New Font("Arial", (1000 * View.zoomfactor) + 8, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, absOffsetX - LPCFile.templateTexts(i).X * View.zoomfactor + 2, absOffsetY + LPCFile.templateTexts(i).Y * View.zoomfactor + 2)
-                            e.Graphics.DrawString(LPCFile.templateTexts(i).Text, New Font("Arial", (1000 * View.zoomfactor) + 8, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Azure, absOffsetX - LPCFile.templateTexts(i).X * View.zoomfactor, absOffsetY + LPCFile.templateTexts(i).Y * View.zoomfactor)
-                        Next
-                    Else
-                        For i As Integer = 1 To shapeCount - 1 Step 4
-                            Dim templateShapeArray(3) As PointF
-                            templateShapeArray(0).X = absOffsetX - LPCFile.templateShape(i).X * View.zoomfactor
-                            templateShapeArray(0).Y = absOffsetY + LPCFile.templateShape(i).Y * View.zoomfactor
-
-                            If (i + 1) < shapeCount Then
-                                templateShapeArray(1).X = absOffsetX - LPCFile.templateShape(i + 1).X * View.zoomfactor
-                                templateShapeArray(1).Y = absOffsetY + LPCFile.templateShape(i + 1).Y * View.zoomfactor
-                            Else
-                                templateShapeArray(1).X = templateShapeArray(0).X
-                                templateShapeArray(1).Y = templateShapeArray(0).Y
-                            End If
-
-                            If (i + 2) < shapeCount Then
-                                templateShapeArray(2).X = absOffsetX - LPCFile.templateShape(i + 2).X * View.zoomfactor
-                                templateShapeArray(2).Y = absOffsetY + LPCFile.templateShape(i + 2).Y * View.zoomfactor
-                            Else
-                                templateShapeArray(2).X = templateShapeArray(0).X
-                                templateShapeArray(2).Y = templateShapeArray(0).Y
-                            End If
-
-                            If (i + 3) < shapeCount Then
-                                templateShapeArray(3).X = absOffsetX - LPCFile.templateShape(i + 3).X * View.zoomfactor
-                                templateShapeArray(3).Y = absOffsetY + LPCFile.templateShape(i + 3).Y * View.zoomfactor
-                            Else
-                                templateShapeArray(3).X = templateShapeArray(0).X
-                                templateShapeArray(3).Y = templateShapeArray(0).Y
-                            End If
-
-                            e.Graphics.DrawPolygon(LDSettings.Colours.projectionPen, templateShapeArray)
-                        Next
-                    End If
-                End If
+                ' Draw Templates:
+                DrawTemplates(e, absOffsetX, absOffsetY)
             End If
 
             If LPCFile.helperLineStartIndex > -1 AndAlso LPCFile.helperLineEndIndex > -1 AndAlso LPCFile.helperLineStartIndex < LPCFile.helperLineEndIndex AndAlso LPCFile.helperLineEndIndex < LPCFile.templateShape.Count Then
@@ -6861,6 +6744,69 @@ label_zeichnen:
         End If
         ' Detect Nearest Edge while adding new triangles
         selectNearestTriangleEdgeForNewObjects()
+    End Sub
+
+    Private Sub DrawTemplates(e As PaintEventArgs, absOffsetX As Integer, absOffsetY As Integer)
+        Dim shapeCount As Integer = LPCFile.templateShape.Count
+        If shapeCount > 1 AndAlso Not BtnPreview.Checked Then
+            If Not LPCFile.templateShape(0).X = Single.Epsilon Then
+                Dim start As Integer = 0
+                Dim finish As Integer = shapeCount - 1
+                Dim templateShapeArray(finish) As PointF
+                For i As Integer = 0 To finish
+                    templateShapeArray(i).X = CType(absOffsetX - LPCFile.templateShape(i).X * View.zoomfactor, Single)
+                    templateShapeArray(i).Y = CType(absOffsetY + LPCFile.templateShape(i).Y * View.zoomfactor, Single)
+                    If LPCFile.templateShape(i).X = Single.Epsilon Then
+                        Dim lenght As Integer = i - start - 1
+                        Dim templatePolyPart(lenght) As PointF
+                        Array.Copy(templateShapeArray, start, templatePolyPart, 0, lenght + 1)
+                        e.Graphics.DrawPolygon(LDSettings.Colours.templatePen, templatePolyPart)
+                        start = i + 1
+                    End If
+                Next
+                Dim lenght2 As Integer = finish - start
+                Dim templatePolyPart2(lenght2) As PointF
+                Array.Copy(templateShapeArray, start, templatePolyPart2, 0, lenght2 + 1)
+                e.Graphics.DrawPolygon(LDSettings.Colours.templatePen, templatePolyPart2)
+
+                For i = 0 To LPCFile.templateTexts.Count - 1
+                    e.Graphics.DrawString(LPCFile.templateTexts(i).Text, New Font("Arial", (1000 * View.zoomfactor) + 8, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, absOffsetX - LPCFile.templateTexts(i).X * View.zoomfactor + 2, absOffsetY + LPCFile.templateTexts(i).Y * View.zoomfactor + 2)
+                    e.Graphics.DrawString(LPCFile.templateTexts(i).Text, New Font("Arial", (1000 * View.zoomfactor) + 8, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Azure, absOffsetX - LPCFile.templateTexts(i).X * View.zoomfactor, absOffsetY + LPCFile.templateTexts(i).Y * View.zoomfactor)
+                Next
+            Else
+                For i As Integer = 1 To shapeCount - 1 Step 4
+                    Dim templateShapeArray(3) As PointF
+                    templateShapeArray(0).X = absOffsetX - LPCFile.templateShape(i).X * View.zoomfactor
+                    templateShapeArray(0).Y = absOffsetY + LPCFile.templateShape(i).Y * View.zoomfactor
+
+                    If (i + 1) < shapeCount Then
+                        templateShapeArray(1).X = absOffsetX - LPCFile.templateShape(i + 1).X * View.zoomfactor
+                        templateShapeArray(1).Y = absOffsetY + LPCFile.templateShape(i + 1).Y * View.zoomfactor
+                    Else
+                        templateShapeArray(1).X = templateShapeArray(0).X
+                        templateShapeArray(1).Y = templateShapeArray(0).Y
+                    End If
+
+                    If (i + 2) < shapeCount Then
+                        templateShapeArray(2).X = absOffsetX - LPCFile.templateShape(i + 2).X * View.zoomfactor
+                        templateShapeArray(2).Y = absOffsetY + LPCFile.templateShape(i + 2).Y * View.zoomfactor
+                    Else
+                        templateShapeArray(2).X = templateShapeArray(0).X
+                        templateShapeArray(2).Y = templateShapeArray(0).Y
+                    End If
+
+                    If (i + 3) < shapeCount Then
+                        templateShapeArray(3).X = absOffsetX - LPCFile.templateShape(i + 3).X * View.zoomfactor
+                        templateShapeArray(3).Y = absOffsetY + LPCFile.templateShape(i + 3).Y * View.zoomfactor
+                    Else
+                        templateShapeArray(3).X = templateShapeArray(0).X
+                        templateShapeArray(3).Y = templateShapeArray(0).Y
+                    End If
+
+                    e.Graphics.DrawPolygon(LDSettings.Colours.projectionPen, templateShapeArray)
+                Next
+            End If
+        End If
     End Sub
 
     Private Function PolygonCollidesWithReferenceLine(a As Vertex, b As Vertex, c As Vertex, polygon() As PointF) As Boolean
