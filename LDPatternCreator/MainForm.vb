@@ -167,6 +167,8 @@ Public Class MainForm
                             NUDM22.Value = LPCFile.Primitives(CType(LPCFile.PrimitivesHMap(groupindex), Integer)).matrix(1, 1)
                             NUDM23.Value = LPCFile.Primitives(CType(LPCFile.PrimitivesHMap(groupindex), Integer)).matrix(1, 3) / 1000D * View.unitFactor
                         End If
+                        ' Move selected template lines here
+                        MoveTemplateLines(vabsOffsetX, vabsOffsetY)
                         MainState.movemode = False
                         UndoRedoHelper.addHistory()
                         Exit Select
@@ -1551,6 +1553,8 @@ newTry:
                                 vert.X -= vabsOffsetX
                                 vert.Y += vabsOffsetY
                             Next
+                            ' Move selected template lines here
+                            MoveTemplateLines(vabsOffsetX, vabsOffsetY)
                             If View.SelectedVertices.Count = 1 AndAlso mergeToIt Then
                                 If Not newV Is Nothing Then
                                     View.SelectedVertices(0).X = newV.X * 1000.0
@@ -2220,6 +2224,14 @@ skipPrimitiveMode:
             UndoRedoHelper.addHistory()
         End If
         Me.Refresh()
+    End Sub
+
+    Private Sub MoveTemplateLines(ByVal vabsOffsetX As Integer, ByVal vabsOffsetY As Integer)
+        If LPCFile.helperLineStartIndex > -1 AndAlso LPCFile.helperLineEndIndex > -1 AndAlso LPCFile.helperLineStartIndex < LPCFile.helperLineEndIndex AndAlso LPCFile.helperLineEndIndex < LPCFile.templateShape.Count Then
+            For i As Integer = LPCFile.helperLineStartIndex To LPCFile.helperLineEndIndex
+                LPCFile.templateShape(i) = New PointF(LPCFile.templateShape(i).X - vabsOffsetX, LPCFile.templateShape(i).Y + vabsOffsetY)
+            Next
+        End If
     End Sub
 
     Private Function compareArray(ByVal a1 As Double(,), ByVal a2 As Double(,)) As Boolean
@@ -5643,6 +5655,9 @@ raster_zechnen:
                 vert.X -= View.viewAbsOffsetX
                 vert.Y += View.viewAbsOffsetY
             Next
+            ' Adjust selected template lines here
+            MoveTemplateLines(View.viewAbsOffsetX, View.viewAbsOffsetY)
+
             If View.SelectedVertices.Count = 1 AndAlso Control.ModifierKeys = 196608 AndAlso LPCFile.templateProjectionQuads.Count > 0 Then
                 If View.SelectedVertices(0).linkedTriangles.Count > 0 Then
                     Dim tv As Vertex = New Vertex(View.SelectedVertices(0).X, View.SelectedVertices(0).Y, False, False)
@@ -6221,16 +6236,7 @@ raster_zechnen:
                 DrawTemplates(e, absOffsetX, absOffsetY)
             End If
 
-            If LPCFile.helperLineStartIndex > -1 AndAlso LPCFile.helperLineEndIndex > -1 AndAlso LPCFile.helperLineStartIndex < LPCFile.helperLineEndIndex AndAlso LPCFile.helperLineEndIndex < LPCFile.templateShape.Count Then
-                Dim templateShapeArray(LPCFile.helperLineEndIndex - LPCFile.helperLineStartIndex) As PointF
-                Dim counter As Integer = 0
-                For i As Integer = LPCFile.helperLineStartIndex To LPCFile.helperLineEndIndex
-                    templateShapeArray(counter).X = absOffsetX - LPCFile.templateShape(i).X * View.zoomfactor
-                    templateShapeArray(counter).Y = absOffsetY + LPCFile.templateShape(i).Y * View.zoomfactor
-                    counter += 1
-                Next
-                e.Graphics.DrawPolygon(LDSettings.Colours.selectedLinePenFat, templateShapeArray)
-            End If
+            DrawSelectedTemplates(e, absOffsetX, absOffsetY)
 
             ' When triangle auto-completion is enabled, draw a circle for selection
             If BtnTriangleAutoCompletion.Checked Then
@@ -6308,6 +6314,8 @@ raster_zechnen:
                     vert.X += View.viewAbsOffsetX
                     vert.Y -= View.viewAbsOffsetY
                 Next
+                ' Adjust selected template lines here
+                MoveTemplateLines(-View.viewAbsOffsetX, -View.viewAbsOffsetY)
             ElseIf MainState.rotatemode OrElse MainState.scalemode Then
                 If MainState.scalemode Then
                     Dim factorToScale As Double = 1 + Fix((MouseHelper.getCursorpositionX() - MainState.klickX) / 100 / View.scaleSnap) * View.scaleSnap
@@ -6744,6 +6752,19 @@ label_zeichnen:
         End If
         ' Detect Nearest Edge while adding new triangles
         selectNearestTriangleEdgeForNewObjects()
+    End Sub
+
+    Private Sub DrawSelectedTemplates(e As PaintEventArgs, absOffsetX As Integer, absOffsetY As Integer)
+        If LPCFile.helperLineStartIndex > -1 AndAlso LPCFile.helperLineEndIndex > -1 AndAlso LPCFile.helperLineStartIndex < LPCFile.helperLineEndIndex AndAlso LPCFile.helperLineEndIndex < LPCFile.templateShape.Count Then
+            Dim templateShapeArray(LPCFile.helperLineEndIndex - LPCFile.helperLineStartIndex) As PointF
+            Dim counter As Integer = 0
+            For i As Integer = LPCFile.helperLineStartIndex To LPCFile.helperLineEndIndex
+                templateShapeArray(counter).X = absOffsetX - LPCFile.templateShape(i).X * View.zoomfactor
+                templateShapeArray(counter).Y = absOffsetY + LPCFile.templateShape(i).Y * View.zoomfactor
+                counter += 1
+            Next
+            e.Graphics.DrawPolygon(LDSettings.Colours.selectedLinePenFat, templateShapeArray)
+        End If
     End Sub
 
     Private Sub DrawTemplates(e As PaintEventArgs, absOffsetX As Integer, absOffsetY As Integer)
