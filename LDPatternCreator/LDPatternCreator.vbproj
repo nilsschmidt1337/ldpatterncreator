@@ -276,6 +276,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="tests\TestDeveel.vb" />
+    <Compile Include="tests\TestSciNotationToDecimal.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="dialogues\ConversionDialog.resx">
