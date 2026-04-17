@@ -45,6 +45,29 @@ Public Class LPCFileHelper
         My.Computer.FileSystem.CopyFile(EnvironmentPaths.appPath & "tmp.dat", EnvironmentPaths.appPath & "tmpr.dat", True)
     End Sub
 
+
+    Public Shared Sub replaceScientificNotation()
+        Using DateiIn As StreamReader = My.Computer.FileSystem.OpenTextFileReader(EnvironmentPaths.appPath & "tmpr.dat", New System.Text.UTF8Encoding(False))
+            Using DateiOut As StreamWriter = My.Computer.FileSystem.OpenTextFileWriter(EnvironmentPaths.appPath & "tmp.dat", False, New System.Text.UTF8Encoding(False))
+                Do Until DateiIn.EndOfStream
+                    Dim line As String = DateiIn.ReadLine
+                    If line.StartsWith("2 ") OrElse line.StartsWith("3 ") OrElse line.StartsWith("4 ") OrElse line.StartsWith("5 ") OrElse line.StartsWith("1 ") Then
+                        Dim segments As String() = line.Split(" ")
+                        For i As Integer = 0 To segments.Length - 2
+                            DateiOut.Write(MathHelper.ScientificNotationToDecimal(segments(i)))
+                            DateiOut.Write(" ")
+                        Next
+
+                        DateiOut.WriteLine(segments(segments.Length - 1))
+                    Else
+                        DateiOut.WriteLine(line)
+                    End If
+                Loop
+            End Using
+        End Using
+        My.Computer.FileSystem.CopyFile(EnvironmentPaths.appPath & "tmp.dat", EnvironmentPaths.appPath & "tmpr.dat", True)
+    End Sub
+
     Public Shared Sub replaceColours()
         Dim lType As New Hashtable
         Dim cSub As New Dictionary(Of String, String)

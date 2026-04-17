@@ -99,6 +99,17 @@ Namespace MathTests
         End Sub
 
         <TestMethod()>
+        Public Sub ScientificNotationToZero()
+
+            Dim result As String
+            Dim sciNotationA As String = "-8.855407e-016"
+
+            result = MathHelper.ScientificNotationToDecimal(sciNotationA)
+
+            Assert.AreEqual("0", result)
+        End Sub
+
+        <TestMethod()>
         Public Sub ScientificNotationToDecimal()
 
             Dim result As String

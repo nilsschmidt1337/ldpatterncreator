@@ -101,6 +101,12 @@ Public Class MathHelper
             If dotIndex <> -1 Then
 
                 If moveBy < 0 Then
+
+                    ' Close-to-zero values like 1.4e-8 (moveBy = -8, dotIndex = 1)
+                    If (-moveBy - dotIndex) > 6 Then
+                        Return "0"
+                    End If
+
                     significantDigits = significantDigits.Substring(0, dotIndex) & "." & significantDigits.Substring(dotIndex)
 
                     ' Remove leading zeros

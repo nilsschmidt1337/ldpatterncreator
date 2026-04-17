@@ -104,6 +104,7 @@ skipUnify:
 skipRectify:
         If MainState.colourReplacement AndAlso LPCFile.replaceColour Then LPCFileHelper.replaceColours()
         If LPCFile.unify Then LPCFileHelper.beautifyHeader()
+        LPCFileHelper.replaceScientificNotation()
         My.Computer.FileSystem.CopyFile(EnvironmentPaths.appPath & "tmpr.dat", filename, True)
         My.Computer.FileSystem.DeleteFile(EnvironmentPaths.appPath & "tmp.dat")
         My.Computer.FileSystem.DeleteFile(EnvironmentPaths.appPath & "tmpr.dat")
