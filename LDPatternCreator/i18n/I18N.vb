@@ -863,7 +863,7 @@ Public Class I18N
     End Function
 
     Public Shared Function parseVersion(ByVal s As String) As String
-        Return Replace(Replace(s, "<Version>", Mid(My.Application.Info.Version.ToString(), 1, 5)), "<Year>", My.Application.Info.Copyright.Split(CChar(" "))(5))
+        Return Replace(Replace(s, "<Version>", Mid(My.Application.Info.Version.ToString(), 1, 6)), "<Year>", My.Application.Info.Copyright.Split(CChar(" "))(5))
     End Function
 
     Public Shared Function globalize(ByVal s As String) As String
