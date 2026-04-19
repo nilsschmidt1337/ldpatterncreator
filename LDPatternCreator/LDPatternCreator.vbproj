@@ -390,6 +390,10 @@
     <Content Include="Resources\scale.png" />
     <Content Include="Resources\select.png" />
     <Content Include="Resources\Slicerpro.exe" />
+    <None Include="Resources\snap3_coarse.png" />
+    <None Include="Resources\snap1_fine.png" />
+    <None Include="Resources\snap2_medium.png" />
+    <None Include="Resources\snap4_stud.png" />
     <Content Include="Resources\temp.bmp" />
     <Content Include="Resources\triangles.png" />
     <Content Include="Resources\triangulate.png" />

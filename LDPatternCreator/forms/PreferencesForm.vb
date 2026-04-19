@@ -93,4 +93,20 @@ Public Class PreferencesForm
         Me.BringToFront()
         Me.TopMost = False
     End Sub
+
+    Private Sub BtnOne_Click(sender As Object, e As EventArgs) Handles BtnOne.Click
+        NUDMoveSnap.Value = 1000
+    End Sub
+
+    Private Sub BtnTenth_Click(sender As Object, e As EventArgs) Handles BtnTenth.Click
+        NUDMoveSnap.Value = 100
+    End Sub
+
+    Private Sub BtnHundredth_Click(sender As Object, e As EventArgs) Handles BtnHundredth.Click
+        NUDMoveSnap.Value = 10
+    End Sub
+
+    Private Sub BtnThousandth_Click(sender As Object, e As EventArgs) Handles BtnThousandth.Click
+        NUDMoveSnap.Value = 1
+    End Sub
 End Class
