@@ -10993,12 +10993,26 @@ newDelete:
 
     Private Sub ButtonRemoveIsolatedVertices_Click(sender As Object, e As EventArgs) Handles ButtonRemoveIsolatedVertices.Click
         If View.SelectedVertices.Count = 1 Then GBVertex.Visible = False
+
+        Dim selection As New List(Of Vertex)
+        selection.AddRange(View.SelectedVertices)
+
         Helper_2D.clearSelection()
-        For i As Integer = 0 To LPCFile.Vertices.Count - 1
-            If LPCFile.Vertices(i).groupindex = Primitive.NO_INDEX AndAlso LPCFile.Vertices(i).linkedTriangles.Count = 0 Then
-                View.SelectedVertices.Add(LPCFile.Vertices(i))
-            End If
-        Next
+
+        If selection.Count = 0 Then
+            For i As Integer = 0 To LPCFile.Vertices.Count - 1
+                If LPCFile.Vertices(i).groupindex = Primitive.NO_INDEX AndAlso LPCFile.Vertices(i).linkedTriangles.Count = 0 Then
+                    View.SelectedVertices.Add(LPCFile.Vertices(i))
+                End If
+            Next
+        Else
+            For i As Integer = 0 To selection.Count - 1
+                If selection(i).groupindex = Primitive.NO_INDEX AndAlso selection(i).linkedTriangles.Count = 0 Then
+                    View.SelectedVertices.Add(selection(i))
+                End If
+            Next
+        End If
+
         Dim backup As Integer = MainState.objectToModify
         MainState.objectToModify = Modified.Vertex
         ClipboardHelper.delete()
