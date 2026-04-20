@@ -58,7 +58,7 @@ Public Class LPCFileHelper
                             DateiOut.Write(" ")
                         Next
 
-                        DateiOut.WriteLine(segments(segments.Length - 1))
+                        DateiOut.WriteLine(MathHelper.ScientificNotationToDecimal(segments(segments.Length - 1)))
                     Else
                         DateiOut.WriteLine(line)
                     End If

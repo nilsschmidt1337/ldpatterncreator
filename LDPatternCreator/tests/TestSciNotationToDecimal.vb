@@ -20,6 +20,17 @@ Namespace MathTests
             Assert.AreEqual("abc", result)
         End Sub
 
+        <TestMethod()>
+        Public Sub ScientificNotationToDecimalWithZeroExponent()
+
+            Dim result As String
+            Dim sciNotationA As String = "7.275958e-015"
+
+            result = MathHelper.ScientificNotationToDecimal(sciNotationA)
+
+            Assert.AreEqual("0", result)
+        End Sub
+
 
         <TestMethod()>
         Public Sub SignedScientificNotationToDecimalWithPlus()
