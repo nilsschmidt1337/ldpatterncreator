@@ -1657,15 +1657,21 @@ newTry:
                 Else
 
                     ' Spline Width & Segments
-                    If MainState.primitiveMode = PrimitiveModes.SetSplineWidthNSegments Then
+                    If MainState.primitiveMode = PrimitiveModes.SetSplineWidth Then
                         MainState.primitiveMode = PrimitiveModes.SetSplineNextPoint
                         ListHelper.LLast(MainState.Splines).persistGeometry()
                         Dim s As New Spline
                         s.startAt = ListHelper.LLast(MainState.Splines).stopAt
                         s.startDirection = ListHelper.LLast(MainState.Splines).stopDirection
                         s.segmentCount = Fix(NUDSplineSegs.Value) - 1
+                        s.width = Fix(NUDSplineWidth.Value)
                         MainState.Splines.Add(s)
                     Else
+                        ' Spline Width & Segments
+                        If MainState.primitiveMode = PrimitiveModes.SetSplineWidthNSegments Then
+                            MainState.primitiveMode = PrimitiveModes.SetSplineWidth
+                        End If
+
                         ' Spline Next Direction
                         If MainState.primitiveMode = PrimitiveModes.SetSplineNextDirection Then
                             Dim v1 As New Vertex(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX())), Math.Round(getYcoordinate(MouseHelper.getCursorpositionY())), False, False)
@@ -1694,6 +1700,7 @@ newTry:
                         Dim s As New Spline
                         s.startAt = New Vertex(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX()) / View.moveSnap) * View.moveSnap, Math.Round(getYcoordinate(MouseHelper.getCursorpositionY()) / View.moveSnap) * View.moveSnap, True, False)
                         s.segmentCount = Fix(NUDSplineSegs.Value) - 1
+                        s.width = Fix(NUDSplineWidth.Value)
                         MainState.Splines.Add(s)
                         MainState.primitiveMode = PrimitiveModes.SetSplineStartingDirection
                     End If
@@ -6698,6 +6705,10 @@ raster_zechnen:
                     ' Spline Segments
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.SplineSegCount), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, 12, 32)
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.SplineSegCount), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Azure, 10, 30)
+                Case PrimitiveModes.SetSplineWidth
+                    ' Spline Width
+                    e.Graphics.DrawString(I18N.trl8(I18N.lk.SplineWidthB), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, 12, 32)
+                    e.Graphics.DrawString(I18N.trl8(I18N.lk.SplineWidthB), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Azure, 10, 30)
                 Case PrimitiveModes.CreateTriangleChain
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.TriangleChainAdd), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, 12, 32)
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.TriangleChainAdd), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Azure, 10, 30)
@@ -10350,6 +10361,8 @@ newDelete:
             SplineToolStripMenuItem.Font = f
             LblSplineSegs.Text = I18N.trl8(I18N.lk.Segments)
             LblSplineSegs.Font = f
+            LblSplineWidth.Text = I18N.trl8(I18N.lk.SplineWidthA)
+            LblSplineWidth.Font = f
         Catch
             If Not alreadyFailedToLoad Then
                 loadConfig()

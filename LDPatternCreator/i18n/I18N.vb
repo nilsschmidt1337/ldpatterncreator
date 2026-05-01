@@ -435,6 +435,8 @@ Public Class I18N
         SplineNext
         SplineNextDir
         SplineSegCount
+        SplineWidthA
+        SplineWidthB
     End Enum
 
     Public Shared Function stringToShort(ByVal s As String) As Short
@@ -854,6 +856,8 @@ Public Class I18N
             Case "SplineNext" : Return lk.SplineNext
             Case "SplineNextDir" : Return lk.SplineNextDir
             Case "SplineSegCount" : Return lk.SplineSegCount
+            Case "SplineWidthA" : Return lk.SplineWidthA
+            Case "SplineWidthB" : Return lk.SplineWidthB
         End Select
         Return -1
     End Function

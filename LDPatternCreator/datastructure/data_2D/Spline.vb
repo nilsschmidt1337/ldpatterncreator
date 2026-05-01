@@ -19,6 +19,7 @@ Public Class Spline
 
     Public Vertices As New List(Of Vertex)
 
+    Public width As Double = 0
     Public segmentCount As Integer = 16
     Public startAt As Vertex
     Public stopAt As Vertex

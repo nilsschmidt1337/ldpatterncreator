@@ -329,6 +329,8 @@ Partial Class MainForm
         Me.NUDSplineSegs = New System.Windows.Forms.NumericUpDown()
         Me.OpenColours = New System.Windows.Forms.OpenFileDialog()
         Me.SaveColours = New System.Windows.Forms.SaveFileDialog()
+        Me.LblSplineWidth = New System.Windows.Forms.Label()
+        Me.NUDSplineWidth = New System.Windows.Forms.NumericUpDown()
         Me.MenuStrip1.SuspendLayout()
         Me.MainToolStrip.SuspendLayout()
         Me.ColourToolStrip.SuspendLayout()
@@ -346,6 +348,7 @@ Partial Class MainForm
         CType(Me.NUDM11, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GBSpline.SuspendLayout()
         CType(Me.NUDSplineSegs, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NUDSplineWidth, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuStrip1
@@ -1192,7 +1195,7 @@ Partial Class MainForm
         Me.VerticesModeToolStripMenuItem.Name = "VerticesModeToolStripMenuItem"
         Me.VerticesModeToolStripMenuItem.ShortcutKeyDisplayString = "F2"
         Me.VerticesModeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2
-        Me.VerticesModeToolStripMenuItem.Size = New System.Drawing.Size(189, 26)
+        Me.VerticesModeToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
         Me.VerticesModeToolStripMenuItem.Text = "Vertex Mode"
         Me.VerticesModeToolStripMenuItem.ToolTipText = "Vertex Mode [F2]"
         '
@@ -1202,7 +1205,7 @@ Partial Class MainForm
         Me.TrianglesModeToolStripMenuItem.Name = "TrianglesModeToolStripMenuItem"
         Me.TrianglesModeToolStripMenuItem.ShortcutKeyDisplayString = "F3"
         Me.TrianglesModeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3
-        Me.TrianglesModeToolStripMenuItem.Size = New System.Drawing.Size(189, 26)
+        Me.TrianglesModeToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
         Me.TrianglesModeToolStripMenuItem.Text = "Triangle Mode"
         Me.TrianglesModeToolStripMenuItem.ToolTipText = "Triangle Mode [F3]"
         '
@@ -1212,20 +1215,20 @@ Partial Class MainForm
         Me.PrimitiveModeToolStripMenuItem.Name = "PrimitiveModeToolStripMenuItem"
         Me.PrimitiveModeToolStripMenuItem.ShortcutKeyDisplayString = "F4"
         Me.PrimitiveModeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4
-        Me.PrimitiveModeToolStripMenuItem.Size = New System.Drawing.Size(189, 26)
+        Me.PrimitiveModeToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
         Me.PrimitiveModeToolStripMenuItem.Text = "Primitive Mode"
         Me.PrimitiveModeToolStripMenuItem.ToolTipText = "Primitive Mode [F4]"
         '
         'ToolStripSeparator43
         '
         Me.ToolStripSeparator43.Name = "ToolStripSeparator43"
-        Me.ToolStripSeparator43.Size = New System.Drawing.Size(186, 6)
+        Me.ToolStripSeparator43.Size = New System.Drawing.Size(182, 6)
         '
         'ReferenceLineModeToolStripMenuItem
         '
         Me.ReferenceLineModeToolStripMenuItem.Image = Global.LDPatternCreator.My.Resources.Resources.helperlines
         Me.ReferenceLineModeToolStripMenuItem.Name = "ReferenceLineModeToolStripMenuItem"
-        Me.ReferenceLineModeToolStripMenuItem.Size = New System.Drawing.Size(189, 26)
+        Me.ReferenceLineModeToolStripMenuItem.Size = New System.Drawing.Size(185, 22)
         Me.ReferenceLineModeToolStripMenuItem.Text = "Reference Line Mode"
         '
         'ToolStripSeparator5
@@ -2627,11 +2630,13 @@ Partial Class MainForm
         '
         Me.GBSpline.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GBSpline.BackColor = System.Drawing.SystemColors.Control
+        Me.GBSpline.Controls.Add(Me.NUDSplineWidth)
+        Me.GBSpline.Controls.Add(Me.LblSplineWidth)
         Me.GBSpline.Controls.Add(Me.LblSplineSegs)
         Me.GBSpline.Controls.Add(Me.NUDSplineSegs)
-        Me.GBSpline.Location = New System.Drawing.Point(1040, 497)
+        Me.GBSpline.Location = New System.Drawing.Point(1040, 474)
         Me.GBSpline.Name = "GBSpline"
-        Me.GBSpline.Size = New System.Drawing.Size(183, 51)
+        Me.GBSpline.Size = New System.Drawing.Size(183, 74)
         Me.GBSpline.TabIndex = 23
         Me.GBSpline.TabStop = False
         Me.GBSpline.Visible = False
@@ -2663,6 +2668,23 @@ Partial Class MainForm
         'SaveColours
         '
         Me.SaveColours.Filter = "LD Pattern Creator 1.3 (*.txt) |*.txt"
+        '
+        'LblSplineWidth
+        '
+        Me.LblSplineWidth.AutoSize = True
+        Me.LblSplineWidth.Location = New System.Drawing.Point(17, 46)
+        Me.LblSplineWidth.Name = "LblSplineWidth"
+        Me.LblSplineWidth.Size = New System.Drawing.Size(38, 13)
+        Me.LblSplineWidth.TabIndex = 5
+        Me.LblSplineWidth.Text = "Width:"
+        '
+        'NUDSplineWidth
+        '
+        Me.NUDSplineWidth.Location = New System.Drawing.Point(98, 44)
+        Me.NUDSplineWidth.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        Me.NUDSplineWidth.Name = "NUDSplineWidth"
+        Me.NUDSplineWidth.Size = New System.Drawing.Size(74, 20)
+        Me.NUDSplineWidth.TabIndex = 6
         '
         'MainForm
         '
@@ -2714,6 +2736,7 @@ Partial Class MainForm
         Me.GBSpline.ResumeLayout(False)
         Me.GBSpline.PerformLayout()
         CType(Me.NUDSplineSegs, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NUDSplineWidth, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -3023,4 +3046,6 @@ Partial Class MainForm
     Friend WithEvents ToolStripSeparator31 As ToolStripSeparator
     Friend WithEvents BtnUndo As ToolStripButton
     Friend WithEvents BtnRedo As ToolStripButton
+    Friend WithEvents NUDSplineWidth As NumericUpDown
+    Friend WithEvents LblSplineWidth As Label
 End Class

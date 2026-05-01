@@ -21,10 +21,11 @@ Public Enum PrimitiveModes As Byte
     SetTheHeight = 2
     SetTheWidth = 3
     SetTheFrameSize = 4
-    SetSplineStartingPoint = 250
-    SetSplineStartingDirection = 251
-    SetSplineNextPoint = 252
-    SetSplineNextDirection = 253
-    SetSplineWidthNSegments = 254
+    SetSplineStartingPoint = 249
+    SetSplineStartingDirection = 250
+    SetSplineNextPoint = 251
+    SetSplineNextDirection = 252
+    SetSplineWidthNSegments = 253
+    SetSplineWidth = 254
     CreateTriangleChain = 255
 End Enum
