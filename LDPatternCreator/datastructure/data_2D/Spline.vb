@@ -143,9 +143,9 @@ Public Class Spline
             Dim t As Double = oldT + (1.0 - oldT) / 2.0
             Dim tv As Vertex = Nothing
             For iteration As Integer = 1 To 100
-                tv = New Vertex( _
+                tv = New Vertex(
                 tStartAt.X + k(0) * t + l(0) * t ^ 2 + m(0) * t ^ 3 _
-                , _
+                ,
                 tStartAt.Y + k(1) * t + l(1) * t ^ 2 + m(1) * t ^ 3 _
                 , False, False)
                 Dim td As Double = ListHelper.LLast(Vertices).dist(tv)
@@ -159,12 +159,51 @@ Public Class Spline
         ElseIf (segmentCount + 2) = vc Then
             Vertices.RemoveAt(vc - 1)
         End If
+
+        If width > 0 Then
+            Dim bandVertices As New List(Of Vertex)
+
+            Dim zero As New Vertex(0, 0, False, False)
+
+            For i As Integer = 1 To Vertices.Count - 1
+                Dim b As Vertex = Vertices(i - 1)
+                Dim v As Vertex = Vertices(i)
+
+                ' Swap and negate
+                Dim d As Vertex = v - b
+
+                Dim length As Double = d.dist(zero)
+                If length > 0.00001 Then
+                    d = New Vertex(d.X / length, d.Y / length, False, False)
+
+                    Dim n As New Vertex(-d.Y, d.X, False, False)
+
+                    n *= width / 2.0
+
+                    If i = 1 Then
+                        bandVertices.Add(Vertices(0) + n)
+                        bandVertices.Add(Vertices(0) - n)
+                    End If
+
+                    bandVertices.Add(v + n)
+                    bandVertices.Add(v - n)
+                End If
+
+            Next
+
+            Vertices.Clear()
+            Vertices.AddRange(bandVertices)
+        End If
     End Sub
 
     Public Sub persistGeometry()
         For Each v As Vertex In Vertices
             LPCFile.Vertices.Add(New Vertex(v.X, v.Y, False))
         Next
+
+        If width > 0 Then
+
+        End If
     End Sub
 
 End Class

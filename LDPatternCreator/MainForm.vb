@@ -1657,7 +1657,7 @@ newTry:
                 Else
 
                     ' Spline Width & Segments
-                    If MainState.primitiveMode = PrimitiveModes.SetSplineWidth Then
+                    If MainState.primitiveMode = PrimitiveModes.SetSplineWidthNSegments Then
                         MainState.primitiveMode = PrimitiveModes.SetSplineNextPoint
                         ListHelper.LLast(MainState.Splines).persistGeometry()
                         Dim s As New Spline
@@ -1667,11 +1667,6 @@ newTry:
                         s.width = Fix(NUDSplineWidth.Value)
                         MainState.Splines.Add(s)
                     Else
-                        ' Spline Width & Segments
-                        If MainState.primitiveMode = PrimitiveModes.SetSplineWidthNSegments Then
-                            MainState.primitiveMode = PrimitiveModes.SetSplineWidth
-                        End If
-
                         ' Spline Next Direction
                         If MainState.primitiveMode = PrimitiveModes.SetSplineNextDirection Then
                             Dim v1 As New Vertex(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX())), Math.Round(getYcoordinate(MouseHelper.getCursorpositionY())), False, False)
@@ -6705,10 +6700,9 @@ raster_zechnen:
                     ' Spline Segments
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.SplineSegCount), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, 12, 32)
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.SplineSegCount), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Azure, 10, 30)
-                Case PrimitiveModes.SetSplineWidth
                     ' Spline Width
-                    e.Graphics.DrawString(I18N.trl8(I18N.lk.SplineWidthB), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, 12, 32)
-                    e.Graphics.DrawString(I18N.trl8(I18N.lk.SplineWidthB), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Azure, 10, 30)
+                    e.Graphics.DrawString(I18N.trl8(I18N.lk.SplineWidthB), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, 12, 52)
+                    e.Graphics.DrawString(I18N.trl8(I18N.lk.SplineWidthB), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Azure, 10, 50)
                 Case PrimitiveModes.CreateTriangleChain
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.TriangleChainAdd), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Black, 12, 32)
                     e.Graphics.DrawString(I18N.trl8(I18N.lk.TriangleChainAdd), New Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel), Brushes.Azure, 10, 30)
@@ -6727,10 +6721,57 @@ raster_zechnen:
                 Next
                 If MainState.primitiveMode > PrimitiveModes.SetSplineStartingDirection AndAlso MainState.primitiveMode <> PrimitiveModes.CreateTriangleChain Then
                     Dim v1 As New Vertex(Math.Round(getXcoordinate(MouseHelper.getCursorpositionX()) / View.moveSnap) * View.moveSnap, Math.Round(getYcoordinate(MouseHelper.getCursorpositionY()) / View.moveSnap) * View.moveSnap, False, False)
-                    ListHelper.LLast(MainState.Splines).calculateSimulationGeometry(v1.X, v1.Y)
-                    For Each v As Vertex In ListHelper.LLast(MainState.Splines).Vertices
+
+                    Dim s As Spline = ListHelper.LLast(MainState.Splines)
+                    s.calculateSimulationGeometry(v1.X, v1.Y)
+                    For Each v As Vertex In s.Vertices
                         e.Graphics.FillRectangle(LDSettings.Colours.selectedVertexBrush, New RectangleF(absOffsetX - v.X * View.zoomfactor - View.pointsizeHalf, absOffsetY + v.Y * View.zoomfactor - View.pointsizeHalf, View.pointsize, View.pointsize))
                     Next
+
+                    If s.width > 0 Then
+                        Dim count As Integer = 0
+                        Dim a As Vertex = Nothing, b As Vertex = Nothing, c As Vertex = Nothing
+                        For Each v As Vertex In s.Vertices
+                            count += 1
+                            If count = 1 Then a = v
+                            If count = 2 Then b = v
+                            If count = 3 Then
+                                c = v
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - a.X * View.zoomfactor, Single), CType(absOffsetY + a.Y * View.zoomfactor, Single), CType(absOffsetX - b.X * View.zoomfactor, Single), CType(absOffsetY + b.Y * View.zoomfactor, Single))
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - b.X * View.zoomfactor, Single), CType(absOffsetY + b.Y * View.zoomfactor, Single), CType(absOffsetX - c.X * View.zoomfactor, Single), CType(absOffsetY + c.Y * View.zoomfactor, Single))
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - c.X * View.zoomfactor, Single), CType(absOffsetY + c.Y * View.zoomfactor, Single), CType(absOffsetX - a.X * View.zoomfactor, Single), CType(absOffsetY + a.Y * View.zoomfactor, Single))
+                                count = 0
+                            End If
+                        Next
+
+                        count = -1
+                        For Each v As Vertex In s.Vertices
+                            count += 1
+                            If count = 1 Then a = v
+                            If count = 2 Then b = v
+                            If count = 3 Then
+                                c = v
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - a.X * View.zoomfactor, Single), CType(absOffsetY + a.Y * View.zoomfactor, Single), CType(absOffsetX - b.X * View.zoomfactor, Single), CType(absOffsetY + b.Y * View.zoomfactor, Single))
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - b.X * View.zoomfactor, Single), CType(absOffsetY + b.Y * View.zoomfactor, Single), CType(absOffsetX - c.X * View.zoomfactor, Single), CType(absOffsetY + c.Y * View.zoomfactor, Single))
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - c.X * View.zoomfactor, Single), CType(absOffsetY + c.Y * View.zoomfactor, Single), CType(absOffsetX - a.X * View.zoomfactor, Single), CType(absOffsetY + a.Y * View.zoomfactor, Single))
+                                count = 0
+                            End If
+                        Next
+
+                        count = -2
+                        For Each v As Vertex In s.Vertices
+                            count += 1
+                            If count = 1 Then a = v
+                            If count = 2 Then b = v
+                            If count = 3 Then
+                                c = v
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - a.X * View.zoomfactor, Single), CType(absOffsetY + a.Y * View.zoomfactor, Single), CType(absOffsetX - b.X * View.zoomfactor, Single), CType(absOffsetY + b.Y * View.zoomfactor, Single))
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - b.X * View.zoomfactor, Single), CType(absOffsetY + b.Y * View.zoomfactor, Single), CType(absOffsetX - c.X * View.zoomfactor, Single), CType(absOffsetY + c.Y * View.zoomfactor, Single))
+                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - c.X * View.zoomfactor, Single), CType(absOffsetY + c.Y * View.zoomfactor, Single), CType(absOffsetX - a.X * View.zoomfactor, Single), CType(absOffsetY + a.Y * View.zoomfactor, Single))
+                                count = 0
+                            End If
+                        Next
+                    End If
                 End If
             End If
         End If
@@ -10789,6 +10830,13 @@ newDelete:
     Private Sub NUDSplineSegs_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles NUDSplineSegs.ValueChanged
         If MainState.Splines.Count > 0 Then
             ListHelper.LLast(MainState.Splines).segmentCount = Fix(NUDSplineSegs.Value) - 1
+            Me.Refresh()
+        End If
+    End Sub
+
+    Private Sub NUDSplineWidth_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles NUDSplineWidth.ValueChanged
+        If MainState.Splines.Count > 0 Then
+            ListHelper.LLast(MainState.Splines).width = Fix(NUDSplineSegs.Value) - 1
             Me.Refresh()
         End If
     End Sub
