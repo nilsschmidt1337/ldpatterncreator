@@ -17,6 +17,9 @@
 
 Public Class Spline
 
+    Public Shared vh1 As Vertex = Nothing
+    Public Shared vh2 As Vertex = Nothing
+
     Public Vertices As New List(Of Vertex)
 
     Public width As Double = 0
@@ -163,6 +166,11 @@ Public Class Spline
         If width > 0 Then
             Dim bandVertices As New List(Of Vertex)
 
+            If vh1 IsNot Nothing AndAlso vh2 IsNot Nothing Then
+                bandVertices.Add(vh2)
+                bandVertices.Add(vh1)
+            End If
+
             Dim zero As New Vertex(0, 0, False, False)
 
             For i As Integer = 1 To Vertices.Count - 1
@@ -197,12 +205,39 @@ Public Class Spline
     End Sub
 
     Public Sub persistGeometry()
+        Dim triVerts As New List(Of Vertex)
         For Each v As Vertex In Vertices
-            LPCFile.Vertices.Add(New Vertex(v.X, v.Y, False))
+            Dim nv As New Vertex(v.X, v.Y, False)
+            LPCFile.Vertices.Add(nv)
+            triVerts.Add(nv)
         Next
 
-        If width > 0 Then
+        If width > 0 AndAlso triVerts.Count > 1 Then
+            vh1 = triVerts(Vertices.Count - 1)
+            vh2 = triVerts(Vertices.Count - 2)
 
+            Dim a As Vertex = Nothing, b As Vertex = Nothing, c As Vertex = Nothing
+
+            For offset As Integer = 0 To -2 Step -1
+                Dim count As Integer = offset
+                For Each v As Vertex In triVerts
+                    count += 1
+                    If count = 1 Then a = v
+                    If count = 2 Then b = v
+                    If count = 3 Then
+                        c = v
+
+                        Dim t As Triangle = New Triangle(a, b, c) With {.myColour = MainState.lastColour, .myColourNumber = MainState.lastColourNumber}
+                        LPCFile.Triangles.Add(t)
+
+                        a.linkedTriangles.Add(t)
+                        b.linkedTriangles.Add(t)
+                        c.linkedTriangles.Add(t)
+
+                        count = 0
+                    End If
+                Next
+            Next
         End If
     End Sub
 

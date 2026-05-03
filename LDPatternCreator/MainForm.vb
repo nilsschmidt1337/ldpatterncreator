@@ -4966,6 +4966,8 @@ skipSlicing:
         MainState.doAdjust = False
         GBSpline.Visible = False
         MainState.Splines.Clear()
+        Spline.vh1 = Nothing
+        Spline.vh2 = Nothing
         SBZoom.Focus()
         Me.Refresh()
     End Sub
@@ -6729,47 +6731,23 @@ raster_zechnen:
                     Next
 
                     If s.width > 0 Then
-                        Dim count As Integer = 0
+
                         Dim a As Vertex = Nothing, b As Vertex = Nothing, c As Vertex = Nothing
-                        For Each v As Vertex In s.Vertices
-                            count += 1
-                            If count = 1 Then a = v
-                            If count = 2 Then b = v
-                            If count = 3 Then
-                                c = v
-                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - a.X * View.zoomfactor, Single), CType(absOffsetY + a.Y * View.zoomfactor, Single), CType(absOffsetX - b.X * View.zoomfactor, Single), CType(absOffsetY + b.Y * View.zoomfactor, Single))
-                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - b.X * View.zoomfactor, Single), CType(absOffsetY + b.Y * View.zoomfactor, Single), CType(absOffsetX - c.X * View.zoomfactor, Single), CType(absOffsetY + c.Y * View.zoomfactor, Single))
-                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - c.X * View.zoomfactor, Single), CType(absOffsetY + c.Y * View.zoomfactor, Single), CType(absOffsetX - a.X * View.zoomfactor, Single), CType(absOffsetY + a.Y * View.zoomfactor, Single))
-                                count = 0
-                            End If
-                        Next
 
-                        count = -1
-                        For Each v As Vertex In s.Vertices
-                            count += 1
-                            If count = 1 Then a = v
-                            If count = 2 Then b = v
-                            If count = 3 Then
-                                c = v
-                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - a.X * View.zoomfactor, Single), CType(absOffsetY + a.Y * View.zoomfactor, Single), CType(absOffsetX - b.X * View.zoomfactor, Single), CType(absOffsetY + b.Y * View.zoomfactor, Single))
-                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - b.X * View.zoomfactor, Single), CType(absOffsetY + b.Y * View.zoomfactor, Single), CType(absOffsetX - c.X * View.zoomfactor, Single), CType(absOffsetY + c.Y * View.zoomfactor, Single))
-                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - c.X * View.zoomfactor, Single), CType(absOffsetY + c.Y * View.zoomfactor, Single), CType(absOffsetX - a.X * View.zoomfactor, Single), CType(absOffsetY + a.Y * View.zoomfactor, Single))
-                                count = 0
-                            End If
-                        Next
-
-                        count = -2
-                        For Each v As Vertex In s.Vertices
-                            count += 1
-                            If count = 1 Then a = v
-                            If count = 2 Then b = v
-                            If count = 3 Then
-                                c = v
-                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - a.X * View.zoomfactor, Single), CType(absOffsetY + a.Y * View.zoomfactor, Single), CType(absOffsetX - b.X * View.zoomfactor, Single), CType(absOffsetY + b.Y * View.zoomfactor, Single))
-                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - b.X * View.zoomfactor, Single), CType(absOffsetY + b.Y * View.zoomfactor, Single), CType(absOffsetX - c.X * View.zoomfactor, Single), CType(absOffsetY + c.Y * View.zoomfactor, Single))
-                                e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - c.X * View.zoomfactor, Single), CType(absOffsetY + c.Y * View.zoomfactor, Single), CType(absOffsetX - a.X * View.zoomfactor, Single), CType(absOffsetY + a.Y * View.zoomfactor, Single))
-                                count = 0
-                            End If
+                        For offset As Integer = 0 To -2 Step -1
+                            Dim count As Integer = offset
+                            For Each v As Vertex In s.Vertices
+                                count += 1
+                                If count = 1 Then a = v
+                                If count = 2 Then b = v
+                                If count = 3 Then
+                                    c = v
+                                    e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - a.X * View.zoomfactor, Single), CType(absOffsetY + a.Y * View.zoomfactor, Single), CType(absOffsetX - b.X * View.zoomfactor, Single), CType(absOffsetY + b.Y * View.zoomfactor, Single))
+                                    e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - b.X * View.zoomfactor, Single), CType(absOffsetY + b.Y * View.zoomfactor, Single), CType(absOffsetX - c.X * View.zoomfactor, Single), CType(absOffsetY + c.Y * View.zoomfactor, Single))
+                                    e.Graphics.DrawLine(LDSettings.Colours.selectedLinePen, CType(absOffsetX - c.X * View.zoomfactor, Single), CType(absOffsetY + c.Y * View.zoomfactor, Single), CType(absOffsetX - a.X * View.zoomfactor, Single), CType(absOffsetY + a.Y * View.zoomfactor, Single))
+                                    count = 0
+                                End If
+                            Next
                         Next
                     End If
                 End If
