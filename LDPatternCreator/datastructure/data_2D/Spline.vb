@@ -77,23 +77,22 @@ Public Class Spline
 
         Dim st As Double = 1.0 / segmentCount
         Dim oldT As Double
-        For t As Double = 0.0 To 1.0 Step st
-            Vertices.Add(New Vertex( _
+        Dim t As Double = 0
+        For i As Integer = 0 To segmentCount
+            Vertices.Add(New Vertex(
             tStartAt.X + k(0) * t + l(0) * t ^ 2 + m(0) * t ^ 3 _
-            , _
+            ,
             tStartAt.Y + k(1) * t + l(1) * t ^ 2 + m(1) * t ^ 3 _
             , False, False))
+            t += st
             oldT = t
         Next
         Dim vc As Integer = Vertices.Count
-        If vc <> (segmentCount + 1) Then
-            vc = vc
-        End If
         If segmentCount = vc Then
-            Dim t As Double = oldT + (1.0 - oldT) / 2.0
-            Vertices.Add(New Vertex( _
+            t = oldT + (1.0 - oldT) / 2.0
+            Vertices.Add(New Vertex(
             tStartAt.X + k(0) * t + l(0) * t ^ 2 + m(0) * t ^ 3 _
-            , _
+            ,
             tStartAt.Y + k(1) * t + l(1) * t ^ 2 + m(1) * t ^ 3 _
             , False, False))
             vc += 1
@@ -106,24 +105,25 @@ Public Class Spline
         For i As Integer = 1 To vc
             dist += Vertices(i).dist(Vertices(i - 1))
         Next
-        dist /= (vc + 1.0)
+        dist /= vc
 
         Vertices.Clear()
         vc = 0
-        For t As Double = 0.0 To 1.0 Step st
+        t = 0
+        For i As Integer = 0 To segmentCount - 1
             vc += 1
             If vc = 1 Then
-                Vertices.Add(New Vertex( _
+                Vertices.Add(New Vertex(
                 tStartAt.X + k(0) * t + l(0) * t ^ 2 + m(0) * t ^ 3 _
-                , _
+                ,
                 tStartAt.Y + k(1) * t + l(1) * t ^ 2 + m(1) * t ^ 3 _
                 , False, False))
             Else
                 Dim tv As Vertex = Nothing
                 For iteration As Integer = 1 To 100
-                    tv = New Vertex( _
+                    tv = New Vertex(
                     tStartAt.X + k(0) * t + l(0) * t ^ 2 + m(0) * t ^ 3 _
-                    , _
+                    ,
                     tStartAt.Y + k(1) * t + l(1) * t ^ 2 + m(1) * t ^ 3 _
                     , False, False)
                     Dim td As Double = ListHelper.LLast(Vertices).dist(tv)
@@ -138,12 +138,13 @@ Public Class Spline
                     st = (1.0 - t) / (segmentCount - vc)
                 End If
             End If
+            t += st
             oldT = t
         Next
 
         vc = Vertices.Count
         If segmentCount = vc Then
-            Dim t As Double = oldT + (1.0 - oldT) / 2.0
+            t = oldT + (1.0 - oldT) / 2.0
             Dim tv As Vertex = Nothing
             For iteration As Integer = 1 To 100
                 tv = New Vertex(
@@ -158,7 +159,7 @@ Public Class Spline
                     t += 0.001
                 End If
             Next iteration
-            Vertices.Add(tv)
+            'Vertices.Add(tv)
         ElseIf (segmentCount + 2) = vc Then
             Vertices.RemoveAt(vc - 1)
         End If
