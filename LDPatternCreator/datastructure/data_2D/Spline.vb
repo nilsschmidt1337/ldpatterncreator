@@ -110,7 +110,7 @@ Public Class Spline
         Vertices.Clear()
         vc = 0
         t = 0
-        For i As Integer = 0 To segmentCount - 1
+        For i As Integer = 0 To segmentCount
             vc += 1
             If vc = 1 Then
                 Vertices.Add(New Vertex(
@@ -118,6 +118,7 @@ Public Class Spline
                 ,
                 tStartAt.Y + k(1) * t + l(1) * t ^ 2 + m(1) * t ^ 3 _
                 , False, False))
+            ElseIf vc >= segmentCount + 1 Then
             Else
                 Dim tv As Vertex = Nothing
                 For iteration As Integer = 1 To 100
@@ -161,7 +162,7 @@ Public Class Spline
             Next iteration
             'Vertices.Add(tv)
         ElseIf (segmentCount + 2) = vc Then
-            Vertices.RemoveAt(vc - 1)
+            'Vertices.RemoveAt(vc - 1)
         End If
 
         If width > 0 Then
