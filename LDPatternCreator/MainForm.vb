@@ -10814,7 +10814,7 @@ newDelete:
 
     Private Sub NUDSplineWidth_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles NUDSplineWidth.ValueChanged
         If MainState.Splines.Count > 0 Then
-            ListHelper.LLast(MainState.Splines).width = Fix(NUDSplineSegs.Value) - 1
+            ListHelper.LLast(MainState.Splines).width = Fix(NUDSplineWidth.Value) - 1
             Me.Refresh()
         End If
     End Sub

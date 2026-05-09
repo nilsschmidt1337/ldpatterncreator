@@ -325,12 +325,12 @@ Partial Class MainForm
         Me.BtnMatrixApply = New System.Windows.Forms.Button()
         Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
         Me.GBSpline = New System.Windows.Forms.GroupBox()
+        Me.NUDSplineWidth = New System.Windows.Forms.NumericUpDown()
+        Me.LblSplineWidth = New System.Windows.Forms.Label()
         Me.LblSplineSegs = New System.Windows.Forms.Label()
         Me.NUDSplineSegs = New System.Windows.Forms.NumericUpDown()
         Me.OpenColours = New System.Windows.Forms.OpenFileDialog()
         Me.SaveColours = New System.Windows.Forms.SaveFileDialog()
-        Me.LblSplineWidth = New System.Windows.Forms.Label()
-        Me.NUDSplineWidth = New System.Windows.Forms.NumericUpDown()
         Me.MenuStrip1.SuspendLayout()
         Me.MainToolStrip.SuspendLayout()
         Me.ColourToolStrip.SuspendLayout()
@@ -347,8 +347,8 @@ Partial Class MainForm
         CType(Me.NUDM12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NUDM11, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GBSpline.SuspendLayout()
-        CType(Me.NUDSplineSegs, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NUDSplineWidth, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NUDSplineSegs, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuStrip1
@@ -2641,6 +2641,23 @@ Partial Class MainForm
         Me.GBSpline.TabStop = False
         Me.GBSpline.Visible = False
         '
+        'NUDSplineWidth
+        '
+        Me.NUDSplineWidth.Location = New System.Drawing.Point(98, 44)
+        Me.NUDSplineWidth.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        Me.NUDSplineWidth.Name = "NUDSplineWidth"
+        Me.NUDSplineWidth.Size = New System.Drawing.Size(74, 20)
+        Me.NUDSplineWidth.TabIndex = 6
+        '
+        'LblSplineWidth
+        '
+        Me.LblSplineWidth.AutoSize = True
+        Me.LblSplineWidth.Location = New System.Drawing.Point(17, 46)
+        Me.LblSplineWidth.Name = "LblSplineWidth"
+        Me.LblSplineWidth.Size = New System.Drawing.Size(38, 13)
+        Me.LblSplineWidth.TabIndex = 5
+        Me.LblSplineWidth.Text = "Width:"
+        '
         'LblSplineSegs
         '
         Me.LblSplineSegs.AutoSize = True
@@ -2658,7 +2675,7 @@ Partial Class MainForm
         Me.NUDSplineSegs.Name = "NUDSplineSegs"
         Me.NUDSplineSegs.Size = New System.Drawing.Size(74, 20)
         Me.NUDSplineSegs.TabIndex = 3
-        Me.NUDSplineSegs.Value = New Decimal(New Integer() {4, 0, 0, 0})
+        Me.NUDSplineSegs.Value = New Decimal(New Integer() {12, 0, 0, 0})
         '
         'OpenColours
         '
@@ -2668,23 +2685,6 @@ Partial Class MainForm
         'SaveColours
         '
         Me.SaveColours.Filter = "LD Pattern Creator 1.3 (*.txt) |*.txt"
-        '
-        'LblSplineWidth
-        '
-        Me.LblSplineWidth.AutoSize = True
-        Me.LblSplineWidth.Location = New System.Drawing.Point(17, 46)
-        Me.LblSplineWidth.Name = "LblSplineWidth"
-        Me.LblSplineWidth.Size = New System.Drawing.Size(38, 13)
-        Me.LblSplineWidth.TabIndex = 5
-        Me.LblSplineWidth.Text = "Width:"
-        '
-        'NUDSplineWidth
-        '
-        Me.NUDSplineWidth.Location = New System.Drawing.Point(98, 44)
-        Me.NUDSplineWidth.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
-        Me.NUDSplineWidth.Name = "NUDSplineWidth"
-        Me.NUDSplineWidth.Size = New System.Drawing.Size(74, 20)
-        Me.NUDSplineWidth.TabIndex = 6
         '
         'MainForm
         '
@@ -2735,8 +2735,8 @@ Partial Class MainForm
         CType(Me.NUDM11, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GBSpline.ResumeLayout(False)
         Me.GBSpline.PerformLayout()
-        CType(Me.NUDSplineSegs, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NUDSplineWidth, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NUDSplineSegs, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

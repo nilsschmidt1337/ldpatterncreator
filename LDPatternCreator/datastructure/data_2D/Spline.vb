@@ -36,6 +36,8 @@ Public Class Spline
 
     Public Sub calculateSimulationGeometry(ByVal tx As Double, ByVal ty As Double)
         Vertices.Clear()
+        Dim segmentCountBackup As Integer = segmentCount
+        Dim widthBackup As Double = width
         Dim tStartAt As Vertex = New Vertex(startAt.X, startAt.Y, False, False)
         Dim tStartDirection As Vertex = New Vertex(startDirection.X, startDirection.Y, False, False)
         Dim tStopAt As Vertex
@@ -74,6 +76,9 @@ Public Class Spline
         If tStopDirection.X = 0 AndAlso tStopDirection.Y = 0 Then
             Exit Sub
         End If
+
+        segmentCount += 1
+        width *= 32
 
         Dim st As Double = 1.0 / segmentCount
         Dim oldT As Double
@@ -135,40 +140,16 @@ Public Class Spline
                     End If
                 Next iteration
                 Vertices.Add(tv)
-                If segmentCount > vc Then
-                    st = (1.0 - t) / (segmentCount - vc)
-                End If
             End If
             t += st
             oldT = t
         Next
 
-        vc = Vertices.Count
-        If segmentCount = vc Then
-            t = oldT + (1.0 - oldT) / 2.0
-            Dim tv As Vertex = Nothing
-            For iteration As Integer = 1 To 100
-                tv = New Vertex(
-                tStartAt.X + k(0) * t + l(0) * t ^ 2 + m(0) * t ^ 3 _
-                ,
-                tStartAt.Y + k(1) * t + l(1) * t ^ 2 + m(1) * t ^ 3 _
-                , False, False)
-                Dim td As Double = ListHelper.LLast(Vertices).dist(tv)
-                If td > dist Then
-                    t -= 0.001
-                Else
-                    t += 0.001
-                End If
-            Next iteration
-            'Vertices.Add(tv)
-        ElseIf (segmentCount + 2) = vc Then
-            'Vertices.RemoveAt(vc - 1)
-        End If
-
         If width > 0 Then
             Dim bandVertices As New List(Of Vertex)
+            Dim hasPreviousVertices As Boolean = vh1 IsNot Nothing AndAlso vh2 IsNot Nothing
 
-            If vh1 IsNot Nothing AndAlso vh2 IsNot Nothing Then
+            If hasPreviousVertices Then
                 bandVertices.Add(vh2)
                 bandVertices.Add(vh1)
             End If
@@ -204,6 +185,9 @@ Public Class Spline
             Vertices.Clear()
             Vertices.AddRange(bandVertices)
         End If
+
+        segmentCount = segmentCountBackup
+        width = widthBackup
     End Sub
 
     Public Sub persistGeometry()
