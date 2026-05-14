@@ -194,6 +194,11 @@ Public Class Spline
         Dim triVerts As New List(Of Vertex)
         For Each v As Vertex In Vertices
             Dim nv As New Vertex(v.X, v.Y, False)
+            ' Do not create a new vertex if it is already linked to some triangles
+            If v.linkedTriangles.Count > 0 Then
+                nv = v
+            End If
+
             LPCFile.Vertices.Add(nv)
             triVerts.Add(nv)
         Next
