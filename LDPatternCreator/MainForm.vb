@@ -745,6 +745,15 @@ Public Class MainForm
                                         Exit For
                                     End If
                                 Next
+                            ElseIf Control.ModifierKeys = Keys.Control Then
+                                MainState.temp_center = New Vertex(0, 0, False, False)
+                                For Each vert As Vertex In View.SelectedVertices
+                                    MainState.temp_center.X += vert.X
+                                    MainState.temp_center.Y += vert.Y
+                                Next
+
+                                MainState.temp_center.X /= View.SelectedVertices.Count
+                                MainState.temp_center.Y /= View.SelectedVertices.Count
                             Else
                                 Dim cursorPos As New Vertex(getXcoordinate(MainState.klickX), getYcoordinate(MainState.klickY), False, False)
                                 Dim minDist As Double = Double.MaxValue
