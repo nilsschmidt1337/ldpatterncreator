@@ -1,0 +1,2 @@
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe ..\LDPatternCreatorTest\LDPatternCreatorTest.vbproj /t:build /p:Configuration=Release
+"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" "C:\Users\nilss\Documents\Visual Studio 2015\Projects\LDPatternCreator\LDPatternCreatorTest\bin\Release\LDPatternCreatorTest.dll"

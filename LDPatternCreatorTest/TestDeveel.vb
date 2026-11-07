@@ -1,5 +1,4 @@
-﻿Imports Microsoft.VisualStudio.TestTools.UnitTesting
-Imports Deveel.Math
+﻿Imports Deveel.Math
 
 Namespace DeveelTests
 
@@ -34,17 +33,6 @@ Namespace DeveelTests
             dec = CDec(10.0 ^ getScale(dec)) * dec
             Return New BigDecimal(BigInteger.Parse(Decimal.Truncate(dec)), scale)
         End Function
-
-
-        <TestMethod()>
-        Public Sub DoubleToBigDecimal()
-
-            Dim d1 As BigDecimal
-            Dim d2 As BigDecimal
-
-            d1 = New BigDecimal(45)
-        End Sub
-
     End Class
 
 End Namespace
